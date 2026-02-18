@@ -2102,25 +2102,2987 @@ Mode                 LastWriteTime         Length Name
 
 ---
 
-<tool-use data-tool-type="unknown" data-tool-name="web_search">
+<tool-use data-tool-type="search" data-tool-name="web_search">
 <details>
-<summary>Tool use: **web_search**</summary>
+            <summary>Tool use: **web_search** • Searched web `undefined` • **1** results</summary>
+        
+| Title | URL | Chunk |
+|-------|-----|-------|
+| Web search results for query: ESO Harpooner's Wading Kilt penetration tiers movement |  | Links:<br/>1. [PENETRATION<br/>            CALCULATOR](https://hyperioxes.com/eso/tools/penetration-calculator)<br/>2. [Harpooner's Wading Kilt Set ESO - Stats & Location](https://eso-hub.com/en/sets/harpooners-wading-kilt)<br/>3. [Harpooner's Wading Kilt Cheat Sheet](https://docs.google.com/spreadsheets/d/1uaNcVwUY_hYnyf-rl72r8zqawUtiG_cfS2wbObrNrPk/edit)<br/>4. [Harpooner’s Wading Kilt and Stamina problems](https://forums.elderscrollsonline.com/en/discussion/572012/harpooner-s-wading-kilt-and-stamina-problems)<br/>5. [Is Harpooner’s Kilt useful in actual content or it’s just bis for flexing dps parses on trial dummy?](https://forums.elderscrollsonline.com/en/discussion/576011/is-harpooner-s-kilt-useful-in-actual-content-or-it-s-just-bis-for-flexing-dps-parses-on-trial-dummy)<br/><br/># Harpooner's Wading Kilt: Penetration and Movement<br/><br/>Harpooner's Wading Kilt is a medium armor set that grants stacks of Hunter's Focus through direct damage, increasing Critical Chance by 125 and Critical Damage by 1% per stack (up to 10 stacks).[5] However, the set has **no direct penetration benefits** and does not contribute to penetration tiers.[4]<br/><br/>## Effectiveness and Limitations<br/><br/>The set's usefulness is highly situational and depends on fight mechanics:[3]<br/><br/>- **Strong performance**: Dummy parses and highly organized raid groups with fast pulls and good add control<br/>- **Poor performance**: Fights where unavoidable direct damage removes stacks quickly, or where fights are too short to maintain stacks effectively<br/>- **Situational fights**: Bosses like Zhaj'hassa (good), The Twins (inconsistent), and Rakkhat (difficult to maintain stacks at higher pads) vary in effectiveness<br/><br/>The set performs better for magicka DPS than stamina DPS, as ranged magicka users can more easily avoid direct damage that would deplete stacks.[4] For stamina DPS, penetration needs must be met through other sources like Alkosh or Tremorscale.[4]<br/><br/>**Key limitation**: The set loses all stacks when removed or when a player takes direct damage (5 stacks lost per hit with a 1-second cooldown).[5] This makes it unreliable for content with consistent unavoidable damage mechanics. |
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+The search gave me Harpooner's Wading Kilt as a crit/crit damage stack set, not a penetration-by-movement set. There might be a different "Kilt" - Harpooner's Wading Kilt might have a penetration component in some version, or the "Cheat Sheet" might be about a different mythic. Let me read the actual xlsx files with Python. I need openpyxl or pandas with xlrd. pandas can read xlsx with openpyxl engine.
+</details></think>
+
+---
+
+
+Reading the three Excel files with Python:
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius"; pip install openpyxl --quiet; python -c "
+import pandas as pd
+import os
+data_dir = 'data'
+for f in [\"Damage Skills (Update 38_39_40).xlsx\", \"Harpooner's Wading Kilt Cheat Sheet.xlsx\", \"Standalone Damage Modifiers Calculator (ESO).xlsx\"]:
+    path = os.path.join(data_dir, f)
+    if os.path.exists(path):
+        xl = pd.ExcelFile(path)
+        print('===', f, '===')
+        print('Sheet names:', xl.sheet_names)
+        for name in xl.sheet_names:
+            df = pd.read_excel(path, sheet_name=name, header=None)
+            print('Sheet:', name, 'shape', df.shape)
+            pd.set_option('display.max_columns', 20)
+            pd.set_option('display.width', 200)
+            pd.set_option('display.max_rows', 35)
+            print(df.head(30).to_string())
+            print('---')
+        print()
+"</summary>
+
+```bash
+cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius"; pip install openpyxl --quiet; python -c "
+import pandas as pd
+import os
+data_dir = 'data'
+for f in [\"Damage Skills (Update 38_39_40).xlsx\", \"Harpooner's Wading Kilt Cheat Sheet.xlsx\", \"Standalone Damage Modifiers Calculator (ESO).xlsx\"]:
+    path = os.path.join(data_dir, f)
+    if os.path.exists(path):
+        xl = pd.ExcelFile(path)
+        print('===', f, '===')
+        print('Sheet names:', xl.sheet_names)
+        for name in xl.sheet_names:
+            df = pd.read_excel(path, sheet_name=name, header=None)
+            print('Sheet:', name, 'shape', df.shape)
+            pd.set_option('display.max_columns', 20)
+            pd.set_option('display.width', 200)
+            pd.set_option('display.max_rows', 35)
+            print(df.head(30).to_string())
+            print('---')
+        print()
+"
+```
+
+```
+ParserError: C:\Users\Ian\AppData\Local\Temp\ps-script-15464b23-cc3d-4275-9b1f-153698b1a05c.ps1:158
+Line |
+ 158 |  . coding]::UTF8.GetString([System.Convert]::FromBase64String(''{1}''))) .
+     |                                                                 ~
+     | Missing ')' in method call.
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+PowerShell had trouble with the inline Python string. Let me write a small Python script to a file and run it.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\scripts\inspect_xlsx.py</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Now run the script.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && pip install openpyxl -q && python scripts/inspect_xlsx.py</summary>
+
+```bash
+cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && pip install openpyxl -q && python scripts/inspect_xlsx.py
+```
+
+```
+============================================================ Damage Skills (Update 38_39_40).xlsx ============================================================
+Sheet names: ['Arcanist', 'Arcanist Top', 'Dragonknight', 'DK Top', 'Necromancer', 'Necro Top', 'Nightblade', 'NB Top', 'Sorcerer', 'Sorc Top', 'Templar', 'Temp Top', 'Warden', 'Warden Top']
+
+--- Sheet: Arcanist (shape (100, 27)) ---
+                                         0             1            2                       3           4             5     6        7                                                                                                  8   9                 10            11          12                      13     14    15    16                                                               17  18                                                 19        20         21                      22            23    24    25                                                           26
+0   Arcanist - Update 39 (U41 linked below)           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+1              https://tinyurl.com/49z7amx9           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+2                           Skill Line/Name  Base Tooltip         ADPS                    Type       Range          Cost  Time     Crux                                                                                   Secondary Effect NaN   Skill Line/Name  Base Tooltip        ADPS                    Type  Range  Cost  Time                                                 Secondary Effect NaN                                    Skill Line/Name   Base TT       ADPS                    Type         Range  Cost  Time                                             Secondary Effect
+3                                       NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+4                                  ARCANIST           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         SOUL MAGIC       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+5                                       NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN        TWO HANDED           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+6                           The Languid Eye       18531.3          NaN                 AoE DoT    15m 5m r           175     6        -                                            Beam Ramps up in Damage and Targets a Specific Location NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                Soul Splitting Trap      2316   -119.804            AoE (ST DoT)           28m  2430    10           Reduced the Duration but Spreads to Nearby Targets
+7                          Tide King's Gaze         18416          NaN                 AoE DoT    15m 5m r           175     8        -                                                   Beam Follows the Initial Target and lasts longer NaN     Wrecking Blow          2760         NaN               ST Direct     5m  2295   0.8                                              3s of Major Berserk NaN                                     Consuming Trap      4642     56.398                  ST DoT           28m  2700    20               Restores Resources when an Affected Enemy Dies
+8                                       NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+9                       Writhing Runeblades          2154          NaN               ST Direct         22m          2700     -  Builder                                            10% Crit Chance and +9% damage when cast at full 3 Crux NaN         *Stampede          6178  177.597333    AoE Direct + AoE DoT   5m r  3902    15            Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks) NaN                                     FIGHTERS GUILD       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+10                    Escalating Runeblades          2319          NaN         ST + AoE Direct  22m (8m r)          2700     -  Builder                              Last hit is AoE instead of ST and +9% damage when cast at full 3 Crux NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+11             Writhing Runeblades (3 Crux)       2347.86          NaN               ST Direct         22m          2700     -  Builder                                            10% Crit Chance and +9% damage when cast at full 3 Crux NaN        Carve (x3)          8912     179.932     AoE Direct + ST DoT     6m  2983    30      DoT Timer Increases if Recast Before Expiration - Up to 32s NaN                               Flawless Dawnbreaker      7085        NaN     AoE Direct + ST DoT           28m   125     6             Weapon and Spell Damage Increased by 300 for 20s
+12           Escalating Runeblades (3 Crux)       2527.71          NaN         ST + AoE Direct  22m (8m r)          2700     -  Builder                              Last hit is AoE instead of ST and +9% damage when cast at full 3 Crux NaN           Brawler          1742         NaN              AoE Direct     6m  2983     -                                 Up to 300% Increased Shield Size NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+13                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                      Silver Shards      2300        NaN  ST Direct + AoE Direct           28m  2295     -          Deals 22% Reduced Damage to Other Targets within 5m
+14                    Exhausting Fatecarver          7467   -64.222222                 AoE DoT        22x3  450 per tick   4.5  Spender                                       Additional 33% Damage, 1 Damage Tick, and 15% Snare per Crux NaN     Reverse Slice          1199         NaN  ST Direct + AoE Direct     5m  2065     -     Ramping Execute after 50% / 100% Splash to Targets Within 5m NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+15                     Pragmatic Fatecarver          7467   -64.222222                 AoE DoT        22x3  450 per tick   4.5  Spender                           3725 Base Shield + Additional 33% Damage and 16% Cost Reduction per Crux NaN       Executioner          1161         NaN               ST Direct     5m  1836     -        Ramping Execute after 50% / 400% Increase instead of 300% NaN                             Lightweight Beast Trap      5097     79.148      ST Direct + ST DoT  28m + 2.5m r  2525    20  Minor Force for 20s / Reduced cost and can be used at range
+16           Exhausting Fatecarver (3 Crux)       22457.3  2320.418182                 AoE DoT        22x3  450 per tick   5.5  Spender                                       Additional 33% Damage, 1 Damage Tick, and 15% Snare per Crux NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                        Barbed Trap   7185.25   183.5605      ST Direct + ST DoT        2.5m r  2754    20        Minor Force for 20s / Decuples the Hemo Status Chance
+17            Pragmatic Fatecarver (3 Crux)      17897.64  2253.697778                 AoE DoT        22x3  450 per tick   4.5  Spender                           3725 Base Shield + Additional 33% Damage and 16% Cost Reduction per Crux NaN        DUAL WIELD           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN  (Each Slotted Adds a Passive 3% Weapon/Spell Dmg)       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+18                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+19                      Cephaliarch's Flail          1939          NaN              AoE Direct        15x5          2714   0.3  Builder               20s Abyssal Ink Debuff for 5% Extra Damage / Up to 100% More Damage under 50% Health NaN              Rend       13589.1         NaN            AoE (ST DoT)  8 x 8   150    16                      Both Morphs Heal for 50% of the Damage Done NaN                                        MAGES GUILD       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+20                         Tentacular Dread          2002          NaN              AoE Direct        15x5          3510   0.3  Spender                20% More Damage per Crux / 20s Abyssal Ink Debuff for 5% Extra Damage +6% if 3 Crux NaN   Thrive in Chaos       7313.25         NaN            AoE (ST DoT)    15m   150     8             Each Enemy Hit Increases Damage Done by 6% up to 36% NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+21                Tentacular Dread (3 Crux)        3203.2          NaN              AoE Direct        15x5          3510   0.3  Spender                20% More Damage per Crux / 20s Abyssal Ink Debuff for 5% Extra Damage +6% if 3 Crux NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                      Shooting Star   20309.6        NaN    AoE Direct + AoE DoT          5m r   200    13    Upfront Hit plus 13 DoT Ticks / 12 Ult Back Per Enemy Hit
+22                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN     Rapid Strikes      3289.835         NaN               ST Direct     5m  2295   0.8                                    4 Strikes Each Increase by 5% NaN                                          Ice Comet     21767        NaN    AoE Direct + AoE DoT          5m r   200    13    Increased Dmg / Similar Dmg to SS w/ Engulfing + Encratis
+23                     Inspired Scholarship          8415   163.365333                    Self           -          4455    30  Builder           Every 3s instead of 5s / Major Sorcery/Brutality on Both Bars for Slotting / Builds Crux NaN       Bloodthirst        3228.8         NaN               ST Direct     5m  2295   0.8                     Heals for 33% of Damage Dealt (Bleed Damage) NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+24                    Recuperative Treatise          5805    76.365333                    Self           -          4455    30  Builder  Restores 600 Mag+Stam each tick / Major Sorcery/Brutality on Both Bars for Slotting / Builds Crux NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            Entropy      5486     82.165                  ST DoT           28m  2065    24                  Major Sorcery &amp; Brutality or Heals Every 2s
+25                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN   Rending Slashes        5486.3      98.613      ST Direct + ST DoT     5m  2295    20             Initial Hit Damage Increased (2 Bleed Hits Up Front) NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+26                     Rune of Displacement          4780       63.298            ST DoT (AoE)        5m r          3510    20        -                                      Pulls in foes within 2-8m / 2698 Runebreak Synergy for Allies NaN       Blood Craze        5196.5      84.123      ST Direct + ST DoT     5m  2295    20                Also Heals with Each Tick (2 Bleed Hits Up Front) NaN                                      Scalding Rune   6058.96  97.881538     AoE Direct + ST DoT          3m r  2754    26             Upfront Hit After a 2s Delay with 13 Ticks After
+27                         Fulminating Rune          6080      128.298            ST DoT (AoE)        5m r          3510    20        -                         Deals additional Frost damage at 6s and 3 Runebreak Synergies instead of 1 NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+28        Rune of Displacement (w/ Synergy)          7478      198.198            ST DoT (AoE)        5m r          3510    20        -                                      Pulls in foes within 2-8m / 2698 Runebreak Synergy for Allies NaN   Whirling Blades          1799         NaN              AoE Direct   6m r  2983     -               Up to 100% More Damage to Enemies Under 50% Health NaN                                       PSIJIC ORDER       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+29          Fulminating Rune (w/ Synergies)         14174      532.998            ST DoT (AoE)        5m r          3510    20        -                         Deals additional Frost damage at 6s and 3 Runebreak Synergies instead of 1 NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+30                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN     *Deadly Cloak        6537.3     151.163                 AoE DoT   5m r  3213    20                                                    Major Evasion NaN                                   Elemental Weapon   2650.45        NaN               ST Direct             -  2295     -  Applies Burning, Concussed, or Chilled Randomly w/ Each Hit
+31                              DESTRUCTION           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN      *Quick Cloak        7089.6  119.185333                 AoE DoT   5m r  3213    30                              Major Evasion + 4s Major Expedition NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                  5k Shield when Blocking for Slotting Either
+32                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                    Crushing Weapon    2384.8        NaN               ST Direct             -  2295     -                                                 Major Breach
+33                           Elemental Rage      21770.32          NaN                 AoE DoT        8m r           250     7      NaN                                                 If Lightning, remove +21% modifier and add 2 ticks NaN  Shrouded Daggers          1799         NaN  ST Direct + AoE Direct   8m r  3213     -  Major Sorcery &amp; Brutality for 20s / Mostly Only w/ Vateshran DW NaN                    (Spell Orb Passive Factored In)       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+34                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+35                           Crushing Shock       2129.76          NaN               ST Direct         28m          2430     -      NaN                                                                 Fire, Shock, Frost ST / Interrupts NaN               BOW           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                          UNDAUNTED       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+36                              Force Pulse       2129.76          NaN  ST Direct + AoE Direct         28m          2700     -      NaN                                                           Fire, Shock, Frost ST / Magic AoE (2399) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+37                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN          Ballista         15587         NaN               ST Direct    25m   175     5                                                              NaN NaN                                        Shadow Silk      4198     68.396              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+38                           *Unstable Wall        4976.4      146.236    AoE DoT + AoE Direct    18m x 8m          2970    10      NaN                                           Wall Explodes in Expiration or Recast (11 Ticks for DoT) NaN     Toxic Barrage     12710.244         NaN      ST Direct + ST DoT    28m   175    12           4s Channel (Lose 3 Spams/Light Attacks) / 8s DoT After NaN                           Shadow Silk (w/ Synergy)  8614.504   510.0464              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                      *Elemental Blockade       5215.36   113.421333                 AoE Dot   18m x 12m          2970    15      NaN                                                         Larger Size and Longer Duration (16 ticks) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         Mystic Orb      3586      7.196                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+40                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN      Lethal Arrow          2483         NaN      ST Direct + ST DoT    35m  2295     -                                     Applies Poison Status Effect NaN                            Mystic Orb (w/ Synergy)      5835    232.096                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+41                       Destructive Clench          1799          NaN  ST Direct + AoE Direct         15m          2970     -      NaN                                                                            Lightning Splash (1979) NaN       Focused Aim          2404         NaN               ST Direct    40m  2065     -                                                     Minor Breach NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+42                        Destructive Reach       5384.27      93.5115      ST Direct + ST DoT         28m          2700    20      NaN                                              Applies Status Effect / Frost Direct Damage TT = 2290 NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            ASSAULT       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+43                                      NaN           NaN          NaN                     NaN         NaN           NaN   NaN      NaN                                                                                                NaN NaN     *Endless Hail          4802      85.864                 AoE DoT   5m r  2295    15                                    Increased Duration (15 ticks) NaN                                                NaN       NaN        NaN                     NaN           NaN   NaN   NaN                                                          NaN
+44                           Elemental Ring          1799          NaN              AoE Direct         28m          3780     -      NaN                                                                Deals Damage at a Targeted Location NaN    *Arrow Barrage          4140      62.596                 AoE DoT   7m r  2295    10            Radius from 5m to 7m and Increased Dmg Done (9 ticks) NaN                              Anti-Cavalry Caltrops      4496     65.464                 AoE DoT           28m  2295    15                                   Longer Duration (16 Ticks)
+
+--- Sheet: Arcanist Top (shape (100, 9)) ---
+                                                       0             1            2                     3             4             5     6        7                                                                                                  8
+0   U39 - ARCANIST - TOP DAMAGING SKILLS WITH A DURATION           NaN          NaN                   NaN           NaN           NaN   NaN      NaN                                                                                                NaN
+1                                                    NaN           NaN          NaN                   NaN           NaN           NaN   NaN      NaN                                                                                                NaN
+2                                        Skill Line/Name  Base Tooltip         ADPS                  Type         Range          Cost  Time     Crux                                                                                   Secondary Effect
+3                                                    NaN           NaN          NaN                   NaN           NaN           NaN   NaN      NaN                                                                                                NaN
+4                         Exhausting Fatecarver (3 Crux)       22457.3  2320.418182               AoE DoT          22x3  450 per tick   5.5  Spender                                       Additional 33% Damage, 1 Damage Tick, and 15% Snare per Crux
+5                          Pragmatic Fatecarver (3 Crux)      17897.64  2253.697778               AoE DoT          22x3  450 per tick   4.5  Spender                           3725 Base Shield + Additional 33% Damage and 16% Cost Reduction per Crux
+6                                            Barbed Trap       7185.25     183.5605    ST Direct + ST DoT        2.5m r          2754    20      NaN                                              Minor Force for 20s / Decuples the Hemo Status Chance
+7                                             Carve (x3)          8912      179.932   AoE Direct + ST DoT            6m          2983    30      NaN                                        DoT Timer Increases if Recast Before Expiration - Up to 32s
+8                                              *Stampede          6178   177.597333  AoE Direct + AoE DoT          5m r          3902    15      NaN                                              Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks)
+9                           Elemental Susceptibility (b)          8786      175.732    ST Direct + ST DoT           35m             -    30      NaN                                      Configured for LOW burning uptimes present WITHOUT this skill
+10                                  Inspired Scholarship          8415   163.365333                  Self             -          4455    30  Builder           Every 3s instead of 5s / Major Sorcery/Brutality on Both Bars for Slotting / Builds Crux
+11                                         *Deadly Cloak        6537.3      151.163               AoE DoT          5m r          3213    20      NaN                                                                                      Major Evasion
+12                                        *Unstable Wall        4976.4      146.236  AoE DoT + AoE Direct      18m x 8m          2970    10      NaN                                           Wall Explodes in Expiration or Recast (11 Ticks for DoT)
+13                                      Fulminating Rune          6080      128.298          ST DoT (AoE)          5m r          3510    20        -                         Deals additional Frost damage at 6s and 3 Runebreak Synergies instead of 1
+14                                      Poison Injection        6020.3      125.313    ST Direct + ST DoT           28m          2295    20      NaN                                                 Up to 120% More Damage to Enemies Under 50% Health
+15                                          *Quick Cloak        7089.6   119.185333               AoE DoT          5m r          3213    30      NaN                                                                Major Evasion + 4s Major Expedition
+16                                   *Elemental Blockade       5215.36   113.421333               AoE Dot     18m x 12m          2970    15      NaN                                                         Larger Size and Longer Duration (16 ticks)
+17                                       Rending Slashes        5486.3       98.613    ST Direct + ST DoT            5m          2295    20      NaN                                               Initial Hit Damage Increased (2 Bleed Hits Up Front)
+18                                         Scalding Rune       6058.96    97.881538   AoE Direct + ST DoT          3m r          2754    26      NaN                                                   Upfront Hit After a 2s Delay with 13 Ticks After
+19                                     Destructive Reach       5384.27      93.5115    ST Direct + ST DoT           28m          2700    20      NaN                                              Applies Status Effect / Frost Direct Damage TT = 2290
+20                                         *Endless Hail          4802       85.864               AoE DoT          5m r          2295    15      NaN                                                                      Increased Duration (15 ticks)
+21                                           Blood Craze        5196.5       84.123    ST Direct + ST DoT            5m          2295    20      NaN                                                  Also Heals with Each Tick (2 Bleed Hits Up Front)
+22                                               Entropy          5486       82.165                ST DoT           28m          2065    24      NaN                                                        Major Sorcery &amp; Brutality or Heals Every 2s
+23                                Lightweight Beast Trap          5097       79.148    ST Direct + ST DoT  28m + 2.5m r          2525    20      NaN                                        Minor Force for 20s / Reduced cost and can be used at range
+24                                 Recuperative Treatise          5805    76.365333                  Self             -          4455    30  Builder  Restores 600 Mag+Stam each tick / Major Sorcery/Brutality on Both Bars for Slotting / Builds Crux
+25                                           Shadow Silk          4198       68.396            AoE Direct          4m r          2984    10      NaN                                             Upfront Physical / Delayed Poison Hit + Ranged Synergy
+26                                 Anti-Cavalry Caltrops          4496       65.464               AoE DoT           28m          2295    15      NaN                                                                         Longer Duration (16 Ticks)
+27                                            Blood Mist          4785       63.548               AoE DoT            5m          3553    20      NaN                                                                      Heals for 45% of Damage Dealt
+28                                  Rune of Displacement          4780       63.298          ST DoT (AoE)          5m r          3510    20        -                                      Pulls in foes within 2-8m / 2698 Runebreak Synergy for Allies
+29                                        *Arrow Barrage          4140       62.596               AoE DoT          7m r          2295    10      NaN                                              Radius from 5m to 7m and Increased Dmg Done (9 ticks)
+30                                        Consuming Trap          4642       56.398                ST DoT           28m          2700    20      NaN                                                     Restores Resources when an Affected Enemy Dies
+31                                           Venom Arrow          4631       55.848    ST Direct + ST DoT           28m          2065    20      NaN                                                     Major Sorcery &amp; Brutality for 20s / Interrupts
+32                          Elemental Susceptibility (a)          3740        7.532    ST Direct + ST DoT           35m             -    30      NaN                                     Configured for HIGH burning uptimes present WITHOUT this skill
+33                                            Mystic Orb          3586        7.196               AoE DoT          8m r          2970    10      NaN                                                                      Combustion Synergy / 11 Ticks
+34                                            Acid Spray          3377      -27.408   AoE Direct + ST DoT           20m          2983     5      NaN                                                                  Poison DoT Refreshes Through Spam
+35                                        Razor Caltrops          3091      -42.304               AoE DoT           28m          2295    10      NaN                                            Major Breach for 4s (Reapplies w/ Each of the 11 Ticks)
+36                                  Pragmatic Fatecarver          7467   -64.222222               AoE DoT          22x3  450 per tick   4.5  Spender                           3725 Base Shield + Additional 33% Damage and 16% Cost Reduction per Crux
+37                                 Exhausting Fatecarver          7467   -64.222222               AoE DoT          22x3  450 per tick   4.5  Spender                                       Additional 33% Damage, 1 Damage Tick, and 15% Snare per Crux
+38                                   Soul Splitting Trap          2316     -119.804          AoE (ST DoT)           28m          2430    10      NaN                                                 Reduced the Duration but Spreads to Nearby Targets
+39                              Shadow Silk (w/ Synergy)      8614.504     510.0464            AoE Direct          4m r          2984    10      NaN                                             Upfront Physical / Delayed Poison Hit + Ranged Synergy
+40                       Fulminating Rune (w/ Synergies)         14174      532.998          ST DoT (AoE)          5m r          3510    20        -                         Deals additional Frost damage at 6s and 3 Runebreak Synergies instead of 1
+41                               Mystic Orb (w/ Synergy)          5835      232.096               AoE DoT          8m r          2970    10      NaN                                                                      Combustion Synergy / 11 Ticks
+42                     Rune of Displacement (w/ Synergy)          7478      198.198          ST DoT (AoE)          5m r          3510    20        -                                      Pulls in foes within 2-8m / 2698 Runebreak Synergy for Allies
+43                                                   NaN           NaN          NaN                   NaN           NaN           NaN   NaN      NaN                                                                                                NaN
+44                                                  ADPS           NaN          NaN                   NaN           NaN           NaN   NaN      NaN                                                                                                NaN
+
+--- Sheet: Dragonknight (shape (100, 27)) ---
+                                                       0             1           2   3                       4          5          6     7                                                                          8   9                 10            11          12                      13     14    15    16                                                               17  18                                                 19        20          21                      22            23    24    25                                                           26
+0          Dragonknight - Update 39/40 (U41 Linked Below)           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+1                            https://tinyurl.com/mvx94ywb           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+2                                         Skill Line/Name  Base Tooltip        ADPS NaN                    Type      Range       Cost  Time                                                           Secondary Effect NaN   Skill Line/Name  Base Tooltip        ADPS                    Type  Range  Cost  Time                                                 Secondary Effect NaN                                    Skill Line/Name   Base TT        ADPS                    Type         Range  Cost  Time                                             Secondary Effect
+3                                                     NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+4                                            DRAGONKNIGHT           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN        TWO HANDED           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         SOUL MAGIC       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+5                                                     NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+6                                       Standard of Might      25176.06         NaN NaN                 AoE DoT       8m r        250    20                Increases Dmg and Reduces Dmg Taken by 15% / Shackle (3375) NaN     Wrecking Blow          2760         NaN               ST Direct     5m  2295   0.8                                              3s of Major Berserk NaN                                Soul Splitting Trap      2316       -26.9            AoE (ST DoT)           28m  2430    10           Reduced the Duration but Spreads to Nearby Targets
+7                                                     NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     Consuming Trap      4642      102.85                  ST DoT           28m  2700    20               Restores Resources when an Affected Enemy Dies
+8                                             Molten Whip       2585.34         NaN NaN               ST Direct         7m       1148     -                      300 Wpn/Spl Dmg + Up to 60% Increased Whip Dmg (4136) NaN         *Stampede          6178  239.533333    AoE Direct + AoE DoT   5m r  3902    15            Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+9                                              Flame Lash       2585.34         NaN NaN               ST Direct         7m       2295     -                 During Off-Balance, Whips Have More Dmg (3071) and Healing NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     FIGHTERS GUILD       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+10                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN        Carve (x3)          8912       210.9     AoE Direct + ST DoT     6m  2983    30      DoT Timer Increases if Recast Before Expiration - Up to 32s NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+11                                          Venomous Claw         10685       337.5 NaN         ST Direct + DoT         7m       2525    24         20% More Dmg Every 2s / Applies Poisoned / Generates Seething Fury NaN           Brawler          1742         NaN              AoE Direct     6m  2983     -                                 Up to 300% Increased Shield Size NaN                               Flawless Dawnbreaker      7085         NaN     AoE Direct + ST DoT           28m   125     6             Weapon and Spell Damage Increased by 300 for 20s
+12                                         Burning Embers       7648.96  210.998333 NaN         ST Direct + DoT         7m       2970    24  Heal for 100% of the Dmg Done / Applies Burning / Generates Seething Fury NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+13                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN     Reverse Slice          1199         NaN  ST Direct + AoE Direct     5m  2065     -     Ramping Execute after 50% / 100% Splash to Targets Within 5m NaN                                      Silver Shards      2300         NaN  ST Direct + AoE Direct           28m  2295     -          Deals 22% Reduced Damage to Other Targets within 5m
+14                                         Noxious Breath          6533       164.5 NaN     AoE Direct + ST DoT        10m       2984    24                                     Major Breach / Generates Seething Fury NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+15                                       Engulfing Flames       6924.98    180.8325 NaN     AoE Direct + ST DoT        10m       3510    24      Up to 6% Flame Damage Taken Debuff on Enemy / Generates Seething Fury NaN       Executioner          1161         NaN               ST Direct     5m  1836     -        Ramping Execute after 50% / 400% Increase instead of 300% NaN                             Lightweight Beast Trap      5097       125.6      ST Direct + ST DoT  28m + 2.5m r  2525    20  Minor Force for 20s / Reduced cost and can be used at range
+16                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                        Barbed Trap      6934      217.45      ST Direct + ST DoT        2.5m r  2754    20        Minor Force for 20s / Decuples the Hemo Status Chance
+17                                  Chains of Devastation        1600.6         NaN NaN               ST Direct        22m       3780     -             Major Berserk for 4s and Major Expedition for 4s after Casting NaN        DUAL WIELD           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN  (Each Slotted Adds a Passive 3% Weapon/Spell Dmg)       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+18                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+19                                     Flames of Oblivion       8009.36     361.624 NaN            ST Direct x3      15m r       2160    15          Major Savagery + Prophecy while Slotted / Generates Seething Fury NaN              Rend       13589.1         NaN            AoE (ST DoT)  8 x 8   150    16                      Both Morphs Heal for 50% of the Damage Done NaN                                        MAGES GUILD       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+20                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN   Thrive in Chaos       7313.25         NaN            AoE (ST DoT)    15m   150     8             Each Enemy Hit Increases Damage Done by 6% up to 36% NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+21                                         Burning Talons       3820.24     247.048 NaN     AoE Direct + ST DoT       6m r       3780     5               Ignite Synergy (2812) / Immobilize / DoT Ticks when Spamming NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                      Shooting Star   21267.6         NaN    AoE Direct + AoE DoT          5m r   200    13    Upfront Hit plus 13 DoT Ticks / 12 Ult Back Per Enemy Hit
+22                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN     Rapid Strikes      3289.835         NaN               ST Direct     5m  2295   0.8                                    4 Strikes Each Increase by 5% NaN                                          Ice Comet     21767         NaN    AoE Direct + AoE DoT          5m r   200    13    Increased Dmg / Similar Dmg to SS w/ Engulfing + Encratis
+23                                            Deep Breath       3470.44  295.146667 NaN      Delayed AoE Direct       8m r       3510     3                                      Heals / Interrupts / Sets Off-Balance NaN       Bloodthirst        3228.8         NaN               ST Direct     5m  2295   0.8                     Heals for 33% of Damage Dealt (Bleed Damage) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+24                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            Entropy      5486     120.875                  ST DoT           28m  2065    24                  Major Sorcery &amp; Brutality or Heals Every 2s
+25                                            Stone Giant          2518         NaN NaN  AoE Direct + ST Direct        28m       2295     -                                 Stagger (Initial Cast AoE then 3 ST Casts) NaN   Rending Slashes        5486.3     145.065      ST Direct + ST DoT     5m  2295    20             Initial Hit Damage Increased (2 Bleed Hits Up Front) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+26                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN       Blood Craze        5196.5     130.575      ST Direct + ST DoT     5m  2295    20                Also Heals with Each Tick (2 Bleed Hits Up Front) NaN                                      Scalding Rune   6344.76  144.606154     AoE Direct + ST DoT          3m r  2754    26             Upfront Hit After a 2s Delay with 13 Ticks After
+27                                               Eruption       8394.14      322.73 NaN    AoE Direct + AoE DoT       5m r  270 per/s    18                                 Direct Dmg Every 10s (12 Ticks of DoT Dmg) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+28                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN   Whirling Blades          1799         NaN              AoE Direct   6m r  2983     -               Up to 100% More Damage to Enemies Under 50% Health NaN                                       PSIJIC ORDER       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+29                                            DESTRUCTION           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+30                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN     *Deadly Cloak        6537.3     197.615                 AoE DoT   5m r  3213    20                                                    Major Evasion NaN                                   Elemental Weapon    2615.8         NaN               ST Direct             -  2295     -  Applies Burning, Concussed, or Chilled Randomly w/ Each Hit
+31                                         Elemental Rage      22669.92         NaN NaN                 AoE DoT       8m r        250     7                         If Lightning, remove +26% modifier and add 2 ticks NaN      *Quick Cloak        7089.6  150.153333                 AoE DoT   5m r  3213    30                              Major Evasion + 4s Major Expedition NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                  5k Shield when Blocking for Slotting Either
+32                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                    Crushing Weapon    2384.8         NaN               ST Direct             -  2295     -                                                 Major Breach
+33                                         Crushing Shock       2164.56         NaN NaN               ST Direct        28m       2430     -                                         Fire, Shock, Frost ST / Interrupts NaN  Shrouded Daggers          1799         NaN  ST Direct + AoE Direct   8m r  3213     -  Major Sorcery &amp; Brutality for 20s / Mostly Only w/ Vateshran DW NaN                    (Spell Orb Passive Factored In)       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+34                                            Force Pulse       2164.56         NaN NaN  ST Direct + AoE Direct        28m       2700     -                                   Fire, Shock, Frost ST / Magic AoE (2399) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+35                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN               BOW           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                          UNDAUNTED       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+36                                         *Unstable Wall        5190.9      260.59 NaN    AoE DoT + AoE Direct   18m x 8m       2970    10                   Wall Explodes in Expiration or Recast (11 Ticks for DoT) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+37                                    *Elemental Blockade       5440.16     190.344 NaN                 AoE Dot  18m x 12m       2970    15                                 Larger Size and Longer Duration (16 ticks) NaN          Ballista         15587         NaN               ST Direct    25m   175     5                                                              NaN NaN                                        Shadow Silk      4318       173.3              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+38                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN     Toxic Barrage       17653.5         NaN      ST Direct + ST DoT    28m   175    12           4s Channel (Lose 3 Spams/Light Attacks) / 8s DoT After NaN                           Shadow Silk (w/ Synergy)  8734.504    614.9504              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                                     Destructive Clench          1799         NaN NaN  ST Direct + AoE Direct        15m       2970     -                                                    Lightning Splash (1979) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         Mystic Orb      3586       100.1                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+40                                      Destructive Reach       5573.31    149.4155 NaN      ST Direct + ST DoT        28m       2700    20                      Applies Status Effect / Frost Direct Damage TT = 2290 NaN      Lethal Arrow          2607         NaN      ST Direct + ST DoT    35m  2295     -                                     Applies Poison Status Effect NaN                            Mystic Orb (w/ Synergy)      5835         325                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+41                                                    NaN           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN       Focused Aim          2404         NaN               ST Direct    40m  2065     -                                                     Minor Breach NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+42                                         Elemental Ring          1799         NaN NaN              AoE Direct        28m       3780     -                                        Deals Damage at a Targeted Location NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            ASSAULT       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+43                                                 Pulsar          1742         NaN NaN              AoE Direct       6m r       3780     -                                           Triples the Status Effect Chance NaN     *Endless Hail          4802       147.8                 AoE DoT   5m r  2295    15                                    Increased Duration (15 ticks) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+44  (Tooltips will vary a little depending on staff type)           NaN         NaN NaN                     NaN        NaN        NaN   NaN                                                                        NaN NaN    *Arrow Barrage          4140       155.5                 AoE DoT   7m r  2295    10            Radius from 5m to 7m and Increased Dmg Done (9 ticks) NaN                              Anti-Cavalry Caltrops      4496       127.4                 AoE DoT           28m  2295    15                                   Longer Duration (16 Ticks)
+
+--- Sheet: DK Top (shape (119, 8)) ---
+                                                                                                                                0             1           2                     3             4          5     6                                                                          7
+0                                                                        U38 - DRAGONKNIGHT - TOP DAMAGING SKILLS WITH A DURATION           NaN         NaN                   NaN           NaN        NaN   NaN                                                                        NaN
+1                                                                                                                             NaN           NaN         NaN                   NaN           NaN        NaN   NaN                                                                        NaN
+2                                                                                                                 Skill Line/Name  Base Tooltip        ADPS                  Type         Range       Cost  Time                                                           Secondary Effect
+3                                                                                                                             NaN           NaN         NaN                   NaN           NaN        NaN   NaN                                                                        NaN
+4                                                                                                              Flames of Oblivion       8009.36     361.624          ST Direct x3         15m r       2160    15          Major Savagery + Prophecy while Slotted / Generates Seething Fury
+5                                                                                                                   Venomous Claw         10685       337.5       ST Direct + DoT            7m       2525    24         20% More Dmg Every 2s / Applies Poisoned / Generates Seething Fury
+6                                                                                                                        Eruption       8394.14      322.73  AoE Direct + AoE DoT          5m r  270 per/s    18                                 Direct Dmg Every 10s (12 Ticks of DoT Dmg)
+7                                                                                                                     Deep Breath       3470.44  295.146667    Delayed AoE Direct          8m r       3510     3                                      Heals / Interrupts / Sets Off-Balance
+8                                                                                                                  *Unstable Wall        5190.9      260.59  AoE DoT + AoE Direct      18m x 8m       2970    10                   Wall Explodes in Expiration or Recast (11 Ticks for DoT)
+9                                                                                                                  Burning Talons       3820.24     247.048   AoE Direct + ST DoT          6m r       3780     5               Ignite Synergy (2812) / Immobilize / DoT Ticks when Spamming
+10                                                                                                                      *Stampede          6178  239.533333  AoE Direct + AoE DoT          5m r       3902    15                      Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks)
+11                                                                                                                    Barbed Trap          6934      217.45    ST Direct + ST DoT        2.5m r       2754    20                      Minor Force for 20s / Decuples the Hemo Status Chance
+12                                                                                                                 Burning Embers       7648.96  210.998333       ST Direct + DoT            7m       2970    24  Heal for 100% of the Dmg Done / Applies Burning / Generates Seething Fury
+13                                                                                                                     Carve (x3)          8912       210.9   AoE Direct + ST DoT            6m       2983    30                DoT Timer Increases if Recast Before Expiration - Up to 32s
+14                                                                                                                     Acid Spray          3604       203.8   AoE Direct + ST DoT           20m       2983     5                                          Poison DoT Refreshes Through Spam
+15                                                                                                                  *Deadly Cloak        6537.3     197.615               AoE DoT          5m r       3213    20                                                              Major Evasion
+16                                                                                                            *Elemental Blockade       5440.16     190.344               AoE Dot     18m x 12m       2970    15                                 Larger Size and Longer Duration (16 ticks)
+17                                                                                                               Poison Injection        6316.7     186.585    ST Direct + ST DoT           28m       2295    20                         Up to 120% More Damage to Enemies Under 50% Health
+18                                                                                                               Engulfing Flames       6924.98    180.8325   AoE Direct + ST DoT           10m       3510    24      Up to 6% Flame Damage Taken Debuff on Enemy / Generates Seething Fury
+19                                                                                                                    Shadow Silk          4318       173.3            AoE Direct          4m r       2984    10                     Upfront Physical / Delayed Poison Hit + Ranged Synergy
+20                                                                                                                 Noxious Breath          6533       164.5   AoE Direct + ST DoT           10m       2984    24                                     Major Breach / Generates Seething Fury
+21                                                                                                                 *Arrow Barrage          4140       155.5               AoE DoT          7m r       2295    10                      Radius from 5m to 7m and Increased Dmg Done (9 ticks)
+22                                                                                                                   *Quick Cloak        7089.6  150.153333               AoE DoT          5m r       3213    30                                        Major Evasion + 4s Major Expedition
+23                                                                                                              Destructive Reach       5573.31    149.4155    ST Direct + ST DoT           28m       2700    20                      Applies Status Effect / Frost Direct Damage TT = 2290
+24                                                                                                                  *Endless Hail          4802       147.8               AoE DoT          5m r       2295    15                                              Increased Duration (15 ticks)
+25                                                                                                                Rending Slashes        5486.3     145.065    ST Direct + ST DoT            5m       2295    20                       Initial Hit Damage Increased (2 Bleed Hits Up Front)
+26                                                                                                                  Scalding Rune       6344.76  144.606154   AoE Direct + ST DoT          3m r       2754    26                           Upfront Hit After a 2s Delay with 13 Ticks After
+27                                                                                                                    Blood Craze        5196.5     130.575    ST Direct + ST DoT            5m       2295    20                          Also Heals with Each Tick (2 Bleed Hits Up Front)
+28                                                                                                          Anti-Cavalry Caltrops          4496       127.4               AoE DoT           28m       2295    15                                                 Longer Duration (16 Ticks)
+29                                                                                                         Lightweight Beast Trap          5097       125.6    ST Direct + ST DoT  28m + 2.5m r       2525    20                Minor Force for 20s / Reduced cost and can be used at range
+30                                                                                                                        Entropy          5486     120.875                ST DoT           28m       2065    24                                Major Sorcery &amp; Brutality or Heals Every 2s
+31                                                                                                                    Venom Arrow          4859       113.7    ST Direct + ST DoT           28m       2065    20                             Major Sorcery &amp; Brutality for 20s / Interrupts
+32                                                                                                                     Blood Mist          4785         110               AoE DoT            5m       3553    20                                              Heals for 45% of Damage Dealt
+33                                                                                                                 Consuming Trap          4642      102.85                ST DoT           28m       2700    20                             Restores Resources when an Affected Enemy Dies
+34                                                                                                                     Mystic Orb          3586       100.1               AoE DoT          8m r       2970    10                                              Combustion Synergy / 11 Ticks
+35                                                                                                       Elemental Susceptibility          4715          71    ST Direct + ST DoT           35m          -    30             Configured for HIGH burning uptimes present WITHOUT this skill
+36                                                                                                                 Razor Caltrops          3091        50.6               AoE DoT           28m       2295    10                    Major Breach for 4s (Reapplies w/ Each of the 11 Ticks)
+37                                                                                                            Soul Splitting Trap          2316       -26.9          AoE (ST DoT)           28m       2430    10                         Reduced the Duration but Spreads to Nearby Targets
+38                                                                                                       Shadow Silk (w/ Synergy)      8734.504    614.9504            AoE Direct          4m r       2984    10                     Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                                                                                                        Mystic Orb (w/ Synergy)          5835         325               AoE DoT          8m r       2970    10                                              Combustion Synergy / 11 Ticks
+40                                                                                                                            NaN           NaN         NaN                   NaN           NaN        NaN   NaN                                                                        NaN
+41                                                                                                                            NaN           NaN         NaN                   NaN           NaN        NaN   NaN                                                                        NaN
+42                                                                                                                           ADPS           NaN         NaN                   NaN           NaN        NaN   NaN                                                                        NaN
+43  This is the adjusted DPS of a damage over time skill when accounting for spammable casts lost in accordance with the duration           NaN         NaN                   NaN           NaN        NaN   NaN                                                                        NaN
+44   EX: 10s DoTs Lose 6 Spammables per minute, 20s DoTs Lose 3 Spammables per minute, 30s DoTs Lose 2 Spammables per minute, etc           NaN         NaN                   NaN           NaN        NaN   NaN                                                                        NaN
+
+--- Sheet: Necromancer (shape (101, 29)) ---
+                                                       0          1         2           3                       4          5     6     7                                                                    8   9                 10        11          12          13                      14     15    16    17                                                               18  19                                                 20           21          22          23                      24            25    26    27                                                           28
+0           Necromancer - Update 39/40 (U41 Linked Below)        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+1                            https://tinyurl.com/7fad8hxt        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+2                                                     NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+3                                         Skill Line/Name    Base TT      ADPS        ADPS                    Type      Range  Cost  Time                                                     Secondary Effect NaN   Skill Line/Name   Base TT        ADPS        ADPS                    Type  Range  Cost  Time                                                 Secondary Effect NaN                                    Skill Line/Name      Base TT        ADPS        ADPS                    Type         Range  Cost  Time                                             Secondary Effect
+4                                                     NaN        NaN    Silver      Siphon                     NaN        NaN   NaN   NaN                                                                  NaN NaN               NaN       NaN       Skull      Siphon                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN       Skull      Siphon                     NaN           NaN   NaN   NaN                                                          NaN
+5                                             NECROMANCER        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN        TWO HANDED       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         SOUL MAGIC          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+6                                                     NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+7                                      Pestilent Colossus    11298.5       NaN         NaN              AoE Direct       8m r   175     3        Major Vuln for 15s / Each Subsequent Hit Deals 5% More Damage NaN     Wrecking Blow      2760         NaN         NaN               ST Direct     5m  2295   0.8                                              3s of Major Berserk NaN                                Soul Splitting Trap         2550       -25.8        75.1            AoE (ST DoT)           28m  2430    10           Reduced the Duration but Spreads to Nearby Targets
+8                                        Glacial Colossus       9294       NaN         NaN              AoE Direct       8m r   175     3               Major Vuln for 20s / Final Smash Stuns All Enemies Hit NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     Consuming Trap         5104       114.8      165.25                  ST DoT           28m  2700    20               Restores Resources when an Affected Enemy Dies
+9                                                     NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN         *Stampede      6658  256.666667  323.933333    AoE Direct + AoE DoT   5m r  3902    15            Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks) NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+10                                  Animate Blastbones x3      10800       NaN         NaN              AoE Direct       6m r   335     -       Consume up to 3 other corpses and summon a Blastbones for each NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     FIGHTERS GUILD          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+11                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN        Carve (x3)      8912  203.466667       237.1     AoE Direct + ST DoT     6m  2983    30      DoT Timer Increases if Recast Before Expiration - Up to 32s NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+12                                            Venom Skull       2700       NaN         NaN               ST Direct        28m  2295     -         Every 3rd Cast is +50% Dmg / All Necro Skills Count as Casts NaN           Brawler      1742         NaN         NaN              AoE Direct     6m  2983     -                                 Up to 300% Increased Shield Size NaN                               Flawless Dawnbreaker       7474.1         NaN         NaN     AoE Direct + ST DoT           28m   125     6             Weapon and Spell Damage Increased by 300 for 20s
+13                                         Ricochet Skull  2670.8184       NaN         NaN               ST Direct        28m  2700     -                  Every 3rd Cast is +50% Dmg and Bounces to 2 Enemies NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+14                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN     Reverse Slice      1199         NaN         NaN  ST Direct + AoE Direct     5m  2065     -     Ramping Execute after 50% / 100% Splash to Targets Within 5m NaN                                      Silver Shards         2300         NaN         NaN  ST Direct + AoE Direct           28m  2295     -          Deals 22% Reduced Damage to Other Targets within 5m
+15                                    Blighted Blastbones       3600       264  600.333333              AoE Direct       6m r  1836     3                                                         Major Defile NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+16                                Old Stalking Blastbones     4197.6     463.2  799.533333              AoE Direct       6m r  2700     3                    10% Min to 50% Max Extra Damage Based on Distance NaN       Executioner      1161         NaN         NaN               ST Direct     5m  1836     -        Ramping Execute after 50% / 400% Increase instead of 300% NaN                             Lightweight Beast Trap         5437      131.45       181.9      ST Direct + ST DoT  28m + 2.5m r  2525    20  Minor Force for 20s / Reduced cost and can be used at range
+17                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                        Barbed Trap         7544       236.8      287.25      ST Direct + ST DoT        2.5m r  2754    20        Minor Force for 20s / Decuples the Hemo Status Chance
+18                                               Boneyard     4561.7    175.37      276.27                 AoE DoT       6m r  2970    10                                           Graverobber Synergy (2249) NaN        DUAL WIELD       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN  (Each Slotted Adds a Passive 3% Weapon/Spell Dmg)          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+19                                  Boneyard (w/ Synergy)     6810.7    400.27      501.17                 AoE DoT       6m r  2970    10                                           Graverobber Synergy (2249) NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+20                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN              Rend   14949.9         NaN         NaN            AoE (ST DoT)  8 x 8   150    16                      Both Morphs Heal for 50% of the Damage Done NaN                                        MAGES GUILD          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+21                                        Skeletal Archer    7755.25  247.3625    297.8125               ST Direct          -  2525    20               Each Tick Hits 15% Harder Than the Previous (Additive) NaN   Thrive in Chaos      8043         NaN         NaN            AoE (ST DoT)    15m   150     8             Each Enemy Hit Increases Damage Done by 6% up to 36% NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+22                                      Skeletal Arcanist       4780      98.6      149.05  ST Direct + AoE Direct       5m r  2970    20               Damage is Dealt to All Enemies Within 5m of the Target NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                      Shooting Star     22707.32         NaN         NaN    AoE Direct + AoE DoT          5m r   200    13    Upfront Hit plus 13 DoT Ticks / 12 Ult Back Per Enemy Hit
+23                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN     Rapid Strikes  3289.835         NaN         NaN               ST Direct     5m  2295   0.8                                    4 Strikes Each Increase by 5% NaN                                          Ice Comet        24328         NaN         NaN    AoE Direct + AoE DoT          5m r   200    13    Increased Dmg / Similar Dmg to SS w/ Engulfing + Encratis
+24                                      Detonating Siphon       6869    203.05       253.5    AoE DoT + AoE Direct       5m r     -    20         Explosion on Expiration or Recast / 3% Dmg Done for Slotting NaN       Bloodthirst    3278.8         NaN         NaN               ST Direct     5m  2295   0.8                     Heals for 33% of Damage Dealt (Bleed Damage) NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+25                                          Mystic Siphon       5070     113.1      163.55                 AoE DoT       5m r     -    20                              150 Recovery / 3% Dmg Done for Slotting NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            Entropy         6032  134.333333     176.375                  ST DoT           28m  2065    24                  Major Sorcery &amp; Brutality or Heals Every 2s
+26                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN   Rending Slashes    5903.8      154.79      205.24      ST Direct + ST DoT     5m  2295    20             Initial Hit Damage Increased (2 Bleed Hits Up Front) NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+27                                         Ruinous Scythe       2184       NaN         NaN              AoE Direct       7m r  2754     -  Sets Off-Balance and Procs Hemorrhaging / Heals Based on Max Health NaN       Blood Craze      5614       140.3      190.75      ST Direct + ST DoT     5m  2295    20                Also Heals with Each Tick (2 Bleed Hits Up Front) NaN                                      Scalding Rune      6417.24  138.816923  177.624615     AoE Direct + ST DoT          3m r  2754    26             Upfront Hit After a 2s Delay with 13 Ticks After
+28                                          Hungry Scythe       1742       NaN         NaN              AoE Direct       7m r  2970     5               Heals Based on Max Health / Also Adds a Heal over Time NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+29                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN   Whirling Blades      1799         NaN         NaN              AoE Direct   6m r  2983     -               Up to 100% More Damage to Enemies Under 50% Health NaN                                       PSIJIC ORDER          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+30                                            DESTRUCTION        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+31                                         Elemental Rage   23948.32       NaN         NaN                 AoE DoT       8m r   250     7                   If Lightning, remove +21% modifier and add 2 ticks NaN     *Deadly Cloak   7195.65    219.3825    269.8325                 AoE DoT   5m r  3213    20                                                    Major Evasion NaN                                   Elemental Weapon  2632.466667         NaN         NaN               ST Direct             -  2295     -  Applies Burning, Concussed, or Chilled Randomly w/ Each Hit
+32                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN      *Quick Cloak    7795.2      166.24  199.873333                 AoE DoT   5m r  3213    30                              Major Evasion + 4s Major Expedition NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                  5k Shield when Blocking for Slotting Either
+33                                         Crushing Shock    2129.76       NaN         NaN               ST Direct        28m  2430     -                                   Fire, Shock, Frost ST / Interrupts NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                    Crushing Weapon       2384.8         NaN         NaN               ST Direct             -  2295     -                                                 Major Breach
+34                                            Force Pulse    2129.76       NaN         NaN  ST Direct + AoE Direct        28m  2700     -                             Fire, Shock, Frost ST / Magic AoE (2399) NaN  Shrouded Daggers      1799         NaN         NaN  ST Direct + AoE Direct   8m r  3213     -  Major Sorcery &amp; Brutality for 20s / Mostly Only w/ Vateshran DW NaN                    (Spell Orb Passive Factored In)          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+35                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+36                                         *Unstable Wall    5333.68   252.568     353.468    AoE DoT + AoE Direct   18m x 8m  2970    10             Wall Explodes in Expiration or Recast (11 Ticks for DoT) NaN               BOW       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                          UNDAUNTED          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+37                                    *Elemental Blockade    5735.04   195.136  262.402667                 AoE Dot  18m x 12m  2970    15                           Larger Size and Longer Duration (16 ticks) NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+38                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN          Ballista     15587         NaN         NaN               ST Direct    25m   175     5                                                              NaN NaN                                        Shadow Silk         4198         139       239.9              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                                     Destructive Clench       1799       NaN         NaN  ST Direct + AoE Direct        15m  2970     -                                              Lightning Splash (1979) NaN     Toxic Barrage   17424.9         NaN         NaN      ST Direct + ST DoT    28m   175    12           4s Channel (Lose 3 Spams/Light Attacks) / 8s DoT After NaN                           Shadow Silk (w/ Synergy)     8614.504    580.6504    681.5504              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+40                                      Destructive Reach    5754.74   147.337     197.787      ST Direct + ST DoT        28m  2700    20                Applies Status Effect / Frost Direct Damage TT = 2290 NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         Mystic Orb         3586        77.8       178.7                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+41                                                    NaN        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN      Lethal Arrow      2483         NaN         NaN      ST Direct + ST DoT    35m  2295     -                                     Applies Poison Status Effect NaN                            Mystic Orb (w/ Synergy)         5835       302.7       403.6                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+42                                         Elemental Ring       1799       NaN         NaN              AoE Direct        28m  3780     -                                  Deals Damage at a Targeted Location NaN       Focused Aim      2404         NaN         NaN               ST Direct    40m  2065     -                                                     Minor Breach NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+43                                                 Pulsar       1742       NaN         NaN              AoE Direct       6m r  3780     -                                     Triples the Status Effect Chance NaN               NaN       NaN         NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            ASSAULT          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+44  (Tooltips will vary a little depending on staff type)        NaN       NaN         NaN                     NaN        NaN   NaN   NaN                                                                  NaN NaN     *Endless Hail      5278  164.666667  231.933333                 AoE DoT   5m r  2295    15                                    Increased Duration (15 ticks) NaN                                                NaN          NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+
+--- Sheet: Necro Top (shape (100, 9)) ---
+                                                                                                                                0             1           2           3                       4             5     6     7                                                               8
+0                                                                         U38 - NECROMANCER - TOP DAMAGING SKILLS WITH A DURATION           NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+1                                                                                            U41 &gt;&gt;&gt; https://tinyurl.com/7fad8hxt           NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+2                                                                                                                 Skill Line/Name  Base Tooltip        ADPS        ADPS                    Type         Range  Cost  Time                                                Secondary Effect
+3                                                                                                                             NaN           NaN      Silver      Siphon                     NaN           NaN   NaN   NaN                                                             NaN
+4                                                                                                         Old Stalking Blastbones        4197.6  632.533333  799.533333              AoE Direct          6m r  2700     3               10% Min to 50% Max Extra Damage Based on Distance
+5                                                                                                             Blighted Blastbones          3600  433.333333  600.333333              AoE Direct          6m r  2295     3                       Major Defile / Both Morphs Creates Corpse
+6                                                                                                                  *Unstable Wall       5333.68     303.368     353.468    AoE DoT + AoE Direct      18m x 8m  2970    10        Wall Explodes in Expiration or Recast (11 Ticks for DoT)
+7                                                                                                                       *Stampede          6658  290.533333  323.933333    AoE Direct + AoE DoT          5m r  3902    15           Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks)
+8                                                                                                                 Skeletal Archer          7755      272.75       297.8               ST Direct             -  2525    20          Each Tick Hits 15% Harder Than the Previous (Additive)
+9                                                                                                                     Barbed Trap          7544       262.2      287.25      ST Direct + ST DoT        2.5m r  2754    20           Minor Force for 20s / Decuples the Hemo Status Chance
+10                                                                                                                     Acid Spray        3540.5       248.1       348.3     AoE Direct + ST DoT           20m  2983     5                               Poison DoT Refreshes Through Spam
+11                                                                                                                  *Deadly Cloak       7195.65    244.7825    269.8325                 AoE DoT          5m r  3213    20                                                   Major Evasion
+12                                                                                                            *Elemental Blockade       5735.04  229.002667  262.402667                 AoE Dot     18m x 12m  2970    15                      Larger Size and Longer Duration (16 ticks)
+13                                                                                                              Detonating Siphon          6869      228.45       253.5    AoE DoT + AoE Direct          5m r     -    20    Explosion on Expiration or Recast / 3% Dmg Done for Slotting
+14                                                                                                                       Boneyard        4561.7      226.17      276.27                 AoE DoT          6m r  2970    10                                      Graverobber Synergy (2249)
+15                                                                                                                 *Arrow Barrage          4554       225.4       275.5                 AoE DoT          7m r  2295    10           Radius from 5m to 7m and Increased Dmg Done (9 ticks)
+16                                                                                                                     Carve (x3)          8912       220.4       237.1     AoE Direct + ST DoT            6m  2983    30     DoT Timer Increases if Recast Before Expiration - Up to 32s
+17                                                                                                   Elemental Susceptibility (b)          8510         207       223.7      ST Direct + ST DoT           35m     -    30   Configured for LOW burning uptimes present WITHOUT this skill
+18                                                                                                               Poison Injection        6475.3     208.765     233.815      ST Direct + ST DoT           28m  2295    20              Up to 120% More Damage to Enemies Under 50% Health
+19                                                                                                                  *Endless Hail          5278  198.533333  231.933333                 AoE DoT          5m r  2295    15                                   Increased Duration (15 ticks)
+20                                                                                                                    Shadow Silk          4198       189.8       239.9              AoE Direct          4m r  2984    10          Upfront Physical / Delayed Poison Hit + Ranged Synergy
+21                                                                                                                   *Quick Cloak        7795.2  183.173333  199.873333                 AoE DoT          5m r  3213    30                             Major Evasion + 4s Major Expedition
+22                                                                                                                Rending Slashes        5903.8      180.19      205.24      ST Direct + ST DoT            5m  2295    20            Initial Hit Damage Increased (2 Bleed Hits Up Front)
+23                                                                                                          Anti-Cavalry Caltrops          4944  176.266667  209.666667                 AoE DoT           28m  2295    15                                      Longer Duration (16 Ticks)
+24                                                                                                              Destructive Reach       5754.74     172.737     197.787      ST Direct + ST DoT           28m  2700    20           Applies Status Effect / Frost Direct Damage TT = 2290
+25                                                                                                                    Blood Craze          5614       165.7      190.75      ST Direct + ST DoT            5m  2295    20               Also Heals with Each Tick (2 Bleed Hits Up Front)
+26                                                                                                                  Scalding Rune       6417.24  158.355385  177.624615     AoE Direct + ST DoT          3m r  2754    26                Upfront Hit After a 2s Delay with 13 Ticks After
+27                                                                                                         Lightweight Beast Trap          5437      156.85       181.9      ST Direct + ST DoT  28m + 2.5m r  2525    20     Minor Force for 20s / Reduced cost and can be used at range
+28                                                                                                                        Entropy          6032       155.5     176.375                  ST DoT           28m  2065    24                     Major Sorcery &amp; Brutality or Heals Every 2s
+29                                                                                                                     Blood Mist          5269      148.45       173.5                 AoE DoT            5m  3553    20                                   Heals for 45% of Damage Dealt
+30                                                                                                                 Consuming Trap          5104       140.2      165.25                  ST DoT           28m  2700    20                  Restores Resources when an Affected Enemy Dies
+31                                                                                                                  Mystic Siphon          5070       138.5      163.55                 AoE DoT          5m r     -    20                         150 Recovery / 3% Dmg Done for Slotting
+32                                                                                                                    Venom Arrow          4981      134.05       159.1      ST Direct + ST DoT           28m  2065    20                  Major Sorcery &amp; Brutality for 20s / Interrupts
+33                                                                                                              Skeletal Arcanist          4780         124      149.05  ST Direct + AoE Direct          5m r  2970    20          Damage is Dealt to All Enemies Within 5m of the Target
+34                                                                                                                     Mystic Orb          3586       128.6       178.7                 AoE DoT          8m r  2970    10                                   Combustion Synergy / 11 Ticks
+35                                                                                                                 Razor Caltrops          3399       109.9         160                 AoE DoT           28m  2295    10         Major Breach for 4s (Reapplies w/ Each of the 11 Ticks)
+36                                                                                                   Elemental Susceptibility (a)          4030   57.666667   74.366667      ST Direct + ST DoT           35m     -    30  Configured for HIGH burning uptimes present WITHOUT this skill
+37                                                                                                            Soul Splitting Trap          2550          25        75.1            AoE (ST DoT)           28m  2430    10              Reduced the Duration but Spreads to Nearby Targets
+38                                                                                                       Shadow Silk (w/ Synergy)      8614.504    631.4504    681.5504              AoE Direct          4m r  2984    10          Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                                                                                                          Boneyard (w/ Synergy)        6810.7      451.07      501.17                 AoE DoT          6m r  2970    10                                      Graverobber Synergy (2249)
+40                                                                                                        Mystic Orb (w/ Synergy)          5835       353.5       403.6                 AoE DoT          8m r  2970    10                                   Combustion Synergy / 11 Ticks
+41                                                                                                                            NaN           NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+42                                                                                                                           ADPS           NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+43  This is the adjusted DPS of a damage over time skill when accounting for spammable casts lost in accordance with the duration           NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+44   EX: 10s DoTs Lose 6 Spammables per minute, 20s DoTs Lose 3 Spammables per minute, 30s DoTs Lose 2 Spammables per minute, etc           NaN         NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+
+--- Sheet: Nightblade (shape (101, 26)) ---
+                                           0             1           2                       3           4     5     6                                                                                            7   8                 9             10          11                      12     13    14    15                                                               16  17                                                 18        19          20                      21            22    23    24                                                           25
+0   Nightblade - Update 39 (U41 Linked Below)           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+1                https://tinyurl.com/3b5udba5           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+2                                         NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+3                             Skill Line/Name  Base Tooltip        ADPS                    Type       Range  Cost  Time                                                                             Secondary Effect NaN   Skill Line/Name  Base Tooltip        ADPS                    Type  Range  Cost  Time                                                 Secondary Effect NaN                                    Skill Line/Name   Base TT        ADPS                    Type         Range  Cost  Time                                             Secondary Effect
+4                                         NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+5                                  NIGHTBLADE           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN        TWO HANDED           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         SOUL MAGIC       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+6                                         NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+7                       Incapacitating Strike          3718         NaN               ST Direct          7m    70   0.4                                           20% Dmg for 8s / 100 Mag + Stam from Light Attacks NaN     Wrecking Blow          2760         NaN               ST Direct     5m  2295   0.8                                              3s of Major Berserk NaN                                Soul Splitting Trap      2316        -0.7            AoE (ST DoT)           28m  2430    10           Reduced the Duration but Spreads to Nearby Targets
+8                                Soul Harvest          3718         NaN               ST Direct          7m    70   0.4                                               20% Dmg for 8s / 10 Ult When You Kill an Enemy NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     Consuming Trap      4642      115.95                  ST DoT           28m  2700    20               Restores Resources when an Affected Enemy Dies
+9                                         NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN         *Stampede          6178         257    AoE Direct + AoE DoT   5m r  3902    15            Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+10                             Veil of Blades         23008         NaN                 AoE DoT        5m r   200    15                                                    Major Protection / Hidden Refresh Synergy NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     FIGHTERS GUILD       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+11                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN        Carve (x3)          8912  219.633333     AoE Direct + ST DoT     6m  2983    30      DoT Timer Increases if Recast Before Expiration - Up to 32s NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+12                             Killer's Blade          1161         NaN               ST Direct          5m  2066     -                    Up to 400% More Dmg Under 50% Health / Heals if used in 2s of Enemy Dying NaN           Brawler          1742         NaN              AoE Direct     6m  2983     -                                 Up to 300% Increased Shield Size NaN                               Flawless Dawnbreaker      7085         NaN     AoE Direct + ST DoT           28m   125     6             Weapon and Spell Damage Increased by 300 for 20s
+13                                     Impale          1161         NaN               ST Direct         25m  2430     -                                             330% More Dmg Under 25% Health / Increased Range NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+14                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN     Reverse Slice          1199         NaN  ST Direct + AoE Direct     5m  2065     -     Ramping Execute after 50% / 100% Splash to Targets Within 5m NaN                                      Silver Shards      2300         NaN  ST Direct + AoE Direct           28m  2295     -          Deals 22% Reduced Damage to Other Targets within 5m
+15                                  Lotus Fan          4733       120.5         ST Direct (AoE)  22m - 6m r  3780    20                                         AoE + Minor Vulnerability to All Enemies Hit for 10s NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+16                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN       Executioner          1161         NaN               ST Direct     5m  1836     -        Ramping Execute after 50% / 400% Increase instead of 300% NaN                             Lightweight Beast Trap      5097       138.7      ST Direct + ST DoT  28m + 2.5m r  2525    20  Minor Force for 20s / Reduced cost and can be used at range
+17                           Relentless Focus          4321       399.6               ST Direct         28m     ?     -                                             80 Wpn/Spl Dmg Per Stack / 400 Wpn/Spl Dmg Total NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                        Barbed Trap      6934      230.55      ST Direct + ST DoT        2.5m r  2754    20        Minor Force for 20s / Decuples the Hemo Status Chance
+18                          Merciless Resolve          4752       485.8               ST Direct         28m     ?     -                                             60 Wpn/Spl Dmg Per Stack / 300 Wpn/Spl Dmg Total NaN        DUAL WIELD           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN  (Each Slotted Adds a Passive 3% Weapon/Spell Dmg)       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+19                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+20                            Surprise Attack          2502         NaN               ST Direct          5m  2295     -                                                   Applies Sundered + 100% Crit (3s Cooldown) NaN              Rend       13589.1         NaN            AoE (ST DoT)  8 x 8   150    16                      Both Morphs Heal for 50% of the Damage Done NaN                                        MAGES GUILD       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+21                           Concealed Weapon          2323         NaN               ST Direct          5m  2295     -  Minor Expedition + Maj Berserk for 10s when leaving Sneak/Invisible or casting w/ Maj Exped NaN   Thrive in Chaos       7313.25         NaN            AoE (ST DoT)    15m   150     8             Each Enemy Hit Increases Damage Done by 6% up to 36% NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+22                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                      Shooting Star   20309.6         NaN    AoE Direct + AoE DoT          5m r   200    13    Upfront Hit plus 13 DoT Ticks / 12 Ult Back Per Enemy Hit
+23                              Twisting Path          4901  214.833333                 AoE DoT         15m  2700    12                                                         Major Expedition for 4s w/ Each Tick NaN     Rapid Strikes      3289.835         NaN               ST Direct     5m  2295   0.8                                    4 Strikes Each Increase by 5% NaN                                          Ice Comet     21767         NaN    AoE Direct + AoE DoT          5m r   200    13    Increased Dmg / Similar Dmg to SS w/ Engulfing + Encratis
+24                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN       Bloodthirst        3228.8         NaN               ST Direct     5m  2295   0.8                     Heals for 33% of Damage Dealt (Bleed Damage) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+25                                 Dark Shade          6853  205.909091  ST Direct + Aoe Direct           -  2970    22                                                                           Applies Minor Maim NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            Entropy      5486  131.791667                  ST DoT           28m  2065    24                  Major Sorcery &amp; Brutality or Heals Every 2s
+26                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN   Rending Slashes        5486.3     158.165      ST Direct + ST DoT     5m  2295    20             Initial Hit Damage Increased (2 Bleed Hits Up Front) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+27                              Funnel Health          1600         NaN               ST Direct         28m  2700    10                                        Heals You or 2 Other Nearby Allies for 50% of the Dmg NaN       Blood Craze        5196.5     143.675      ST Direct + ST DoT     5m  2295    20                Also Heals with Each Tick (2 Bleed Hits Up Front) NaN                                      Scalding Rune   6058.96  143.690769     AoE Direct + ST DoT          3m r  2754    26             Upfront Hit After a 2s Delay with 13 Ticks After
+28                               Swallow Soul          2160         NaN               ST Direct         28m  2700    10                                                                 Heals You for 35% of the Dmg NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+29                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN   Whirling Blades          1799         NaN              AoE Direct   6m r  2983     -               Up to 100% More Damage to Enemies Under 50% Health NaN                                       PSIJIC ORDER       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+30                                 Debilitate          6754      221.55                  ST DoT         28m  2970    20                                              Each Tick Applies the Overcharged Status Effect NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+31                            Crippling Grasp          5549       161.3      ST Direct + ST DoT         28m  2970    20                                                Magicka Flood Passive for Both Morphs Slotted NaN     *Deadly Cloak        6537.3     210.715                 AoE DoT   5m r  3213    20                                                    Major Evasion NaN                                   Elemental Weapon    2615.8         NaN               ST Direct             -  2295     -  Applies Burning, Concussed, or Chilled Randomly w/ Each Hit
+32                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN      *Quick Cloak        7089.6  158.886667                 AoE DoT   5m r  3213    30                              Major Evasion + 4s Major Expedition NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                  5k Shield when Blocking for Slotting Either
+33                           Power Extraction          1742         NaN              AoE Direct          8m  2983     -                 Major Sorcery/Brutality and Minor Courage for 30s / Minor Cowardice to enemy NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                    Crushing Weapon    2384.8         NaN               ST Direct             -  2295     -                                                 Major Breach
+34                                Sap Essence          1742         NaN              AoE Direct          8m  3510     -                                                      Major Sorcery/Brutality for 30s / Heals NaN  Shrouded Daggers          1799         NaN  ST Direct + AoE Direct   8m r  3213     -  Major Sorcery &amp; Brutality for 20s / Mostly Only w/ Vateshran DW NaN                    (Spell Orb Passive Factored In)       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+35                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+36                                DESTRUCTION           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               BOW           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                          UNDAUNTED       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+37                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+38                             Elemental Rage      21770.32         NaN                 AoE DoT        8m r   250     7                                           If Lightning, remove +21% modifier and add 2 ticks NaN          Ballista         15587         NaN               ST Direct    25m   175     5                                                              NaN NaN                                        Shadow Silk      4198       187.5              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN     Toxic Barrage       17355.3         NaN      ST Direct + ST DoT    28m   175    12           4s Channel (Lose 3 Spams/Light Attacks) / 8s DoT After NaN                           Shadow Silk (w/ Synergy)  8614.504    629.1504              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+40                             Crushing Shock       2129.76         NaN               ST Direct         28m  2430     -                                                           Fire, Shock, Frost ST / Interrupts NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         Mystic Orb      3586       126.3                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+41                                Force Pulse       2129.76         NaN  ST Direct + AoE Direct         28m  2700     -                                                     Fire, Shock, Frost ST / Magic AoE (2399) NaN      Lethal Arrow          2483         NaN      ST Direct + ST DoT    35m  2295     -                                     Applies Poison Status Effect NaN                            Mystic Orb (w/ Synergy)      5835       351.2                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+42                                        NaN           NaN         NaN                     NaN         NaN   NaN   NaN                                                                                          NaN NaN       Focused Aim          2404         NaN               ST Direct    40m  2065     -                                                     Minor Breach NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+43                             *Unstable Wall        4976.4      265.34    AoE DoT + AoE Direct    18m x 8m  2970    10                                     Wall Explodes in Expiration or Recast (11 Ticks for DoT) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            ASSAULT       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+44                        *Elemental Blockade       5215.36     192.824                 AoE Dot   18m x 12m  2970    15                                                   Larger Size and Longer Duration (16 ticks) NaN     *Endless Hail          4802  165.266667                 AoE DoT   5m r  2295    15                                    Increased Duration (15 ticks) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+
+--- Sheet: NB Top (shape (100, 8)) ---
+                                                                                                                                0             1           2                       3             4     5     6                                                               7
+0                                                                          U39 - NIGHTBLADE - TOP DAMAGING SKILLS WITH A DURATION           NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+1                                                                                            u41 &gt;&gt;&gt; https://tinyurl.com/3b5udba5           NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+2                                                                                                                 Skill Line/Name  Base Tooltip        ADPS                    Type         Range  Cost  Time                                                Secondary Effect
+3                                                                                                                             NaN           NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+4                                                                                                               Merciless Resolve          4752       485.8               ST Direct           28m     ?     -                60 Wpn/Spl Dmg Per Stack / 300 Wpn/Spl Dmg Total
+5                                                                                                                Relentless Focus          4321       399.6               ST Direct           28m     ?     -                80 Wpn/Spl Dmg Per Stack / 400 Wpn/Spl Dmg Total
+6                                                                                                                  *Unstable Wall        4976.4      265.34    AoE DoT + AoE Direct      18m x 8m  2970    10        Wall Explodes in Expiration or Recast (11 Ticks for DoT)
+7                                                                                                                       *Stampede          6178         257    AoE Direct + AoE DoT          5m r  3902    15           Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks)
+8                                                                                                                     Barbed Trap          6934      230.55      ST Direct + ST DoT        2.5m r  2754    20           Minor Force for 20s / Decuples the Hemo Status Chance
+9                                                                                                                      Debilitate          6754      221.55                  ST DoT           28m  2970    20                 Each Tick Applies the Overcharged Status Effect
+10                                                                                                                     Carve (x3)          8912  219.633333     AoE Direct + ST DoT            6m  2983    30     DoT Timer Increases if Recast Before Expiration - Up to 32s
+11                                                                                                                  Twisting Path          4901  214.833333                 AoE DoT           15m  2700    12                            Major Expedition for 4s w/ Each Tick
+12                                                                                                                  *Deadly Cloak        6537.3     210.715                 AoE DoT          5m r  3213    20                                                   Major Evasion
+13                                                                                                                     Acid Spray          3377       210.8     AoE Direct + ST DoT           20m  2983     5                               Poison DoT Refreshes Through Spam
+14                                                                                                                     Dark Shade          6853  205.909091  ST Direct + Aoe Direct             -  2970    22                                              Applies Minor Maim
+15                                                                                                            *Elemental Blockade       5215.36     192.824                 AoE Dot     18m x 12m  2970    15                      Larger Size and Longer Duration (16 ticks)
+16                                                                                                                    Shadow Silk          4198       187.5              AoE Direct          4m r  2984    10          Upfront Physical / Delayed Poison Hit + Ranged Synergy
+17                                                                                                               Poison Injection        6020.3     184.865      ST Direct + ST DoT           28m  2295    20              Up to 120% More Damage to Enemies Under 50% Health
+18                                                                                                                 *Arrow Barrage          4140       181.7                 AoE DoT          7m r  2295    10           Radius from 5m to 7m and Increased Dmg Done (9 ticks)
+19                                                                                                   Elemental Susceptibility (b)          7640  177.233333      ST Direct + ST DoT           35m     -    30   Configured for LOW burning uptimes present WITHOUT this skill
+20                                                                                                                  *Endless Hail          4802  165.266667                 AoE DoT          5m r  2295    15                                   Increased Duration (15 ticks)
+21                                                                                                                Crippling Grasp          5549       161.3      ST Direct + ST DoT           28m  2970    20                   Magicka Flood Passive for Both Morphs Slotted
+22                                                                                                                   *Quick Cloak        7089.6  158.886667                 AoE DoT          5m r  3213    30                             Major Evasion + 4s Major Expedition
+23                                                                                                                Rending Slashes        5486.3     158.165      ST Direct + ST DoT            5m  2295    20            Initial Hit Damage Increased (2 Bleed Hits Up Front)
+24                                                                                                              Destructive Reach       5322.26     149.963      ST Direct + ST DoT           28m  2700    20           Applies Status Effect / Frost Direct Damage TT = 2290
+25                                                                                                          Anti-Cavalry Caltrops          4496  144.866667                 AoE DoT           28m  2295    15                                      Longer Duration (16 Ticks)
+26                                                                                                                    Blood Craze        5196.5     143.675      ST Direct + ST DoT            5m  2295    20               Also Heals with Each Tick (2 Bleed Hits Up Front)
+27                                                                                                                  Scalding Rune       6058.96  143.690769     AoE Direct + ST DoT          3m r  2754    26                Upfront Hit After a 2s Delay with 13 Ticks After
+28                                                                                                         Lightweight Beast Trap          5097       138.7      ST Direct + ST DoT  28m + 2.5m r  2525    20     Minor Force for 20s / Reduced cost and can be used at range
+29                                                                                                                        Entropy          5486  131.791667                  ST DoT           28m  2065    24                     Major Sorcery &amp; Brutality or Heals Every 2s
+30                                                                                                                     Mystic Orb          3586       126.3                 AoE DoT          8m r  2970    10                                   Combustion Synergy / 11 Ticks
+31                                                                                                                     Blood Mist          4785       123.1                 AoE DoT            5m  3553    20                                   Heals for 45% of Damage Dealt
+32                                                                                                                      Lotus Fan          4733       120.5         ST Direct (AoE)    22m - 6m r  3780    20            AoE + Minor Vulnerability to All Enemies Hit for 10s
+33                                                                                                                 Consuming Trap          4642      115.95                  ST DoT           28m  2700    20                  Restores Resources when an Affected Enemy Dies
+34                                                                                                                    Venom Arrow          4631       115.4      ST Direct + ST DoT           28m  2065    20                  Major Sorcery &amp; Brutality for 20s / Interrupts
+35                                                                                                                 Razor Caltrops          3091        76.8                 AoE DoT           28m  2295    10         Major Breach for 4s (Reapplies w/ Each of the 11 Ticks)
+36                                                                                                   Elemental Susceptibility (a)          3740   47.233333      ST Direct + ST DoT           35m     -    30  Configured for HIGH burning uptimes present WITHOUT this skill
+37                                                                                                            Soul Splitting Trap          2316        -0.7            AoE (ST DoT)           28m  2430    10              Reduced the Duration but Spreads to Nearby Targets
+38                                                                                                       Shadow Silk (w/ Synergy)      8614.504    629.1504              AoE Direct          4m r  2984    10          Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                                                                                                        Mystic Orb (w/ Synergy)          5835       351.2                 AoE DoT          8m r  2970    10                                   Combustion Synergy / 11 Ticks
+40                                                                                                                            NaN           NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+41                                                                                                                            NaN           NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+42                                                                                                                           ADPS           NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+43  This is the adjusted DPS of a damage over time skill when accounting for spammable casts lost in accordance with the duration           NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+44   EX: 10s DoTs Lose 6 Spammables per minute, 20s DoTs Lose 3 Spammables per minute, 30s DoTs Lose 2 Spammables per minute, etc           NaN         NaN                     NaN           NaN   NaN   NaN                                                             NaN
+
+--- Sheet: Sorcerer (shape (103, 27)) ---
+                                         0                    1           2   3                       4            5     6     7                                                                               8   9                 10            11          12                      13     14    15    16                                                               17  18                                                 19        20          21                      22            23    24    25                                                           26
+0   Sorcerer - Update 39 (U41 Linked Below)                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+1              https://tinyurl.com/38kvz9uk                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+2                           Skill Line/Name         Base Tooltip        ADPS NaN                    Type        Range  Cost  Time                                                                Secondary Effect NaN   Skill Line/Name  Base Tooltip        ADPS                    Type  Range  Cost  Time                                                 Secondary Effect NaN                                    Skill Line/Name   Base TT        ADPS                    Type         Range  Cost  Time                                             Secondary Effect
+3                                       NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+4                                  SORCERER                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN        TWO HANDED           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         SOUL MAGIC       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+5                                       NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+6                         Suppression Field                13494         NaN NaN                 AoE DoT         8m r   191    12                                  Stuns or Silences Enemies / Removes Enemy AoEs NaN     Wrecking Blow          2898         NaN               ST Direct     5m  2160   0.8                                              3s of Major Berserk NaN                                Soul Splitting Trap      2316       -16.7            AoE (ST DoT)           28m  2284    10           Reduced the Duration but Spreads to Nearby Targets
+7                                       NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     Consuming Trap      4642      107.95                  ST DoT           28m  2538    20               Restores Resources when an Affected Enemy Dies
+8                        Greater Storm Atro                18201         NaN NaN     AoE Direct + ST DoT         6m r   170    15                                         Synergy for 10s Major Berserk for Group NaN         *Stampede        6486.9  266.926667    AoE Direct + AoE DoT   5m r  3672    15            Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+9                              Charged Atro                17073         NaN NaN    AoE Direct + AoE DoT         8m r   170    15  Synergy for 10s Major Berserk for Group / AoE / Applies Concussed w/ each Tick NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     FIGHTERS GUILD       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+10                                      NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN        Carve (x3)          8912       214.3     AoE Direct + ST DoT     6m  2808    30      DoT Timer Increases if Recast Before Expiration - Up to 32s NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+11                           Power Overload  2772 (LA) 2494 (HA)         NaN NaN    ST Direct or AoE DoT  32m or 6x8m    21     -                                           Replaces your Light and Heavy Attacks NaN           Brawler        1829.1         NaN              AoE Direct     6m  2808     -                                 Up to 300% Increased Shield Size NaN                               Flawless Dawnbreaker      7345         NaN     AoE Direct + ST DoT           28m   106     6             Weapon and Spell Damage Increased by 300 for 20s
+12                                      NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+13                           Crystal Weapon                 3073         NaN NaN               ST Direct            -  2157     -                                                    Reduces Armor by 1000 for 5s NaN     Reverse Slice       1258.95         NaN  ST Direct + AoE Direct     5m  1944     -     Ramping Execute after 50% / 100% Splash to Targets Within 5m NaN                                      Silver Shards      2404         NaN  ST Direct + AoE Direct           28m  2160     -          Deals 22% Reduced Damage to Other Targets within 5m
+14                        Crystal Fragments     2483 (4123 proc)         NaN NaN               ST Direct          28m  2538   0.8                           33% When Casting an Ability to Proc 66% Stronger Frag NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+15                                      NaN                              NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN       Executioner       1219.05         NaN               ST Direct     5m  1728     -        Ramping Execute after 50% / 400% Increase instead of 300% NaN                             Lightweight Beast Trap      5097       130.7      ST Direct + ST DoT  28m + 2.5m r  2592    20  Minor Force for 20s / Reduced cost and can be used at range
+16                     Daedric Tomb (1 Hit)                 2700       54.25 NaN               ST Direct          ? r  5076     4        3 Mines / Small Radius / 1st hits immediately then 2s for each following NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                        Barbed Trap      6934      222.55      ST Direct + ST DoT        2.5m r  2592    20        Minor Force for 20s / Decuples the Hemo Status Chance
+17                     Daedric Tomb (2 Hit)                 5400      729.25 NaN               ST Direct          ? r  5076     4        3 Mines / Small Radius / 1st hits immediately then 2s for each following NaN        DUAL WIELD           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN  (Each Slotted Adds a Passive 3% Weapon/Spell Dmg)       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+18                 Daedric Tomb (All 3 Hit)                 8100     1404.25 NaN               ST Direct          ? r  5076     4        3 Mines / Small Radius / 1st hits immediately then 2s for each following NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+19                                      NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN              Rend       13589.1         NaN            AoE (ST DoT)  8 x 8   127    16                      Both Morphs Heal for 50% of the Damage Done NaN                                        MAGES GUILD       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+20                       Unstable Clannfear                  188         188 NaN  ST Direct + AoE Direct            -  4230     -                   Active Function is a Heal for You and Your Pet (Health Based) NaN   Thrive in Chaos       7313.25         NaN            AoE (ST DoT)    15m   127     8             Each Enemy Hit Increases Damage Done by 6% up to 36% NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+21     Volatile Familiar (Active + Passive)                 8787       315.2 NaN  ST Direct + AoE Direct            -  3299    20                                     Active Function is a 20s Pulse for 11 Ticks NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                      Shooting Star   20309.6         NaN    AoE Direct + AoE DoT          5m r   170    13    Upfront Hit plus 13 DoT Ticks / 12 Ult Back Per Enemy Hit
+22          Volatile Familiar (Active Only)                 5027       127.2 NaN  ST Direct + AoE Direct            -  3299    20                                     Active Function is a 20s Pulse for 11 Ticks NaN     Rapid Strikes       3258.97         NaN               ST Direct     5m  2160   0.8                                    4 Strikes Each Increase by 5% NaN                                          Ice Comet     21767         NaN    AoE Direct + AoE DoT          5m r   170    13    Increased Dmg / Similar Dmg to SS w/ Engulfing + Encratis
+23    Twilight Tormentor (Active + Passive)                 8080      279.85 NaN               ST Direct            -  2791    20           Active Function Works Above 50% Enemy Health (3060 Effective Tooltip) NaN       Bloodthirst        3228.8         NaN               ST Direct     5m  2160   0.8                     Heals for 33% of Damage Dealt (Bleed Damage) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+24         Twilight Tormentor (Active Only)                 3060       28.85 NaN               ST Direct            -  2791    20           Active Function Works Above 50% Enemy Health (3060 Effective Tooltip) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            Entropy      5486     125.125                  ST DoT           28m  1944    24                  Major Sorcery &amp; Brutality or Heals Every 2s
+25                       Twilight Matriarch                  182         182 NaN               ST Direct        28m r  4314     -              Active Function Heals 2 Friendly Targets and Your Pet (Stat Based) NaN   Rending Slashes        5486.3     150.165      ST Direct + ST DoT     5m  2160    20             Initial Hit Damage Increased (2 Bleed Hits Up Front) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+26                                      NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN       Blood Craze        5196.5     135.675      ST Direct + ST DoT     5m  2160    20                Also Heals with Each Tick (2 Bleed Hits Up Front) NaN                                      Scalding Rune   6058.96  137.536923     AoE Direct + ST DoT          3m r  2592    26             Upfront Hit After a 2s Delay with 13 Ticks After
+27                             Daedric Prey                 2904   70.166667 NaN  ST Direct + AoE Direct          28m  2030     6                                  Pets Deal 20% More Damage to the Cursed Target NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+28                             Prey (1-Pet)                 3988  250.833333 NaN  ST Direct + AoE Direct          28m  2030     6                                  Pets Deal 20% More Damage to the Cursed Target NaN   Whirling Blades       1888.95         NaN              AoE Direct   6m r  2808     -               Up to 100% More Damage to Enemies Under 50% Health NaN                                       PSIJIC ORDER       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+29                             Prey (2-Pet)                 5174       448.5 NaN  ST Direct + AoE Direct          28m  2030     6                                  Pets Deal 20% More Damage to the Cursed Target NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+30               Prey (2-Pet + Atro Active)                 8025  923.666667 NaN  ST Direct + AoE Direct          28m  2030     6                                  Pets Deal 20% More Damage to the Cursed Target NaN     *Deadly Cloak       6910.86     221.393                 AoE DoT   5m r  3024    20                                                    Major Evasion NaN                                   Elemental Weapon    2618.8         NaN               ST Direct             -  2160     -  Applies Burning, Concussed, or Chilled Randomly w/ Each Hit
+31                           Haunting Curse                 5998  292.916667 NaN  ST Direct + AoE Direct          28m  2791    12                                                   Explodes Twice - 3.5s and 12s NaN      *Quick Cloak       7494.72  167.057333                 AoE DoT   5m r  3024    30                              Major Evasion + 4s Major Expedition NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                  5k Shield when Blocking for Slotting Either
+32                                      NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                    Crushing Weapon    2492.8         NaN               ST Direct             -  2160     -                                                 Major Breach
+33                          Bound Armaments                 3624      285.25 NaN               ST Direct          28m     ?     -                                                        Max Stam Increased by 8% NaN  Shrouded Daggers       1888.95         NaN  ST Direct + AoE Direct   8m r  3024     -  Major Sorcery &amp; Brutality for 20s / Mostly Only w/ Vateshran DW NaN                    (Spell Orb Passive Factored In)       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+34                                      NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+35                             Mage's Wrath                 4270         NaN NaN  ST Direct + AoE Direct         5m r  2284     -                                                              3355 Splash Damage NaN               BOW           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                          UNDAUNTED       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+36                             Endless Fury                 4270         NaN NaN  ST Direct + AoE Direct         5m r  2030     -                           731 Splash Dmg / Restores 4860 Magicka on Enemy Death NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+37                                      NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN          Ballista      16366.35         NaN               ST Direct    25m   148     5                                                              NaN NaN                                        Shadow Silk      4198       171.5              AoE Direct          4m r  2805    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+38                                Hurricane               8333.2      292.51 NaN                 AoE DoT     5m to 9m  2157    20           249 Lowest Tick + 647 Highest Tick / Major Resolve / Minor Expedition NaN     Toxic Barrage       16731.3         NaN      ST Direct + ST DoT    28m   148    12           4s Channel (Lose 3 Spams/Light Attacks) / 8s DoT After NaN                           Shadow Silk (w/ Synergy)  8614.504    613.1504              AoE Direct          4m r  2805    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                          Boundless Storm                 7290  160.233333 NaN                 AoE DoT           5m  2538    30                                         Major Resolve / Major Expedition for 4s NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         Mystic Orb      3586       110.3                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+40                                      NaN                  NaN         NaN NaN                     NaN          NaN   NaN   NaN                                                                             NaN NaN      Lethal Arrow          2483         NaN      ST Direct + ST DoT    35m  2160     -                                     Applies Poison Status Effect NaN                            Mystic Orb (w/ Synergy)      5835       335.2                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+41            Liquid Lightning (w/ Synergy)                 6969  299.066667 NaN                 AoE DoT         4m r  2792    15                                                          Conduit Synergy (2249) NaN       Focused Aim        2524.2         NaN               ST Direct    40m  1944     -                                                     Minor Breach NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+42                         Liquid Lightning                 4720  149.133333 NaN                 AoE DoT         4m r  2792    15                                                          Conduit Synergy (2249) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            ASSAULT       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+43             Lightning Flood (w/ Synergy)                 6605       412.2 NaN                 AoE DoT         6m r  2792    10                                                          Conduit Synergy (2249) NaN     *Endless Hail        5042.1  170.606667                 AoE DoT   5m r  2160    15                                    Increased Duration (15 ticks) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+44                          Lightning Flood                 4356       187.3 NaN                 AoE DoT         6m r  2792    10                                                          Conduit Synergy (2249) NaN    *Arrow Barrage          4347       186.4                 AoE DoT   7m r  2160    10            Radius from 5m to 7m and Increased Dmg Done (9 ticks) NaN                              Anti-Cavalry Caltrops    4720.8  149.186667                 AoE DoT           28m  2295    15                                   Longer Duration (16 Ticks)
+
+--- Sheet: Sorc Top (shape (100, 8)) ---
+                                                       0             1            2                       3             4     5     6                                                                         7
+0   U39 - SORCERER - TOP DAMAGING SKILLS WITH A DURATION           NaN          NaN                     NaN           NaN   NaN   NaN                                                                       NaN
+1                   U41 &gt;&gt;&gt; https://tinyurl.com/38kvz9uk           NaN          NaN                     NaN           NaN   NaN   NaN                                                                       NaN
+2                                        Skill Line/Name  Base Tooltip  ADPS (frag)                    Type         Range  Cost  Time                                                          Secondary Effect
+3                                                    NaN           NaN          NaN                     NaN           NaN   NaN   NaN                                                                       NaN
+4                               Daedric Tomb (All 3 Hit)          8100      1404.25               ST Direct           ? r  5076     4  3 Mines / Small Radius / 1st hits immediately then 2s for each following
+5                             Prey (2-Pet + Atro Active)          8025   923.666667  ST Direct + AoE Direct           28m  2030     6                            Pets Deal 20% More Damage to the Cursed Target
+6                                   Daedric Tomb (2 Hit)          5400       729.25               ST Direct           ? r  5076     4  3 Mines / Small Radius / 1st hits immediately then 2s for each following
+7                                           Prey (2-Pet)          5174        448.5  ST Direct + AoE Direct           28m  2030     6                            Pets Deal 20% More Damage to the Cursed Target
+8                   Volatile Familiar (Active + Passive)          8787        315.2  ST Direct + AoE Direct             -  3299    20                               Active Function is a 20s Pulse for 11 Ticks
+9                                              Hurricane        8333.2       292.51                 AoE DoT      5m to 9m  2157    20     249 Lowest Tick + 647 Highest Tick / Major Resolve / Minor Expedition
+10                                        Haunting Curse          5998   292.916667  ST Direct + AoE Direct           28m  2791    12                                             Explodes Twice - 3.5s and 12s
+11                                       Bound Armaments          3624       285.25               ST Direct           28m     ?     -                                                  Max Stam Increased by 8%
+12                 Twilight Tormentor (Active + Passive)          8080       279.85               ST Direct             -  2791    20     Active Function Works Above 50% Enemy Health (3060 Effective Tooltip)
+13                                             *Stampede        6486.9   266.926667    AoE Direct + AoE DoT          5m r  3902    15                     Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks)
+14                                          Prey (1-Pet)          3988   250.833333  ST Direct + AoE Direct           28m  2030     6                            Pets Deal 20% More Damage to the Cursed Target
+15                          Twilight Tormentor (Passive)           251          251               ST Direct             -  2791   20s     Active Function Works Above 50% Enemy Health (3060 Effective Tooltip)
+16                                        *Unstable Wall        4976.4       249.34    AoE DoT + AoE Direct      18m x 8m  2970    10                  Wall Explodes in Expiration or Recast (11 Ticks for DoT)
+17                                           Barbed Trap          6934       222.55      ST Direct + ST DoT        2.5m r  2754    20                     Minor Force for 20s / Decuples the Hemo Status Chance
+18                                         *Deadly Cloak       6910.86      221.393                 AoE DoT          5m r  3213    20                                                             Major Evasion
+19                                       Daedric Tomb x1          2700          217               ST Direct           ? r  5076     -  3 Mines / Small Radius / 1st hits immediately then 2s for each following
+20                                            Carve (x3)          8912        214.3     AoE Direct + ST DoT            6m  2983    30               DoT Timer Increases if Recast Before Expiration - Up to 32s
+21                                    Unstable Clannfear           188          188  ST Direct + AoE Direct             -  4230     -             Active Function is a Heal for You and Your Pet (Health Based)
+22                                       Lightning Flood          4356        187.3                 AoE DoT          6m r  2792    10                                                    Conduit Synergy (2249)
+23                                        *Arrow Barrage          4347        186.4                 AoE DoT          7m r  2295    10                     Radius from 5m to 7m and Increased Dmg Done (9 ticks)
+24                                   *Elemental Blockade       5215.36   182.157333                 AoE Dot     18m x 12m  2970    15                                Larger Size and Longer Duration (16 ticks)
+25                                    Twilight Matriarch           182          182               ST Direct         28m r  4314     -        Active Function Heals 2 Friendly Targets and Your Pet (Stat Based)
+26                                            Acid Spray          3377        178.8     AoE Direct + ST DoT           20m  2983     5                                         Poison DoT Refreshes Through Spam
+27                                      Poison Injection        6020.3      176.865      ST Direct + ST DoT           28m  2295    20                        Up to 120% More Damage to Enemies Under 50% Health
+28                                           Shadow Silk          4198        171.5              AoE Direct          4m r  2984    10                    Upfront Physical / Delayed Poison Hit + Ranged Synergy
+29                                         *Endless Hail        5042.1   170.606667                 AoE DoT          5m r  2295    15                                             Increased Duration (15 ticks)
+30                          Elemental Susceptibility (b)          7685        173.4      ST Direct + ST DoT           35m     -    30             Configured for LOW burning uptimes present WITHOUT this skill
+31                                          *Quick Cloak       7494.72   167.057333                 AoE DoT          5m r  3213    30                                       Major Evasion + 4s Major Expedition
+32                                       Boundless Storm          7290   160.233333                 AoE DoT            5m  2538    30                                   Major Resolve / Major Expedition for 4s
+33                                       Rending Slashes        5486.3      150.165      ST Direct + ST DoT            5m  2295    20                      Initial Hit Damage Increased (2 Bleed Hits Up Front)
+34                                 Anti-Cavalry Caltrops        4720.8   149.186667                 AoE DoT           28m  2295    15                                                Longer Duration (16 Ticks)
+35                                      Liquid Lightning          4720   149.133333                 AoE DoT          4m r  2792    15                                                    Conduit Synergy (2249)
+36                                     Destructive Reach       5322.26      141.963      ST Direct + ST DoT           28m  2700    20                     Applies Status Effect / Frost Direct Damage TT = 2290
+37                                         Scalding Rune       6058.96   137.536923     AoE Direct + ST DoT          3m r  2754    26                          Upfront Hit After a 2s Delay with 13 Ticks After
+38                                           Blood Craze        5196.5      135.675      ST Direct + ST DoT            5m  2295    20                         Also Heals with Each Tick (2 Bleed Hits Up Front)
+39                                Lightweight Beast Trap          5097        130.7      ST Direct + ST DoT  28m + 2.5m r  2525    20               Minor Force for 20s / Reduced cost and can be used at range
+40                       Volatile Familiar (Active Only)          5027        127.2  ST Direct + AoE Direct             -  3299    20                               Active Function is a 20s Pulse for 11 Ticks
+41                                               Entropy          5486      125.125                  ST DoT           28m  2065    24                               Major Sorcery &amp; Brutality or Heals Every 2s
+42                                            Blood Mist          4785        115.1                 AoE DoT            5m  3553    20                                             Heals for 45% of Damage Dealt
+43                                            Mystic Orb          3586        110.3                 AoE DoT          8m r  2970    10                                             Combustion Synergy / 11 Ticks
+44                                        Consuming Trap          4642       107.95                  ST DoT           28m  2700    20                            Restores Resources when an Affected Enemy Dies
+
+--- Sheet: Templar (shape (100, 27)) ---
+                                        0             1            2   3                       4          5     6                    7                                                                                            8   9                 10            11          12                      13     14    15    16                                                               17  18                                                 19        20          21                      22            23    24    25                                                           26
+0   Templar - Update 39 (U41 Linked Below)           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+1             https://tinyurl.com/35dbpvw8           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+2                          Skill Line/Name  Base Tooltip         ADPS NaN                    Type      Range  Cost                 Time                                                                             Secondary Effect NaN   Skill Line/Name  Base Tooltip        ADPS                    Type  Range  Cost  Time                                                 Secondary Effect NaN                                    Skill Line/Name   Base TT        ADPS                    Type         Range  Cost  Time                                             Secondary Effect
+3                                      NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+4                                  TEMPLAR           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN        TWO HANDED           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         SOUL MAGIC       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+5                                      NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+6                        Everlasting Sweep          9365          NaN NaN    AoE Direct + AoE DoT         8m    71  2023-12-22 00:00:00                                                     Adds +2s Per Target Hit (Examples Below) NaN     Wrecking Blow          2760         NaN               ST Direct     5m  2187   0.8                                              3s of Major Berserk NaN                                Soul Splitting Trap      2316       -44.1            AoE (ST DoT)           28m  2308    10           Reduced the Duration but Spreads to Nearby Targets
+7                           Crescent Sweep        9411.2          NaN NaN    AoE Direct + AoE DoT         8m    71                    6                                                               60% More Damage to Enemies Hit NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     Consuming Trap      4642       94.25                  ST DoT           28m  2565    20               Restores Resources when an Affected Enemy Dies
+8                                      NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN         *Stampede          6178  228.066667    AoE Direct + AoE DoT   5m r  3717    15            Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+9                             Solar Prison         13189          NaN NaN                 AoE DoT       8m r   238                   10                                         Gravity Crush Synergy (5215) / Major Maim to Enemies NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     FIGHTERS GUILD       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+10               Solar Prison (w/ synergy)         18404          NaN NaN                 AoE DoT       8m r   238                   10                                         Gravity Crush Synergy (5215) / Major Maim to Enemies NaN        Carve (x3)          8912  205.166667     AoE Direct + ST DoT     6m  2843    30      DoT Timer Increases if Recast Before Expiration - Up to 32s NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+11                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN           Brawler          1742         NaN              AoE Direct     6m  2843     -                                 Up to 300% Increased Shield Size NaN                               Flawless Dawnbreaker      7085         NaN     AoE Direct + ST DoT           28m   119     6             Weapon and Spell Damage Increased by 300 for 20s
+12                             Biting Jabs          2757          NaN NaN              AoE Direct       8x6m  2180                  0.8                                    65% to Nearby Enemies / Major Sorcery &amp; Brutality for 10s NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+13                        Puncturing Sweep          2757          NaN NaN              AoE Direct       8x6m  2180                  0.8                                         52% to Nearby Enemies / Heal for 33% of the Dmg Done NaN     Reverse Slice          1199         NaN  ST Direct + AoE Direct     5m  1968     -     Ramping Execute after 50% / 100% Splash to Targets Within 5m NaN                                      Silver Shards      2300         NaN  ST Direct + AoE Direct           28m  2187     -          Deals 22% Reduced Damage to Other Targets within 5m
+14                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN  1749   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+15                           Blazing Spear          4149        139.2 NaN    AoE Direct + AoE DoT       6m r  2822                   10                                                          Upfront Hit Plus 10 Ticks / Synergy NaN       Executioner          1161         NaN               ST Direct     5m   NaN     -        Ramping Execute after 50% / 400% Increase instead of 300% NaN                             Lightweight Beast Trap      5097         117      ST Direct + ST DoT  28m + 2.5m r  2406    20  Minor Force for 20s / Reduced cost and can be used at range
+16                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                        Barbed Trap      6934      208.85      ST Direct + ST DoT        2.5m r  2624    20        Minor Force for 20s / Decuples the Hemo Status Chance
+17                            Radiant Ward          1742          NaN NaN              AoE Direct       5m r  3781                    6                             4800 Health Based Damage Shield / Increases by 20% Per Enemy Hit NaN        DUAL WIELD           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN  (Each Slotted Adds a Passive 3% Weapon/Spell Dmg)       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+18                          Blazing Shield             -          NaN NaN              AoE Direct       5m r  4104                    6  4800 Health Based Damage Shield / Increases by 4% Per Enemy Hit / Deals 30% of Dmg Absorbed NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+19                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN              Rend       13589.1         NaN            AoE (ST DoT)  8 x 8   143    16                      Both Morphs Heal for 50% of the Damage Done NaN                                        MAGES GUILD       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+20                          Vampire's Bane       7302.34   142.041875 NaN      ST Direct + ST DoT        28m  2822                   32                                                            Major Prophecy &amp; Savagery for 32s NaN   Thrive in Chaos       7313.25         NaN            AoE (ST DoT)    15m   143     8             Each Enemy Hit Increases Damage Done by 6% up to 36% NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+21                        Reflective Light       5316.96   116.361818 NaN     AoE Direct + ST DoT       5m r  2822                   22                                     Hits Up to 3 Enemies / Major Prophecy &amp; Savagery for 22s NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                      Shooting Star   20309.6         NaN    AoE Direct + AoE DoT          5m r   190    13    Upfront Hit plus 13 DoT Ticks / 12 Ult Back Per Enemy Hit
+22                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN     Rapid Strikes      3289.835         NaN               ST Direct     5m  1968   0.8                                    4 Strikes Each Increase by 5% NaN                                          Ice Comet     21767         NaN    AoE Direct + AoE DoT          5m r   190    13    Increased Dmg / Similar Dmg to SS w/ Engulfing + Encratis
+23                              Dark Flare          2483          NaN NaN               ST Direct        28m  2309                  0.8                                                                               Empower for 7s NaN       Bloodthirst        3228.8         NaN               ST Direct     5m  2187   0.8                     Heals for 33% of Damage Dealt (Bleed Damage) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+24                           Solar Barrage          5220   111.954545 NaN                 AoE DoT         8m  2565                   22                                            5% Damage to Class Abilities / 12 Ticks / Empower NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            Entropy      5486  113.708333                  ST DoT           28m  1968    24                  Major Sorcery &amp; Brutality or Heals Every 2s
+25                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN   Rending Slashes        5486.3     136.465      ST Direct + ST DoT     5m  2187    20             Initial Hit Damage Increased (2 Bleed Hits Up Front) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+26                         Purifying Light          4644        314.5 NaN               ST Direct        28m  2052                    6                                                                Heal for 10s After Expiration NaN       Blood Craze        5196.5     121.975      ST Direct + ST DoT     5m  2187    20                Also Heals with Each Tick (2 Bleed Hits Up Front) NaN                                      Scalding Rune   6058.96  126.998462     AoE Direct + ST DoT          3m r  2624    26             Upfront Hit After a 2s Delay with 13 Ticks After
+27                      Power of the Light          4644        314.5 NaN               ST Direct        28m  1270                    6                                                                         Minor Breach for 10s NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+28                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN   Whirling Blades          1799         NaN              AoE Direct   6m r  2843     -               Up to 100% More Damage to Enemies Under 50% Health NaN                                       PSIJIC ORDER       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+29                     Radiant Glory (25%)       7498.35  2634.083333 NaN                  ST DoT        28m  2802                  1.8                             480% Execute Scaling Under 50% Health / Heals for 20% of the Dmg NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+30                Radiant Oppression (25%)       7820.25  2812.916667 NaN                  ST DoT        28m  2802                  1.8                                           Up to 500% More Damage to Enemies Below 50% Health NaN     *Deadly Cloak        6537.3     189.015                 AoE DoT   5m r  3062    20                                                    Major Evasion NaN                                   Elemental Weapon    2615.8         NaN               ST Direct             -  2187     -  Applies Burning, Concussed, or Chilled Randomly w/ Each Hit
+31                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN      *Quick Cloak        7089.6      144.42                 AoE DoT   5m r  3062    30                              Major Evasion + 4s Major Expedition NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                  5k Shield when Blocking for Slotting Either
+32                   Ritual of Retribution          7656       244.95 NaN                 AoE DoT      12m r  3848                   20                                                          Ramps Up Each Tick / Purify Synergy NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                    Crushing Weapon    2384.8         NaN               ST Direct             -  2187     -                                                 Major Breach
+33                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN  Shrouded Daggers          1799         NaN  ST Direct + AoE Direct   8m r  3062     -  Major Sorcery &amp; Brutality for 20s / Mostly Only w/ Vateshran DW NaN                    (Spell Orb Passive Factored In)       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+34                             DESTRUCTION           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+35                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN               BOW           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                          UNDAUNTED       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+36                          Elemental Rage      21770.32          NaN NaN                 AoE DoT       8m r   238                    7                                           If Lightning, remove +21% modifier and add 2 ticks NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+37                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN          Ballista         15587         NaN               ST Direct    25m   166     5                                                              NaN NaN                                        Shadow Silk      4198       144.1              AoE Direct          4m r  2834    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+38                          Crushing Shock       2129.76          NaN NaN               ST Direct        28m  2309                    -                                                           Fire, Shock, Frost ST / Interrupts NaN     Toxic Barrage       15662.7         NaN      ST Direct + ST DoT    28m   166    12           4s Channel (Lose 3 Spams/Light Attacks) / 8s DoT After NaN                           Shadow Silk (w/ Synergy)  8614.504    585.7504              AoE Direct          4m r  2834    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                             Force Pulse       2129.76          NaN NaN  ST Direct + AoE Direct        28m  2565                    -                                                     Fire, Shock, Frost ST / Magic AoE (2399) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         Mystic Orb      3586        82.9                 AoE DoT          8m r  2822    10                                Combustion Synergy / 11 Ticks
+40                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN      Lethal Arrow          2483         NaN      ST Direct + ST DoT    35m  2187     -                                     Applies Poison Status Effect NaN                            Mystic Orb (w/ Synergy)      5835       307.8                 AoE DoT          8m r  2822    10                                Combustion Synergy / 11 Ticks
+41                          *Unstable Wall        4976.4       221.94 NaN    AoE DoT + AoE Direct   18m x 8m  2822                   10                                     Wall Explodes in Expiration or Recast (11 Ticks for DoT) NaN       Focused Aim          2404         NaN               ST Direct    40m  1968     -                                                     Minor Breach NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+42                     *Elemental Blockade       5215.36   163.890667 NaN                 AoE Dot  18m x 12m  2822                   15                                                   Larger Size and Longer Duration (16 ticks) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                            ASSAULT       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+43                                     NaN           NaN          NaN NaN                     NaN        NaN   NaN                  NaN                                                                                          NaN NaN     *Endless Hail          4802  136.333333                 AoE DoT   5m r  2187    15                                    Increased Duration (15 ticks) NaN                                                NaN       NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+44                      Destructive Clench          1799          NaN NaN  ST Direct + AoE Direct        15m  2822                    -                                                                      Lightning Splash (1979) NaN    *Arrow Barrage          4140       138.3                 AoE DoT   7m r  2187    10            Radius from 5m to 7m and Increased Dmg Done (9 ticks) NaN                              Anti-Cavalry Caltrops      4496  115.933333                 AoE DoT           28m  2180    15                                   Longer Duration (16 Ticks)
+
+--- Sheet: Temp Top (shape (100, 8)) ---
+                                                                                                                                0             1            2                     3             4     5     6                                                                 7
+0                                                                             U39 - TEMPLAR - TOP DAMAGING SKILLS WITH A DURATION           NaN          NaN                   NaN           NaN   NaN   NaN                                                               NaN
+1                                                                                            u41 &gt;&gt;&gt; https://tinyurl.com/35dbpvw8           NaN          NaN                   NaN           NaN   NaN   NaN                                                               NaN
+2                                                                                                                 Skill Line/Name  Base Tooltip         ADPS                  Type         Range  Cost  Time                                                  Secondary Effect
+3                                                                                                                             NaN           NaN          NaN                   NaN           NaN   NaN   NaN                                                               NaN
+4                                                                                                        Radiant Oppression (25%)       7820.25  2812.916667                ST DoT           28m  2802   1.8                Up to 500% More Damage to Enemies Below 50% Health
+5                                                                                                             Radiant Glory (25%)       7498.35  2634.083333                ST DoT           28m  2802   1.8  480% Execute Scaling Under 50% Health / Heals for 20% of the Dmg
+6                                                                                                              Power of the Light          4644        314.5             ST Direct           28m  1270     6                                              Minor Breach for 10s
+7                                                                                                                 Purifying Light          4644        314.5             ST Direct           28m  2052     6                                     Heal for 10s After Expiration
+8                                                                                                           Ritual of Retribution          7656       244.95               AoE DoT         12m r  3848    20                               Ramps Up Each Tick / Purify Synergy
+9                                                                                                                       *Stampede          6178   228.066667  AoE Direct + AoE DoT          5m r  3717    15             Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks)
+10                                                                                                                 *Unstable Wall        4976.4       221.94  AoE DoT + AoE Direct      18m x 8m  2822    10          Wall Explodes in Expiration or Recast (11 Ticks for DoT)
+11                                                                                                                    Barbed Trap          6934       208.85    ST Direct + ST DoT        2.5m r  2624    20             Minor Force for 20s / Decuples the Hemo Status Chance
+12                                                                                                                     Carve (x3)          8912   205.166667   AoE Direct + ST DoT            6m  2843    30       DoT Timer Increases if Recast Before Expiration - Up to 32s
+13                                                                                                                  *Deadly Cloak        6537.3      189.015               AoE DoT          5m r  3062    20                                                     Major Evasion
+14                                                                                                            *Elemental Blockade       5215.36   163.890667               AoE Dot     18m x 12m  2822    15                        Larger Size and Longer Duration (16 ticks)
+15                                                                                                               Poison Injection        6020.3      163.165    ST Direct + ST DoT           28m  2187    20                Up to 120% More Damage to Enemies Under 50% Health
+16                                                                                                   Elemental Susceptibility (b)          7640   162.766667    ST Direct + ST DoT           35m     -    30     Configured for LOW burning uptimes present WITHOUT this skill
+17                                                                                                                    Shadow Silk          4198        144.1            AoE Direct          4m r  2834    10            Upfront Physical / Delayed Poison Hit + Ranged Synergy
+18                                                                                                                   *Quick Cloak        7089.6       144.42               AoE DoT          5m r  3062    30                               Major Evasion + 4s Major Expedition
+19                                                                                                                 Vampire's Bane       7302.34   142.041875    ST Direct + ST DoT           28m  2822    32                                 Major Prophecy &amp; Savagery for 32s
+20                                                                                                                  Blazing Spear          4149        139.2  AoE Direct + AoE DoT          6m r  2822    10                               Upfront Hit Plus 10 Ticks / Synergy
+21                                                                                                                 *Arrow Barrage          4140        138.3               AoE DoT          7m r  2187    10             Radius from 5m to 7m and Increased Dmg Done (9 ticks)
+22                                                                                                                  *Endless Hail          4802   136.333333               AoE DoT          5m r  2187    15                                     Increased Duration (15 ticks)
+23                                                                                                                Rending Slashes        5486.3      136.465    ST Direct + ST DoT            5m  2187    20              Initial Hit Damage Increased (2 Bleed Hits Up Front)
+24                                                                                                              Destructive Reach       5322.26      128.263    ST Direct + ST DoT           28m  2565    20             Applies Status Effect / Frost Direct Damage TT = 2290
+25                                                                                                                  Scalding Rune       6058.96   126.998462   AoE Direct + ST DoT          3m r  2624    26                  Upfront Hit After a 2s Delay with 13 Ticks After
+26                                                                                                                     Acid Spray          3377          124   AoE Direct + ST DoT           20m  2983     5                                 Poison DoT Refreshes Through Spam
+27                                                                                                                    Blood Craze        5196.5      121.975    ST Direct + ST DoT            5m  2187    20                 Also Heals with Each Tick (2 Bleed Hits Up Front)
+28                                                                                                         Lightweight Beast Trap          5097          117    ST Direct + ST DoT  28m + 2.5m r  2406    20       Minor Force for 20s / Reduced cost and can be used at range
+29                                                                                                               Reflective Light       5316.96   116.361818   AoE Direct + ST DoT          5m r  2822    22          Hits Up to 3 Enemies / Major Prophecy &amp; Savagery for 22s
+30                                                                                                          Anti-Cavalry Caltrops          4496   115.933333               AoE DoT           28m  2180    15                                        Longer Duration (16 Ticks)
+31                                                                                                                        Entropy          5486   113.708333                ST DoT           28m  1968    24                       Major Sorcery &amp; Brutality or Heals Every 2s
+32                                                                                                                  Solar Barrage          5220   111.954545               AoE DoT            8m  2565    22                 5% Damage to Class Abilities / 12 Ticks / Empower
+33                                                                                                                     Blood Mist          4785        101.4               AoE DoT            5m  3376    20                                     Heals for 45% of Damage Dealt
+34                                                                                                                    Venom Arrow          4631         93.7    ST Direct + ST DoT           28m  1968    20                    Major Sorcery &amp; Brutality for 20s / Interrupts
+35                                                                                                                 Consuming Trap          4642        94.25                ST DoT           28m  2565    20                    Restores Resources when an Affected Enemy Dies
+36                                                                                                                     Mystic Orb          3586         82.9               AoE DoT          8m r  2822    10                                     Combustion Synergy / 11 Ticks
+37                                                                                                   Elemental Susceptibility (a)          3740    32.766667    ST Direct + ST DoT           35m     -    30    Configured for HIGH burning uptimes present WITHOUT this skill
+38                                                                                                                 Razor Caltrops          3091         33.4               AoE DoT           28m  2180    10           Major Breach for 4s (Reapplies w/ Each of the 11 Ticks)
+39                                                                                                            Soul Splitting Trap          2316        -44.1          AoE (ST DoT)           28m  2308    10                Reduced the Duration but Spreads to Nearby Targets
+40                                                                                                       Shadow Silk (w/ Synergy)      8614.504     585.7504            AoE Direct          4m r  2834    10            Upfront Physical / Delayed Poison Hit + Ranged Synergy
+41                                                                                                        Mystic Orb (w/ Synergy)          5835        307.8               AoE DoT          8m r  2822    10                                     Combustion Synergy / 11 Ticks
+42                                                                                                                            NaN           NaN          NaN                   NaN           NaN   NaN   NaN                                                               NaN
+43                                                                                                                           ADPS           NaN          NaN                   NaN           NaN   NaN   NaN                                                               NaN
+44  This is the adjusted DPS of a damage over time skill when accounting for spammable casts lost in accordance with the duration           NaN          NaN                   NaN           NaN   NaN   NaN                                                               NaN
+
+--- Sheet: Warden (shape (100, 27)) ---
+                                       0             1           2   3                       4          5     6     7                                                                                  8   9                 10            11          12                      13     14    15    16                                                               17  18                                                 19           20          21                      22            23    24    25                                                           26
+0   Warden - Update 39 (U41 Linked Below)           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+1            https://tinyurl.com/bd5xmsmw           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+2                         Skill Line/Name  Base Tooltip        ADPS NaN                    Type      Range  Cost  Time                                                                   Secondary Effect NaN   Skill Line/Name  Base Tooltip        ADPS                    Type  Range  Cost  Time                                                 Secondary Effect NaN                                    Skill Line/Name      Base TT        ADPS                    Type         Range  Cost  Time                                             Secondary Effect
+3                                     NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+4                                  WARDEN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN        TWO HANDED           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                         SOUL MAGIC          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+5                                     NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+6                        Eternal Guardian          3360         NaN NaN  ST Direct + AoE Direct          -    75     -                    Increases the execute scaling to 150% / P (599 + 2399) + A 3360 NaN     Wrecking Blow          2760         NaN               ST Direct     5m  2295   0.8                                              3s of Major Berserk NaN                                Soul Splitting Trap         2316       -15.1            AoE (ST DoT)           28m  2430    10           Reduced the Duration but Spreads to Nearby Targets
+7                           Wild Guardian          3697         NaN NaN  ST Direct + AoE Direct          -    75     -  Converts to Bleed and a 5x Chance to Apply Hemorrhaging / P (659 + 2640) + A 3697 NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     Consuming Trap         4642      108.75                  ST DoT           28m  2700    20               Restores Resources when an Affected Enemy Dies
+8                 Wild Guardian (passive)          5276         NaN NaN  ST Direct + AoE Direct          -     -    10  Converts to Bleed and a 5x Chance to Apply Hemorrhaging / P (659 + 2640) + A 3697 NaN         *Stampede          6178       247.4    AoE Direct + AoE DoT   5m r  3902    15            Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks) NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+9                                     NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                     FIGHTERS GUILD          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+10                         Northern Storm         16191         NaN NaN                 AoE DoT      10m r   200     8                  Major Protection for You and Allies + Ramps up to 450 Wpn/Spl Dmg NaN        Carve (x1)          4610  178.583333     AoE Direct + ST DoT     6m  2983    12      DoT Timer Increases if Recast Before Expiration - Up to 32s NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+11                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN        Carve (x3)          8912  214.833333     AoE Direct + ST DoT     6m  2983    30      DoT Timer Increases if Recast Before Expiration - Up to 32s NaN                               Flawless Dawnbreaker         7085         NaN     AoE Direct + ST DoT           28m   125     6             Weapon and Spell Damage Increased by 300 for 20s
+12                    Cutting Dive (Spam)          2305         NaN NaN      ST Direct + ST DoT        28m  2295     -                       Applies 10s Bleed / Applies Off-Balance if more than 7m away NaN           Brawler          1742         NaN              AoE Direct     6m  2983     -                                 Up to 300% Increased Shield Size NaN                             Dawnbreaker of Smiting         7914         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+13                     Cutting Dive (DoT)          4231       176.4 NaN      ST Direct + ST DoT        28m  2295    10                       Applies 10s Bleed / Applies Off-Balance if more than 7m away NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                      Silver Shards         2300         NaN  ST Direct + AoE Direct           28m  2295     -          Deals 22% Reduced Damage to Other Targets within 5m
+14                  Screaming Cliff Racer          2160         NaN NaN               ST Direct        28m  2700     -                 100 Wpn/Spl Dmg for 10s + 300 Wpn/Spl Dmg for 10s when off-balance NaN     Reverse Slice          1199         NaN  ST Direct + AoE Direct     5m  2065     -     Ramping Execute after 50% / 100% Splash to Targets Within 5m NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+15                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                             Lightweight Beast Trap         5097       131.5      ST Direct + ST DoT  28m + 2.5m r  2525    20  Minor Force for 20s / Reduced cost and can be used at range
+16                   Subterranean Assault          5182       452.5 NaN              AoE Direct      20x7m  2066     6                                                                 Fires at 3s and 6s NaN       Executioner          1161         NaN               ST Direct     5m  1836     -        Ramping Execute after 50% / 400% Increase instead of 300% NaN                                        Barbed Trap         6934      223.35      ST Direct + ST DoT        2.5m r  2754    20        Minor Force for 20s / Decuples the Hemo Status Chance
+17                           Deep Fissure          6191  413.777778 NaN              AoE Direct      20x7m  2700     9                                            Fires at 3s and 9s + Major/Minor Breach NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN  (Each Slotted Adds a Passive 3% Weapon/Spell Dmg)          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+18                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN        DUAL WIELD           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+19                      Fetcher Infection        6220.5     187.675 NaN                  ST DoT        28m  2970    20                                 Every 2nd Cast Deals 60% Increase Dmg / Minor Vuln NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                        MAGES GUILD          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+20                          Growing Swarm          4785       115.9 NaN        ST DoT in an AoE        28m  2525    20                                    Enemies Nearby Also Take Bleed Dmg / Minor Vuln NaN              Rend       17314.5         NaN            AoE (ST DoT)  8 x 8   150    16                      Both Morphs Heal for 50% of the Damage Done NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+21                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN   Thrive in Chaos       9274.65         NaN            AoE (ST DoT)    15m   150     8             Each Enemy Hit Increases Damage Done by 6% up to 36% NaN                                      Shooting Star      20309.6         NaN    AoE Direct + AoE DoT          5m r   200    13    Upfront Hit plus 13 DoT Ticks / 12 Ult Back Per Enemy Hit
+22       Winter's Revenge (Staff/Charged)       6970.08  375.256667 NaN                 AoE DoT       6m r  3240    12                                                     Higher Chance to Apply Chilled NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                          Ice Comet        21767         NaN    AoE Direct + AoE DoT          5m r   200    13    Increased Dmg / Similar Dmg to SS w/ Engulfing + Encratis
+23   Winter's Revenge (Non-Staff Charged)       5581.68  259.556667 NaN                 AoE DoT       6m r  3240    12                                                     Higher Chance to Apply Chilled NaN     Rapid Strikes      3289.835         NaN               ST Direct     5m  2295   0.8                                    4 Strikes Each Increase by 5% NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+24                       Winter's Revenge       4946.24  206.603333 NaN                 AoE DoT       6m r  3240    12                                                     Higher Chance to Apply Chilled NaN       Bloodthirst        3228.8         NaN               ST Direct     5m  2295   0.8                     Heals for 33% of Damage Dealt (Bleed Damage) NaN                                            Entropy         5486  125.791667                  ST DoT           28m  2065    24                  Major Sorcery &amp; Brutality or Heals Every 2s
+25                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+26            Arctic Blast (Full Charged)          8921       322.7 NaN                 AoE DoT       6m r  4320    20                       Heals + Stuns 2s After Cast / Higher Chance to Apply Chilled NaN   Rending Slashes        5486.3     150.965      ST Direct + ST DoT     5m  2295    20             Initial Hit Damage Increased (2 Bleed Hits Up Front) NaN                                      Scalding Rune      6058.96  138.152308     AoE Direct + ST DoT          3m r  2754    26             Upfront Hit After a 2s Delay with 13 Ticks After
+27             Arctic Blast (1/2 Charged)       8135.16     283.408 NaN                 AoE DoT       6m r  4320    20                       Heals + Stuns 2s After Cast / Higher Chance to Apply Chilled NaN       Blood Craze        5196.5     136.475      ST Direct + ST DoT     5m  2295    20                Also Heals with Each Tick (2 Bleed Hits Up Front) NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+28                           Arctic Blast       7018.44     227.572 NaN                 AoE DoT       6m r  4320    20                       Heals + Stuns 2s After Cast / Higher Chance to Apply Chilled NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                       PSIJIC ORDER          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+29                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN   Whirling Blades          1799         NaN              AoE Direct   6m r  2983     -               Up to 100% More Damage to Enemies Under 50% Health NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+30                            DESTRUCTION           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                   Elemental Weapon  2681.466667         NaN               ST Direct             -  2295     -  Applies Burning, Concussed, or Chilled Randomly w/ Each Hit
+31                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN     *Deadly Cloak        6537.3     203.515                 AoE DoT   5m r  3213    20                                                    Major Evasion NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                  5k Shield when Blocking for Slotting Either
+32                         Elemental Rage       20690.8         NaN NaN                 AoE DoT       8m r   250     7                                 If Lightning, remove +21% modifier and add 2 ticks NaN      *Quick Cloak        7089.6  154.086667                 AoE DoT   5m r  3213    30                              Major Evasion + 4s Major Expedition NaN                                    Crushing Weapon       2384.8         NaN               ST Direct             -  2295     -                                                 Major Breach
+33                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                    (Spell Orb Passive Factored In)          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+34                         Crushing Shock       2129.76         NaN NaN               ST Direct        28m  2430     -                                                 Fire, Shock, Frost ST / Interrupts NaN  Shrouded Daggers          1799         NaN  ST Direct + AoE Direct   8m r  3213     -  Major Sorcery &amp; Brutality for 20s / Mostly Only w/ Vateshran DW NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+35                            Force Pulse       2129.76         NaN NaN  ST Direct + AoE Direct        28m  2700     -                                           Fire, Shock, Frost ST / Magic AoE (2399) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                          UNDAUNTED          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+36                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               BOW           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+37                         *Unstable Wall        4976.4      250.94 NaN    AoE DoT + AoE Direct   18m x 8m  2970    10                           Wall Explodes in Expiration or Recast (11 Ticks for DoT) NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                        Shadow Silk         4198       173.1              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+38                         *Unstable Wall          4290       182.3 NaN    AoE DoT + AoE Direct   18m x 8m  2970    10                           Wall Explodes in Expiration or Recast (11 Ticks for DoT) NaN          Ballista         15587         NaN               ST Direct    25m   175     5                                                              NaN NaN                           Shadow Silk (w/ Synergy)     8614.504    614.7504              AoE Direct          4m r  2984    10       Upfront Physical / Delayed Poison Hit + Ranged Synergy
+39                    *Elemental Blockade       5215.36     183.224 NaN                 AoE Dot  18m x 12m  2970    15                                         Larger Size and Longer Duration (16 ticks) NaN     Toxic Barrage       16793.7         NaN      ST Direct + ST DoT    28m   175    12           4s Channel (Lose 3 Spams/Light Attacks) / 8s DoT After NaN                                         Mystic Orb         3586       111.9                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+40                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                            Mystic Orb (w/ Synergy)         5835       336.8                 AoE DoT          8m r  2970    10                                Combustion Synergy / 11 Ticks
+41                     Destructive Clench          1799         NaN NaN  ST Direct + AoE Direct        15m  2970     -                                                            Lightning Splash (1979) NaN      Lethal Arrow          2483         NaN      ST Direct + ST DoT    35m  2295     -                                     Applies Poison Status Effect NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+42                      Destructive Reach       5322.26     142.763 NaN      ST Direct + ST DoT        28m  2700    20                              Applies Status Effect / Frost Direct Damage TT = 2290 NaN       Focused Aim          2404         NaN               ST Direct    40m  2065     -                                                     Minor Breach NaN                                            ASSAULT          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+43                                    NaN           NaN         NaN NaN                     NaN        NaN   NaN   NaN                                                                                NaN NaN               NaN           NaN         NaN                     NaN    NaN   NaN   NaN                                                              NaN NaN                                                NaN          NaN         NaN                     NaN           NaN   NaN   NaN                                                          NaN
+44                         Elemental Ring          1799         NaN NaN              AoE Direct        28m  3780     -                                                Deals Damage at a Targeted Location NaN     *Endless Hail          4802  155.666667                 AoE DoT   5m r  2295    15                                    Increased Duration (15 ticks) NaN                              Anti-Cavalry Caltrops         4496  135.266667                 AoE DoT           28m  2295    15                                   Longer Duration (16 Ticks)
+
+--- Sheet: Warden Top (shape (100, 8)) ---
+                                                     0             1           2                     3             4     5     6                                                               7
+0   U39 - WARDEN - TOP DAMAGING SKILLS WITH A DURATION           NaN         NaN                   NaN           NaN   NaN   NaN                                                             NaN
+1                                                  NaN           NaN         NaN                   NaN           NaN   NaN   NaN                                                             NaN
+2                                      Skill Line/Name  Base Tooltip        ADPS                  Type         Range  Cost  Time                                                Secondary Effect
+3                                                  NaN           NaN         NaN                   NaN           NaN   NaN   NaN                                                             NaN
+4                             Shadow Silk (w/ Synergy)      8614.504    614.7504            AoE Direct          4m r  2984    10          Upfront Physical / Delayed Poison Hit + Ranged Synergy
+5                                 Subterranean Assault          5182       452.5            AoE Direct         20x7m  2066     6                                              Fires at 3s and 6s
+6                                         Deep Fissure          6191  413.777778            AoE Direct         20x7m  2700     9                         Fires at 3s and 9s + Major/Minor Breach
+7                     Winter's Revenge (Staff/Charged)       6970.08  375.256667               AoE DoT          6m r  3240    12                                  Higher Chance to Apply Chilled
+8                              Mystic Orb (w/ Synergy)          5835       336.8               AoE DoT          8m r  2970    10                                   Combustion Synergy / 11 Ticks
+9                          Arctic Blast (Full Charged)          8921       322.7               AoE DoT          6m r  4320    20    Heals + Stuns 2s After Cast / Higher Chance to Apply Chilled
+10                          Arctic Blast (1/2 Charged)       8135.16     283.408               AoE DoT          6m r  4320    20    Heals + Stuns 2s After Cast / Higher Chance to Apply Chilled
+11                Winter's Revenge (Non-Staff Charged)       5581.68  259.556667               AoE DoT          6m r  3240    12                                  Higher Chance to Apply Chilled
+12                                      *Unstable Wall        4976.4      250.94  AoE DoT + AoE Direct      18m x 8m  2970    10        Wall Explodes in Expiration or Recast (11 Ticks for DoT)
+13                                           *Stampede          6178       247.4  AoE Direct + AoE DoT          5m r  3902    15           Initial Hit Always Crits (1 Direct Hit, 15 DoT Ticks)
+14                                        Arctic Blast       7018.44     227.572               AoE DoT          6m r  4320    20    Heals + Stuns 2s After Cast / Higher Chance to Apply Chilled
+15                                         Barbed Trap          6934      223.35    ST Direct + ST DoT        2.5m r  2754    20           Minor Force for 20s / Decuples the Hemo Status Chance
+16                                          Carve (x3)          8912  214.833333   AoE Direct + ST DoT            6m  2983    30     DoT Timer Increases if Recast Before Expiration - Up to 32s
+17                                    Winter's Revenge       4946.24  206.603333               AoE DoT          6m r  3240    12                                  Higher Chance to Apply Chilled
+18                        Elemental Susceptibility (b)          8625  205.266667    ST Direct + ST DoT           35m     -    30   Configured for LOW burning uptimes present WITHOUT this skill
+19                                       *Deadly Cloak        6537.3     203.515               AoE DoT          5m r  3213    20                                                   Major Evasion
+20                                   Fetcher Infection        6220.5     187.675                ST DoT           28m  2970    20              Every 2nd Cast Deals 60% Increase Dmg / Minor Vuln
+21                                 *Elemental Blockade       5215.36     183.224               AoE Dot     18m x 12m  2970    15                      Larger Size and Longer Duration (16 ticks)
+22                                      *Unstable Wall          4290       182.3  AoE DoT + AoE Direct      18m x 8m  2970    10        Wall Explodes in Expiration or Recast (11 Ticks for DoT)
+23                                          Acid Spray          3377         182   AoE Direct + ST DoT           20m  2983     5                               Poison DoT Refreshes Through Spam
+24                                          Carve (x1)          4610  178.583333   AoE Direct + ST DoT            6m  2983    12     DoT Timer Increases if Recast Before Expiration - Up to 32s
+25                                    Poison Injection        6020.3     177.665    ST Direct + ST DoT           28m  2295    20              Up to 120% More Damage to Enemies Under 50% Health
+26                                  Cutting Dive (DoT)          4231       176.4    ST Direct + ST DoT           28m  2295    10    Applies 10s Bleed / Applies Off-Balance if more than 7m away
+27                                         Shadow Silk          4198       173.1            AoE Direct          4m r  2984    10          Upfront Physical / Delayed Poison Hit + Ranged Synergy
+28                                      *Arrow Barrage          4140       167.3               AoE DoT          7m r  2295    10           Radius from 5m to 7m and Increased Dmg Done (9 ticks)
+29                                       *Endless Hail          4802  155.666667               AoE DoT          5m r  2295    15                                   Increased Duration (15 ticks)
+30                                        *Quick Cloak        7089.6  154.086667               AoE DoT          5m r  3213    30                             Major Evasion + 4s Major Expedition
+31                                     Rending Slashes        5486.3     150.965    ST Direct + ST DoT            5m  2295    20            Initial Hit Damage Increased (2 Bleed Hits Up Front)
+32                                   Destructive Reach       5322.26     142.763    ST Direct + ST DoT           28m  2700    20           Applies Status Effect / Frost Direct Damage TT = 2290
+33                                       Scalding Rune       6058.96  138.152308   AoE Direct + ST DoT          3m r  2754    26                Upfront Hit After a 2s Delay with 13 Ticks After
+34                                         Blood Craze        5196.5     136.475    ST Direct + ST DoT            5m  2295    20               Also Heals with Each Tick (2 Bleed Hits Up Front)
+35                               Anti-Cavalry Caltrops          4496  135.266667               AoE DoT           28m  2295    15                                      Longer Duration (16 Ticks)
+36                              Lightweight Beast Trap          5097       131.5    ST Direct + ST DoT  28m + 2.5m r  2525    20     Minor Force for 20s / Reduced cost and can be used at range
+37                                             Entropy          5486  125.791667                ST DoT           28m  2065    24                     Major Sorcery &amp; Brutality or Heals Every 2s
+38                                       Growing Swarm          4785       115.9      ST DoT in an AoE           28m  2525    20                 Enemies Nearby Also Take Bleed Dmg / Minor Vuln
+39                                          Blood Mist          4785       115.9               AoE DoT            5m  3553    20                                   Heals for 45% of Damage Dealt
+40                                          Mystic Orb          3586       111.9               AoE DoT          8m r  2970    10                                   Combustion Synergy / 11 Ticks
+41                                      Consuming Trap          4642      108.75                ST DoT           28m  2700    20                  Restores Resources when an Affected Enemy Dies
+42                                         Venom Arrow          4631       108.2    ST Direct + ST DoT           28m  2065    20                  Major Sorcery &amp; Brutality for 20s / Interrupts
+43                        Elemental Susceptibility (a)          4725   75.266667    ST Direct + ST DoT           35m     -    30  Configured for HIGH burning uptimes present WITHOUT this skill
+44                                      Razor Caltrops          3091        62.4               AoE DoT           28m  2295    10         Major Breach for 4s (Reapplies w/ Each of the 11 Ticks)
+
+
+============================================================ Harpooner's Wading Kilt Cheat Sheet.xlsx ============================================================
+Sheet names: ['Sheet1']
+
+--- Sheet: Sheet1 (shape (48, 8)) ---
+       0                  1       2    3   4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   5                        6                                                                                                                             7
+0    NaN         Boss Fight  Non-HM   HM NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+1   vMoL        Zhaj'hassa*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                   - Good  Created by: AlekWithK\nDiscord: alekwithk#5214\nIf you have any edits, comments, or suggestions, let me know! This is a WIP.
+2    NaN         The Twins*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                    - Bad                                                                                                                           NaN
+3    NaN           Rakkhat*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN  - Situational (? = TBD)                                                                                                                           NaN
+4    NaN                NaN     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   A product of the Undaunted Insomniacs PST PvE guild. Look us up in game or join our Discord! https://discord.gg/UndauntedInsomniacs\nOther useful tools can be found on my website: https://www.esoresources.com/                      NaN                                                                                                                           NaN
+5   vHoF     Hunter Killers     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+6    NaN  Pinnacle Factotum     NaN  NaN NaN  A key thing to keep in mind is that, save for a few fights where kilt is just bad no matter what, its effectiveness is often tied to\nhow quick your pulls are, and how much control over the fight your tanks have. Kilt will almost always perform better in \nstronger groups, so keep this in mind when determining where and when to use it in situational fights.\n\n-Zhaj'hassa: good unless you get cat aggro, they drop stacks\n-The Twins: quite inconsistent (adds/Skinrai casting Lunar Flare?)\n-Rakkhat: stacks become very hard to maintain starting on pad 2 (searing shadows). Ok for fast non-HM pulls, bad for HM.\n\n-Archcustodian: Easy enough to maintain stacks with good inter-pylon add control. However, Balorghs outperforms in faster\npulls (2-pylons). Kilt for longer 3-4 pylon pulls.  \n\n-vCR: Strong in portals if you hit all crystals before uncovering cores. Yahgra's drop stacks, so better \nadd control = better stack uptimes\n-Galenwe: hoarfrost drops all stacks, so you have to play selfishly to maintain them\n-Z'maja+3: Inconsistent at best, but likely the best option regardless. Better in stronger groups with good add control and\nsupports focusing on Hoarfrost.\n\n-Nahviintaas: adds drop stacks so it's difficult to maintain stacks in HM (fast strat, slow strat would be worse). Very good in portals however.\n\n-Oaxiltso: frog spit will reduce stacks. not a big deal if frogs are under control but can get messy\n-Bahsei: don't kilt if you're the DPS kiter as archers target you and drop stacks\n\n-Yokeda Kai (Upstairs): possibly ok with perfect interrupts, otherwise not good\n-The Warrior: starfall drops all stacks, so in quick non-HM pulls it's fine, HM is iffy. Again performance comes down to how\nsolid the group is and how fast execute is\n\n\n\n\n\n\n\n\n\n\n\n\n\nGerman Translation and Update: https://docs.google.com/spreadsheets/d/1eE8RBXo0YHen4fqu7IPQbyyuKl4z9H888Td_URquUpQ/edit#gid=0                      NaN                                                                                                                           NaN
+7    NaN     Archcustodian*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+8    NaN       The Triplets     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+9    NaN   Assembly General     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+10   NaN                NaN     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+11   vCR           Galenwe*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+12   NaN            Siroria     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+13   NaN           Relequen     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+14   NaN            Z'Maja*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+15   NaN                NaN     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+16   vAS      Saint Llothis     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+17   NaN        Saint Felms     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+18   NaN         Saint Olms     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+19   NaN                NaN     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+20   vKA             Yandir     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+21   NaN               Vrol     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+22   NaN     Lord Falgraven     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+23   NaN                NaN     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+24   vSS         Lokkestiiz     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+25   NaN        Yolnahkriin     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+26   NaN       Nahviintaas*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+27   NaN                NaN     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+28   vRG           Oaxiltso     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+29   NaN            Bahsei*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+30   NaN           Xalvakka     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+31   NaN                NaN     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+32  vHRC            Ra Kotu     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+33   NaN     Rok'dun (Down)     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+34   NaN          Kai (Up)*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+35   NaN       The Warrior*     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+36   NaN                NaN     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+37   vAA     Lightning Atro     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+38   NaN         Stone Atro     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+39   NaN          Varlariel     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+40   NaN           The Mage     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+41   NaN                NaN     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+42   vSO          Mantikora     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+43   NaN       Stonebreaker     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+44   NaN              Ozara     NaN  NaN NaN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NaN                      NaN                                                                                                                           NaN
+
+
+============================================================ Standalone Damage Modifiers Calculator (ESO).xlsx ============================================================
+Sheet names: ['Main Sheet', 'Weapon Comparisons', 'Set Bonus Comparisons', 'References for Stats']
+
+--- Sheet: Main Sheet (shape (29, 6)) ---
+                  0         1    2                   3             4            5
+0             START       NaN  NaN                 NaN           NaN          NaN
+1       Crit Chance      0.50  NaN  Example Hit Values           NaN          NaN
+2       Crit Damage      1.00  NaN            Non-Crit          Crit    Avg Value
+3      Max Resource  33000.00  NaN         13413.92857   26827.85714  20120.89286
+4       Wpn/Spl Dmg   7000.00  NaN                 NaN           NaN          NaN
+5     % Damage Done      0.15  NaN                 NaN           NaN          NaN
+6    % Damage Taken      0.15  NaN                 NaN           NaN          NaN
+7       Penetration  18200.00  NaN                 NaN           NaN          NaN
+8               NaN       NaN  NaN                 NaN           NaN          NaN
+9               END       NaN  NaN                 NaN           NaN          NaN
+10      Crit Chance      0.50  NaN  Example Hit Values           NaN          NaN
+11      Crit Damage      1.00  NaN            Non-Crit          Crit    Avg Value
+12     Max Resource  33000.00  NaN         13413.92857   26827.85714  20120.89286
+13      Wpn/Spl Dmg   7000.00  NaN                 NaN           NaN          NaN
+14    % Damage Done      0.15  NaN                 NaN           NaN          NaN
+15   % Damage Taken      0.15  NaN                 NaN           NaN          NaN
+16      Penetration  18200.00  NaN                 NaN           NaN          NaN
+17              NaN       NaN  NaN                 NaN           NaN          NaN
+18  ONLY edit these       NaN  NaN                 NaN           NaN          NaN
+19              NaN       NaN  NaN                 NaN           NaN          NaN
+20     DMG INCREASE      0.00  NaN                 NaN           NaN          NaN
+21              NaN       NaN  NaN                 NaN           NaN          NaN
+22  Increasing from      0.50   to                 0.5   Crit Chance          NaN
+23              NaN      1.00   to                   1   Crit Damage          NaN
+24              NaN  33000.00   to               33000  Max Resource          NaN
+25              NaN   7000.00   to                7000   Wpn/Spl dmg          NaN
+26              NaN      0.15   to                0.15   Damage Done          NaN
+27              NaN      0.15   to                0.15  Damage Taken          NaN
+28              NaN  18200.00   to               18200   Penetration          NaN
+
+--- Sheet: Weapon Comparisons (shape (34, 27)) ---
+    0                                                                                                                                                     1                  2                  3                    4                 5                     6                  7                        8   9                  10             11             12            13               14                    15                 16                       17  18                 19             20             21            22               23                    24                 25                       26
+0  NaN                                                                                                                                             Examples:  Total Wpn/Spl Dmg  Total Crit Chance         Bonus % Done   Status Chance +             Other (A)          Other (B)                Other (C) NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+1  NaN                                                                                                                                     DW (Nirn/Precise)               8474              0.625                    -                 -   1 Extra Enchantment      Major Evasion              AoE Execute NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+2  NaN                                                                                                                                     DW (Nirn/Charged)               8474              0.589                    -             1.825   1 Extra Enchantment      Major Evasion              AoE Execute NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+3  NaN                                                                                                                                         2H Greatsword               8439              0.601                    -                 -  Heavy Attack % Boost   Execute + Shield       Light/Heavy Splash NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+4  NaN                                                                                                                                           Bow (Melee)               7693              0.661                 0.05                 -        Hawk Eye Boost  Cracked Spammable         Major Expedition NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+5  NaN                                                                                                                                          Bow (Ranged)               7693              0.721                    -                 -        Hawk Eye Boost  Cracked Spammable         Major Expedition NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+6  NaN                                                                                                                                         Inferno Staff               7693              0.601                1-12%                 1      Heavy Attack DoT  Cracked ST Debuff  2974 Pen (Staff Skills) NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+7  NaN                                                                                                                                       Lightning Staff               7693              0.601                1-12%                 1   Heavy Attack Splash  Cracked ST Debuff  2974 Pen (Staff Skills) NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+8  NaN                                                                                                                                                   NaN                NaN                NaN                  NaN               NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+9  NaN                                                                                                                                         Weapon Types:      Wpn/Spl Dmg +      Crit Chance +         Bonus % Done   Status Chance +             Other (A)          Other (B)                Other (C) NaN      Weapon Types:  Wpn/Spl Dmg +  Crit Chance +  Bonus % Done  Status Chance +             Other (A)          Other (B)                Other (C) NaN          Examples:  Wpn/Spl Dmg +  Crit Chance +  Bonus % Done  Status Chance +             Other (A)          Other (B)                Other (C)
+10 NaN                                                                                                                                     DW (Nirn/Precise)               2797              0.096                    -                 -   1 Extra Enchantment      Major Evasion              AoE Execute NaN  DW (Nirn/Precise)            781          0.096             -                -   1 Extra Enchantment      Major Evasion              AoE Execute NaN  DW (Nirn/Precise)            781          0.024             -                -   1 Extra Enchantment      Major Evasion              AoE Execute
+11 NaN                                                                                                                                     DW (Nirn/Charged)               2797               0.06                    -             1.825   1 Extra Enchantment      Major Evasion              AoE Execute NaN  DW (Nirn/Charged)            781           0.06             -            1.825   1 Extra Enchantment      Major Evasion              AoE Execute NaN  DW (Nirn/Charged)            781         -0.012             -            1.825   1 Extra Enchantment      Major Evasion              AoE Execute
+12 NaN                                                                                                                                         2H Greatsword               2762              0.072                    -                 -  Heavy Attack % Boost   Execute + Shield       Light/Heavy Splash NaN      2H Greatsword            746          0.072             -                -  Heavy Attack % Boost   Execute + Shield       Light/Heavy Splash NaN         Two-Handed            746              -             -                -  Heavy Attack % Boost   Execute + Shield       Light/Heavy Splash
+13 NaN                                                                                                                                           Bow (Melee)               2016              0.132                 0.05                 -        Hawk Eye Boost  Cracked Spammable         Major Expedition NaN        Bow (Melee)              -          0.132          0.05                -        Hawk Eye Boost  Cracked Spammable         Major Expedition NaN        Bow (Melee)              -           0.06          0.05                -        Hawk Eye Boost  Cracked Spammable         Major Expedition
+14 NaN                                                                                                                                          Bow (Ranged)               2016              0.192                    -                 -        Hawk Eye Boost  Cracked Spammable         Major Expedition NaN       Bow (Ranged)              -          0.192             -                -        Hawk Eye Boost  Cracked Spammable         Major Expedition NaN       Bow (Ranged)              -           0.12             -                -        Hawk Eye Boost  Cracked Spammable         Major Expedition
+15 NaN                                                                                                                                         Inferno Staff               2016              0.072                1-12%                 1      Heavy Attack DoT  Cracked ST Debuff  2974 Pen (Staff Skills) NaN      Inferno Staff              -          0.072         1-12%                1      Heavy Attack DoT  Cracked ST Debuff  2974 Pen (Staff Skills) NaN      Inferno Staff              -              -         1-12%                1      Heavy Attack DoT  Cracked ST Debuff  2974 Pen (Staff Skills)
+16 NaN                                                                                                                                       Lightning Staff               2016              0.072                1-12%                 1   Heavy Attack Splash  Cracked ST Debuff  2974 Pen (Staff Skills) NaN    Lightning Staff              -          0.072         1-12%                1   Heavy Attack Splash  Cracked ST Debuff  2974 Pen (Staff Skills) NaN    Lightning Staff              -              -         1-12%                1   Heavy Attack Splash  Cracked ST Debuff  2974 Pen (Staff Skills)
+17 NaN                                                                                                                                                   NaN                NaN                NaN                  NaN               NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+18 NaN                                                            * Weapon/Spell Damage is after % Bonuses (Maj/Minor Brutality, 6 Medium, 3 Fighters Guild)                NaN                NaN                  NaN               NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+19 NaN                                                         * Crit Chance is given the baseline of the full Precise trait which adds 7.2% Critical Chance                NaN                NaN                  NaN               NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+20 NaN                                                                                                                                                   NaN                NaN                NaN                  NaN               NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+21 NaN                                                                                                                                      Stat Comparisons                NaN                NaN     Stat Comparisons               NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+22 NaN                                                                                                                                      125% Crit Damage   Percent Below DW                NaN     100% Crit Damage  Percent Below DW                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+23 NaN                                                                                                                                            Dual Wield                  -                NaN           Dual Wield                 -                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+24 NaN                                                                                                                                   Staff (93% Boosted)                  -                NaN  Staff (90% Boosted)                 -                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+25 NaN                                                                                                                                          Bow (Ranged)            -0.0037                NaN          Bow (Melee)           -0.0078                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+26 NaN                                                                                                                                           Bow (Melee)            -0.0047                NaN  Staff (80% Boosted)           -0.0098                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+27 NaN                                                                                                                                   Staff (80% Boosted)            -0.0118                NaN         Bow (Ranged)           -0.0115                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+28 NaN                                                                                                                                         2H Greatsword            -0.0198                NaN        2H Greatsword           -0.0177                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+29 NaN                                                                                                                                   Staff (70% Boosted)            -0.0207                NaN  Staff (70% Boosted)           -0.0186                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+30 NaN                                                                                                                                   Staff (60% Boosted)            -0.0309                NaN  Staff (60% Boosted)           -0.0274                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+31 NaN                                                                                                                                   Staff (50% Boosted)            -0.0383                NaN  Staff (50% Boosted)           -0.0362                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+32 NaN                                                                                                                                                   NaN                NaN                NaN                  NaN               NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+33 NaN  This is before damage from other considerations such as the extra enchant\nfrom Dual Wield, Hawk Eye from Bow, Status Effect chance from Staff, etc.                NaN                NaN                  NaN               NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN NaN                NaN            NaN            NaN           NaN              NaN                   NaN                NaN                      NaN
+
+--- Sheet: Set Bonus Comparisons (shape (20, 4)) ---
+     0                        1       2                                          3
+0  NaN                      NaN     NaN                                        NaN
+1  NaN                            Boost             Starting Amount before Bonuses
+2  NaN         1487 Penetration       0                          18200 Penetration
+3  NaN                      NaN   0.031                          16713 Penetration
+4  NaN                      NaN   0.046                            700 Penetration
+5  NaN                              NaN                                        NaN
+6  NaN  771 Crit Chance (Slime)  0.0173     80% Crit Dmg / 77% Crit Chance (slime)
+7  NaN                      NaN   0.028    125% Crit Dmg / 45% Crit Chance (slime)
+8  NaN                      NaN     NaN                                        NaN
+9  NaN                              NaN                                        NaN
+10 NaN          657 Crit Chance   0.015             80% Crit Dmg / 77% Crit Chance
+11 NaN                      NaN   0.024            125% Crit Dmg / 45% Crit Chance
+12 NaN                      NaN     NaN                                        NaN
+13 NaN                              NaN                                        NaN
+14 NaN          191 Wpn/Spl Dmg   0.015  9k Weapon/Spell Damage / 35k Max Resource
+15 NaN         (129 + % Boosts)   0.024  5k Weapon/Spell Damage / 30k Max Resource
+16 NaN                      NaN     NaN                                        NaN
+17 NaN                              NaN                                        NaN
+18 NaN        1291 Max Resource   0.009  35k Max Resource / 9k Weapon/Spell Damage
+19 NaN        (1096 + % Boosts)   0.015  30k Max Resource / 5k Weapon/Spell Damage
+
+--- Sheet: References for Stats (shape (36, 7)) ---
+                             0         1               2   3                4         5                      6
+0   REFERENCES FOR COMPARISONS       NaN             NaN NaN              NaN       NaN                    NaN
+1                  Set Bonuses       NaN  with modifiers NaN       Base Stats       NaN                    NaN
+2              Stamina/Magicka  1096.000         1249.44 NaN      Crit Chance      0.10                    NaN
+3                  Wpn/Spl Dmg   129.000          190.92 NaN      Crit Damage      0.50                    NaN
+4                  Crit Chance     0.030             NaN NaN     Max Resource  12000.00                    NaN
+5      Crit Chance (Slimecraw)     0.035             NaN NaN      Wpn/Spl Dmg   1000.00                    NaN
+6                  Penetration  1487.000             NaN NaN    % Damage Done      0.00                    NaN
+7                          NaN       NaN             NaN NaN   % Damage Taken      0.00                    NaN
+8               Racial Bonuses       NaN  with modifiers NaN      Penetration      0.00                    NaN
+9              Stamina/Magicka  2000.000            2280 NaN              NaN       NaN                    NaN
+10             Stamina/Magicka  1910.000          2177.4 NaN              NaN       NaN                    NaN
+11             Stamina/Magicka  1000.000            1140 NaN              NaN       NaN                    NaN
+12             Stamina/Magicka   915.000          1043.1 NaN  % Buffs/Debuffs       NaN                    NaN
+13                 Wpn/Spl Dmg   258.000          381.84 NaN    Major Berserk      0.10                    NaN
+14                 Crit Damage     0.120             NaN NaN     Major Slayer      0.10                    NaN
+15                         NaN       NaN             NaN NaN    Minor Berserk      0.05                    NaN
+16               Named Bonuses       NaN  with modifiers NaN     Minor Slayer      0.05                    NaN
+17            Powerful Assault   307.000          454.36 NaN              NaN       NaN                    NaN
+18               Minor Courage   215.000           318.2 NaN       Major Vuln      0.10                    NaN
+19               Major Courage   430.000           636.4 NaN       Minor Vuln      0.05                    NaN
+20            Spaulder of Ruin   260.000           384.8 NaN             Z'en      0.05                    NaN
+21             Berserker Glyph   452.000          668.96 NaN               MK      0.05  (8% * 5/8 max uptime)
+22                         NaN       NaN             NaN NaN              NaN       NaN                    NaN
+23      Max Resource Modifiers       NaN             NaN NaN              NaN       NaN                    NaN
+24                     Warhorn     0.100               x NaN              NaN       NaN                    NaN
+25                   Undaunted     0.040               x NaN              NaN       NaN                    NaN
+26                 Inner Light     0.070             NaN NaN              NaN       NaN                    NaN
+27   Siphoning/Bound Armaments     0.080             NaN NaN              NaN       NaN                    NaN
+28                         NaN       NaN             NaN NaN              NaN       NaN                    NaN
+29       Wpn/Spl Dmg Modifiers       NaN             NaN NaN              NaN       NaN                    NaN
+30     Major Sorcery/Brutality     0.200               x NaN              NaN       NaN                    NaN
+31     Minor Sorcery/Brutality     0.100               x NaN              NaN       NaN                    NaN
+32       Medium Armor (per pc)     0.020              x6 NaN              NaN       NaN                    NaN
+33  Fighters Guild (per skill)     0.030              x2 NaN              NaN       NaN                    NaN
+34        Sorcerer (per skill)     0.020             NaN NaN              NaN       NaN                    NaN
+35                     Templar     0.060             NaN NaN              NaN       NaN                    NaN
+
+
+
+[notice] A new release of pip is available: 25.2 -&gt; 26.0.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Good, the output was written to a file. Let me read it in chunks to understand all three workbooks.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\Ian\.cursor\projects\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\agent-tools\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\Ian\.cursor\projects\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\agent-tools\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\Ian\.cursor\projects\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\agent-tools\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+The file is huge. Let me read with a small line limit to get the structure of each workbook.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\Ian\.cursor\projects\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\agent-tools\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I'm getting a good picture of the Damage Skills workbook:
+- Per-class sheets (Arcanist, Dragonknight, etc.) with columns: Skill Line/Name, Base Tooltip, ADPS, Type, Range, Cost, Time, Crux (for Arcanist), Secondary Effect. Multiple skill-line blocks (class, 2H, Soul Magic, etc.) in columns 0-8, 9-17, 18-26.
+- "Top" sheets (Arcanist Top, DK Top) with same columns but sorted/curated by ADPS (adjusted DPS - accounting for spammable casts lost).
+- ADPS is defined in DK Top: "This is the adjusted DPS of a damage over time skill when accounting for spammable casts lost in accordance with the duration. EX: 10s DoTs Lose 6 Spammables per minute, 20s DoTs Lose 3 Spammables per minute, 30s DoTs Lose 2 Spammables per minute, etc."
+
+So we need:
+- skills: base_tooltip (numeric), adps (optional), type (AoE DoT, ST Direct, etc.), range, cost, time (duration or cast time), crux (for Arcanist), secondary_effect text.
+- The "Time" column is duration (e.g. 20 for 20s DoT) or cast time (e.g. 0.8 for spammable).
+- ADPS is a derived/comparison metric for DoTs that accounts for GCD opportunity cost.
+
+Let me read the Kilt and Standalone calculator sheets.
+</details></think>
+
+---
+
+
+Inspecting the Kilt and Standalone calculator sheets:
+
+
+---
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
 
 
 Parameters:
 
 ```json
 {
-  "searchTerm": "ESO Harpooner's Wading Kilt penetration tiers movement"
+  "pattern": "Harpooner|Kilt|Standalone|Damage Modifier",
+  "path": "C:\\Users\\Ian\\.cursor\\projects\\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\\agent-tools\\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt",
+  "contextBefore": 0,
+  "contextAfter": 2,
+  "caseInsensitive": false
 }
 ```
-User decision: **accepted**
+Additional data:
 
-Status: **loading**
+```json
+{
+  "isPruned": true,
+  "pattern": "Harpooner|Kilt|Standalone|Damage Modifier",
+  "path": "C:\\Users\\Ian\\.cursor\\projects\\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\\agent-tools\\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt",
+  "outputMode": "content",
+  "totalFiles": 1,
+  "totalMatches": 3,
+  "topFiles": [
+    {
+      "uri": "..\\..\\..\\..\\.cursor\\projects\\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\\agent-tools\\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt",
+      "matchCount": 9
+    }
+  ]
+}
+```
+Status: **completed**
 
 
 </details>
 </tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\Ian\.cursor\projects\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\agent-tools\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+So the Kilt sheet is: trial (vMoL, vHoF, vCR, etc.), boss name, Non-HM/HM columns (empty in the sample), and long text notes about when Kilt is good/bad/situational per boss. It's a reference for "should I use Harpooner's Wading Kilt on this boss" - not penetration tiers. The set (Harpooner's Wading Kilt) gives stacks that increase crit; the cheat sheet is about maintaining those stacks per fight.
+
+Now let me get the Standalone Damage Modifiers Calculator structure - Main Sheet, Weapon Comparisons, Set Bonus Comparisons, References for Stats.
+</details></think>
+
+---
+
+
+Reading the Standalone Damage Modifiers Calculator sheets:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\Ian\.cursor\projects\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\agent-tools\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I now have a clear picture of all three workbooks:
+
+**1. Damage Skills (Update 38_39_40).xlsx**
+- Per-class sheets: Skill Line/Name, Base Tooltip, ADPS, Type, Range, Cost, Time, Crux (Arcanist), Secondary Effect.
+- "Top" sheets: same columns, skills ranked by ADPS.
+- ADPS = adjusted DPS for DoTs (accounts for spammables lost per minute: 10s DoT → 6 spammables/min lost, 20s → 3, 30s → 2).
+- Types: AoE DoT, ST Direct, ST Direct + ST DoT, AoE Direct, etc.
+- Time = duration (seconds) for DoTs or cast time (e.g. 0.8) for spammables.
+- Cost = resource (e.g. 2295, 2700).
+- Need: base_tooltip (numeric), adps (optional), skill_type (damage type category), range, cost, duration_sec, cast_time_sec, crux (for Arcanist), secondary_effect. Also skill_line and update/build tag (38, 39, 40).
+
+**2. Harpooner's Wading Kilt Cheat Sheet.xlsx**
+- Trial name (vMoL, vHoF, vCR, etc.), Boss name, Non-HM, HM, notes (long text per boss/trial about when Kilt is good/bad/situational).
+- This is "mythic/set situational advice" per trial/boss. Schema: we could have set_situational_notes(build_id, set_id, trial_id, boss_id, note_type 'good'|'bad'|'situational', note_text) or a simpler trial_boss_set_notes table.
+
+**3. Standalone Damage Modifiers Calculator (ESO).xlsx**
+- **Main Sheet:** Inputs: Crit Chance (0.5), Crit Damage (1.0), Max Resource (33000), Wpn/Spl Dmg (7000), % Damage Done (0.15), % Damage Taken (0.15), Penetration (18200). Output: Example Hit Values (Non-Crit, Crit, Avg Value). So the damage formula uses these modifiers; we need to store these as our "stat block" and implement the same formula.
+- **Weapon Comparisons:** Weapon types (DW Nirn/Precise, 2H Greatsword, Bow Melee/Ranged, Inferno/Lightning Staff) with Total Wpn/Spl Dmg, Total Crit Chance, Bonus % Done, Status Chance, Other (A/B/C). And "Stat Comparisons" showing % Below DW for different crit damage scenarios. So weapon type affects effective stats (e.g. Precise baseline 7.2% crit).
+- **Set Bonus Comparisons:** Specific bonuses (1487 Pen, 771 Crit Chance Slimecraw, 657 Crit Chance, 191 Wpn/Spl Dmg, 129+% Boosts, 1291 Max Resource, 1096+% Boosts) with "Boost" and "Starting Amount before Bonuses" and resulting multiplier (0.031, 0.046, etc.). So they're computing marginal value of each bonus given a starting stat block.
+- **References for Stats:** Set bonuses (Stamina/Magicka 1096→1249.44 with modifiers, Wpn/Spl Dmg 129→190.92, Crit Chance 0.03, etc.), Racial bonuses (2000, 1910, 1000, 915 Stamina/Magicka; 258 Wpn/Spl Dmg; 0.12 Crit Damage), Named bonuses (Powerful Assault 307→454.36, Minor Courage 215→318.2, etc.), Base Stats (Crit Chance 0.1, Crit Damage 0.5, Max Resource 12k, Wpn/Spl Dmg 1k), % Buffs/Debuffs (Major Berserk 0.1, Major Slayer 0.1, etc.), Max Resource Modifiers (Warhorn 0.1, Undaunted 0.04, Inner Light 0.07, etc.), Wpn/Spl Dmg Modifiers (Major Sorcery/Brutality 0.2, Minor 0.1, Medium 0.02 per piece x6, Fighters Guild 0.03 x2, etc.).
+
+So for schema and calculations:
+
+**Schema additions/changes:**
+1. **skills table:** Add base_tooltip (REAL), adps (REAL nullable), skill_damage_type (TEXT: ST Direct, AoE DoT, ST Direct + ST DoT, etc.), range_text (TEXT), cost (INT), duration_sec (REAL), cast_time_sec (REAL), crux_required (INT nullable for Arcanist). Keep coefficient_json for UESP equation; base_tooltip can come from this xlsx as a reference value at a given stat assumption.
+2. **skill_sources / data_quality:** Track source (uesp_coef, damage_skills_xlsx) and update label (Update 38/39/40).
+3. **simulation_target or target_stats:** resistance (18200), crit_resist_pct, flat_crit_resist, penetration_pct, flat_penetration, etc. From UESP Build Editor and the Calculator.
+4. **stat_block / damage_modifier_inputs:** crit_chance, crit_damage, max_resource, weapon_spell_damage, pct_damage_done, pct_damage_taken, penetration. From Main Sheet.
+5. **weapon_type_effects:** weapon_type (DW, 2H, Bow Melee, Bow Ranged, Inferno, Lightning), bonus_wd_sd, bonus_crit_chance, bonus_pct_done, status_chance_note, other_effects. From Weapon Comparisons.
+6. **set_bonus_marginal_value or reference:** Store the "References for Stats" as reference data - named set bonuses with base and modified values, racial bonuses, % buffs (Major Berserk, etc.), resource and damage modifiers. So we need tables: damage_modifier_reference (name, category, base_value, modified_value_or_formula), and/or racial_bonuses expanded.
+7. **trial_boss_set_notes:** trial_id, boss_id (or boss name), set_id (e.g. Harpooner's Wading Kilt), note_type (good/bad/situational), note_text. For Kilt cheat sheet.
+8. **Champion points:** We don't have CP in schema yet - the design doc mentioned it. Add cp_allocation or champion_points table (build_id, tree, slot, points) and reference CP passives that affect damage (Elemental Expert, etc.). The Calculator references "DMG INCREASE" and stat comparisons - so CP affects the modifiers.
+
+**Calculation suggestions:**
+1. **Damage formula:** Implement exactly as in Main Sheet: given (crit_chance, crit_damage, max_resource, wpn_spl_dmg, pct_done, pct_taken, penetration, target_resistance), compute base hit, non-crit hit, crit hit, avg hit. Use skill coefficient or base_tooltip to get base damage.
+2. **ADPS for DoTs:** Implement the logic from the xlsx: for a DoT with duration D seconds, spammables lost per minute = 60/D (or 60/GCD per cast). So lost spammable damage = (spammables_per_min_lost) * (spammable_damage_per_cast). ADPS = (DoT total damage / D) - (opportunity cost). Or as in the sheet: "10s DoTs Lose 6 Spammables per minute" → 6 * spammable_dmg / 60 = spammable_dps_lost; DoT_dps = DoT_total/D; ADPS = DoT_dps - spammable_dps_lost (or they might use a different formula - the sheet shows ADPS can be negative for weak DoTs). I'll document both.
+3. **Weapon type normalization:** When comparing builds, normalize by weapon type (DW baseline in the sheet) or store weapon_type on the build so we apply the correct bonuses (Precise 7.2%, etc.).
+4. **Set bonus marginal value:** From Set Bonus Comparisons, we can compute "how much does adding 1487 pen increase damage given current penetration" - useful for optimizer to rank set choices. Store the formula or lookup: marginal_gain(stat_name, current_value, bonus_value).
+5. **References for Stats:** Ingest the modifier stack (Major Sorcery 0.2, Minor 0.1, 6 medium 0.12, etc.) so we can compute total Wpn/Spl Dmg from base + bonuses; same for crit, max resource, penetration.
+
+I'll write a detailed doc with schema changes and calculation notes, and add the two new resources (eso-skillbook, eso-sets.com) to DATA_SOURCES.md.
+</details></think>
+
+---
+
+
+Checking References for Stats and Set Bonus Comparisons:
+
+
+---
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "pattern": "0\\.031|0\\.046|18200|1487",
+  "path": "C:\\Users\\Ian\\.cursor\\projects\\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\\agent-tools\\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt",
+  "caseInsensitive": false
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "pattern": "0\\.031|0\\.046|18200|1487",
+  "path": "C:\\Users\\Ian\\.cursor\\projects\\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\\agent-tools\\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt",
+  "outputMode": "content",
+  "totalFiles": 1,
+  "totalMatches": 9,
+  "topFiles": [
+    {
+      "uri": "..\\..\\..\\..\\.cursor\\projects\\c-Users-Ian-OneDrive-Documents-dev-ESO-Build-Genius\\agent-tools\\31a3eb62-e120-4992-ab3f-efa2ed6669c0.txt",
+      "matchCount": 9
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+So in Set Bonus Comparisons: 1487 Penetration added to 0 existing → 0.031 multiplier; 1487 to 16713 → different; 1487 to 700 → 0.046. So the marginal value of penetration depends on current penetration (diminishing returns - more pen when target already low is worth more). I'll document that we need a penetration mitigation curve.
+
+Now I'll write the comprehensive suggestions document and update the schema with new tables/columns.
+</details></think>
+
+---
+
+
+Writing schema and calculation suggestions and updating the docs.
+
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [-] Document xlsx findings and schema/calc suggestions
+- [ ] Add new tables and columns to schema
+- [ ] Update DATA_SOURCES with new resources
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I'll create a single comprehensive doc that covers:
+1. Summary of each xlsx
+2. Schema suggestions (new tables, new columns)
+3. Calculation suggestions (formulas, ADPS, modifiers)
+Then I'll add a migration SQL file for the new schema elements and update DATA_SOURCES.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\XLSX_FINDINGS_AND_SCHEMA_CALC_SUGGESTIONS.md</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Now add the migration SQL for the new schema elements and update DATA_SOURCES.md.
+</details></think>
+
+---
+
+
+Adding schema migration and updating DATA_SOURCES.
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\schema\03_xlsx_driven_schema.sql</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+SQLite doesn't support "ADD COLUMN IF NOT EXISTS" in older versions. Running ALTER TABLE multiple times will fail on second run. I'll use a different approach: try adding and catch (or use a check). Actually in SQLite 3.35+ we have "ALTER TABLE ... DROP COLUMN" but not IF NOT EXISTS for columns. The safest is to run the migration only once, or use a small Python script that checks for column existence. For now I'll leave the ALTER TABLEs as-is; if the user runs create_db twice, the second run will fail on the ALTER TABLE. I'll add a comment in the schema file. Alternatively we could use a single migration that creates new tables and uses a separate "schema_version" table and only run 03 once. Easiest: document that 03 is run once after initial create, and if they need to re-run from scratch they run 01, 02, 03 in order (and 03 will fail on ALTER if columns exist). Actually in SQLite, ALTER TABLE ADD COLUMN fails with "duplicate column name" if the column exists. So re-running 03 after 01+02 would fail. So we need to make 03 idempotent. In SQLite we can't do "ADD COLUMN IF NOT EXISTS". So either: (1) use a separate one-time migration script that checks info_schema, or (2) create a new table skills_v2 with all columns and copy, then rename (heavy), or (3) document "run 03 only once" and have create_db run 01, 02, 03 - first run succeeds, subsequent full recreate (delete db, run again) also succeeds. So the only failure is "run 03 again on existing db" - which is a bit annoying. I'll add a note in the doc. Or we could use the approach: in 03, only create new tables and the simulation_targets insert; for skills/recommended_builds, use a separate migration 04 that's run by a Python script that checks for column existence. For simplicity I'll leave 03 as-is and add a short comment at the top: "Run once. If you need to re-apply, drop the new columns first or recreate the DB."
+</details></think>
+
+---
+
+
+Making the migration idempotent: SQLite doesn't support IF NOT EXISTS for columns. Checking for column existence before adding:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\scripts\create_db.py</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+SQLite's ALTER TABLE ADD COLUMN will error on duplicate column. I'll change 03 to wrap the ALTER TABLE in a try/accept pattern - but that would require Python. Simpler: in 03_schema, only add columns that might not exist by using a separate script, or we use a simple approach - run the new tables and inserts in 03, and put the ALTER TABLE statements in 04_migration_skills_columns.sql with a comment "run once; if re-running full schema, run 01 then 02 then 03 then 04 - 04 will fail if columns exist". Actually the cleanest is to have 03 only create NEW tables (simulation_targets, stat_modifier_reference, weapon_type_stats, trial_boss_set_notes) and the INSERTs for simulation_targets. Then create 04_skill_columns.sql that uses a Python script to add columns only if they don't exist. That way 01, 02, 03 are idempotent (CREATE IF NOT EXISTS, INSERT OR IGNORE). Only 04 is problematic. Alternative: in 03, don't add columns to skills at all in SQL; document in the findings doc that "when you ingest Damage Skills xlsx, map to skills and use these columns; add them via migration 03". So 03 adds only the new tables. The skills columns are added in a one-off migration that the user runs, or we add them in 01_schema next time we do a breaking change. For now I'll remove the ALTER TABLE from 03 and add a note in the findings doc that the skills table should have these columns added (and we can add them to 01_schema in a future edit so fresh installs get them). So 03 = new tables only; 01_schema gets the new skill columns in a single edit so from now on new DBs have them.
+</details></think>
+
+---
+
+
+Making the migration safe: add only new tables in 03; add the new skill columns to the main schema in 01 so new DBs get them.
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\schema\03_xlsx_driven_schema.sql</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Now add the new columns to 01_schema.sql for skills and recommended_builds.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\schema\01_schema.sql</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\schema\01_schema.sql</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+simulation_targets is created in 03, but recommended_builds has a FK to simulation_targets. So we have a dependency: 03 must run before we can reference simulation_targets. But 01 creates recommended_builds. So we can't have FK from recommended_builds to simulation_targets in 01 because simulation_targets doesn't exist yet. So we should leave simulation_target_id as INTEGER without FK in 01, and add the FK in 03 with ALTER (SQLite doesn't support ADD CONSTRAINT). Actually in SQLite you can't add a foreign key constraint with ALTER TABLE. So we leave it as INTEGER; application enforces that it's a valid simulation_targets.id. Good. Now update DATA_SOURCES.md with the new resources.
+</details></think>
+
+---
+
+
+Updating DATA_SOURCES.md and running the migration.
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\DATA_SOURCES.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Add a section for "Local / project data" (xlsx) and add ESO Skillbook, ESO-Sets, UESP Build Editor to reference.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+The string to replace was not found in the file.
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [x] Document xlsx findings and schema/calc suggestions
+- [-] Add new tables and columns to schema
+- [x] Update DATA_SOURCES with new resources
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+The replace failed - likely the quotes. Let me try with the exact characters from the file.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "pattern": "Reference only|ESO-Hub",
+  "path": "c:\\Users\\Ian\\OneDrive\\Documents\\dev\\ESO_Build_Genius\\docs\\DATA_SOURCES.md",
+  "caseInsensitive": false
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "pattern": "Reference only|ESO-Hub",
+  "path": "c:\\Users\\Ian\\OneDrive\\Documents\\dev\\ESO_Build_Genius\\docs\\DATA_SOURCES.md",
+  "outputMode": "content",
+  "totalFiles": 1,
+  "totalMatches": 2,
+  "topFiles": [
+    {
+      "uri": "docs\\DATA_SOURCES.md",
+      "matchCount": 2
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+The table uses | with spaces. Let me read the exact lines and do the replace.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+The string to replace was not found in the file.
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Maybe the quote character is different - " vs ". Let me try without the smart quote.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\DATA_SOURCES.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Line 24 has a curly quote " (Unicode 201C) not straight ". Let me try replacing with the exact character.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+The string to replace was not found in the file.
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+The fuzzy match is pointing to the wrong place - it's matching from line 5. So the issue might be that "Reference only" section has different line endings or the table format. Let me try a smaller replace - just the section header and first row.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\DATA_SOURCES.md</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Good. Now add the extra rows to the Reference table (ESO Skillbook, ESO-Sets, UESP Build Editor).
+</details></think>
+
+---
+
+
+
+
+
+---
+
+The string to replace was not found in the file.
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+The fuzzy match is again the wrong table. The file might have been updated - let me read it again and get the exact bytes for the Official patch notes line.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\DATA_SOURCES.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Line 33 has a curly double quote " (U+201C). I'll try inserting the new rows between ESO-Hub and Official patch notes.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\DATA_SOURCES.md</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Good. Now run the DB create to ensure 03 runs (we need to drop the db first since we changed 01 - or just run create_db which will run 01, 02, 03 - and 01 now has new columns so a fresh DB will have them; 03 creates new tables. If the user already has a DB, they'd need to add the new columns manually or recreate. Let me run create_db to verify.
+</details></think>
+
+---
+
+
+Verifying schema creation:
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius"; Remove-Item -Path "data\eso_build_genius.db" -ErrorAction SilentlyContinue; python scripts/create_db.py</summary>
+
+```bash
+cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius"; Remove-Item -Path "data\eso_build_genius.db" -ErrorAction SilentlyContinue; python scripts/create_db.py
+```
+
+```
+Running 01_schema.sql ...
+Running 02_indexes.sql ...
+Running 03_xlsx_driven_schema.sql ...
+Database created: C:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\data\eso_build_genius.db
+
+```
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [x] Document xlsx findings and schema/calc suggestions
+- [x] Add new tables and columns to schema
+- [x] Update DATA_SOURCES with new resources
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+All good. Let me add openpyxl to requirements.txt since we use it in the inspect script, and give the user a short summary.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\requirements.txt</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Done. I'll provide a concise summary to the user.
+</details></think>
+
+---
+
+
+Summary of what was done:
+
+---
+
+## 1. **Findings doc** – `docs/XLSX_FINDINGS_AND_SCHEMA_CALC_SUGGESTIONS.md`
+
+- **Damage Skills (Update 38_39_40).xlsx**  
+  - Columns: Skill Line/Name, Base Tooltip, **ADPS**, Type, Range, Cost, **Time** (duration or cast time), Crux, Secondary Effect.  
+  - ADPS = DoT DPS minus opportunity cost: *spammables lost per minute = 60 / duration_sec*; formula is spelled out for implementation.
+
+- **Harpooner's Wading Kilt Cheat Sheet.xlsx**  
+  - Trial + boss + long notes on when Kilt is good/bad/situational (stack maintenance, add control).  
+  - Used to propose **trial_boss_set_notes** for per-boss set advice.
+
+- **Standalone Damage Modifiers Calculator (ESO).xlsx**  
+  - **Main Sheet:** Crit Chance, Crit Damage, Max Resource, Wpn/Spl Dmg, % Damage Done/Taken, Penetration (18200) → Non-Crit / Crit / Avg hit.  
+  - **Weapon Comparisons:** By weapon type (DW, 2H, Bow, Inferno/Lightning Staff): total Wpn/Spl Dmg, crit chance, % done, status, other.  
+  - **Set Bonus Comparisons:** Marginal value of 1487 pen, 771 crit (Slimecraw), etc., with diminishing returns.  
+  - **References for Stats:** Set and racial bonuses, named bonuses, % buffs (Major Berserk, Slayer, etc.), max resource and Wpn/Spl Dmg modifiers (Warhorn, Undaunted, Major/Minor Sorcery/Brutality, 6 medium, Fighters Guild, etc.).
+
+- **Calculations:** Single-hit damage (align with Main Sheet), stat block from build (using References), ADPS for DoTs, penetration/mitigation curve, weapon-type comparison.
+
+---
+
+## 2. **Schema changes**
+
+- **`schema/01_schema.sql`** – **skills:** added `base_tooltip`, `adps`, `skill_damage_type`, `range_text`, `cost`, `duration_sec`, `cast_time_sec`, `crux_required`, `data_source`, `update_label`. **recommended_builds:** added `weapon_type`, `simulation_target_id`.
+- **`schema/03_xlsx_driven_schema.sql`** (new):
+  - **simulation_targets** – e.g. vet_dungeon_boss (resistance 18200), trial_dummy_21m.
+  - **stat_modifier_reference** – category, name, base_value, effective_value (for References for Stats).
+  - **weapon_type_stats** – weapon_type, bonus_wd_sd, bonus_crit_chance, bonus_pct_done (from Weapon Comparisons).
+  - **trial_boss_set_notes** – trial_id, boss_name, set_id, note_type, note_text (for Kilt-style sheets).
+
+---
+
+## 3. **DATA_SOURCES.md**
+
+- New section **Local / project data (data/)** for the three xlsx files and how they’re used.
+- **Reference / validation** section now includes **ESO Skillbook**, **ESO-Sets**, and **UESP Build Editor** with URLs and short use notes.
+
+---
+
+## 4. **Other**
+
+- **`scripts/inspect_xlsx.py`** – Script to inspect the xlsx files (sheet names, shapes, first rows); run with `python scripts/inspect_xlsx.py`.
+- **`requirements.txt`** – Added `openpyxl` for xlsx ingest.
+- DB recreated successfully with `01_schema.sql`, `02_indexes.sql`, and `03_xlsx_driven_schema.sql`.
+
+---
+
+**Suggested next steps**
+
+1. **Ingest scripts** – Load Damage Skills xlsx into `skills` (match by name/skill line; set `update_label`), References for Stats into `stat_modifier_reference`, Kilt sheet into `trial_boss_set_notes`, Weapon Comparisons into `weapon_type_stats`.
+2. **Damage/stat pipeline** – Implement single-hit formula (Main Sheet), stat block from build (References), then ADPS and mitigation curve as in the findings doc.
+
+If you want, I can outline or implement a first ingest script for one of the xlsx files (e.g. Damage Skills → `skills`).
+
+---
+
+_**User**_
+
+The remote repo is here: https://github.com/ianpcox/ESO_Build_Genius.git please sync them together.
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user wants to sync their local ESO_Build_Genius project with the remote GitHub repo at https://github.com/ianpcox/ESO_Build_Genius.git. The GitHub page says the repository is empty, so we need to:
+
+1. Add the remote (if not already added)
+2. Push the local branch to the remote
+
+Let me check the current git status and remotes, then add the remote and push.
+</details></think>
+
+---
+
+
+Checking git remotes and status, then adding the remote and pushing to sync with GitHub.
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && git remote -v && git status</summary>
+
+```bash
+cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && git remote -v && git status
+```
+
+```
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+	.cursorindexingignore
+	.env.example
+	.gitignore
+	.specstory/
+	docs/
+	requirements.txt
+	schema/
+	scripts/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+No remote is configured yet, and there are no commits. I need to:
+1. Add the remote origin
+2. Add all files (respecting .gitignore - so .specstory might be ignored if in .gitignore, and data/ is ignored)
+3. Commit
+4. Push to origin main
+
+Let me check .gitignore to see what's excluded - we don't want to commit data/ or .env.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && git remote add origin https://github.com/ianpcox/ESO_Build_Genius.git && git add . && git status</summary>
+
+```bash
+cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && git remote add origin https://github.com/ianpcox/ESO_Build_Genius.git && git add . && git status
+```
+
+```
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached &lt;file&gt;..." to unstage)
+	new file:   .cursorindexingignore
+	new file:   .env.example
+	new file:   .gitignore
+	new file:   .specstory/.gitignore
+	new file:   .specstory/history/2026-02-18_17-30Z-git-folder-setup-for-user-ianpcox.md
+	new file:   docs/COMBAT_TIMING_AND_SIMULATION.md
+	new file:   docs/DATA_SOURCES.md
+	new file:   docs/DESIGN_PLAN.md
+	new file:   docs/SCHEMA.md
+	new file:   docs/XLSX_FINDINGS_AND_SCHEMA_CALC_SUGGESTIONS.md
+	new file:   requirements.txt
+	new file:   schema/01_schema.sql
+	new file:   schema/02_indexes.sql
+	new file:   schema/03_xlsx_driven_schema.sql
+	new file:   scripts/create_db.py
+	new file:   scripts/inspect_xlsx.py
+
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Good - data/ and .env are not staged (gitignore is working). .specstory is being added - the user might want to ignore that. Let me check .gitignore - we have __pycache__ etc but I don't see .specstory in the project .gitignore. The .specstory folder has its own .gitignore. I'll leave it as is unless the user wants to exclude it; they can remove it from tracking later. Proceeding to commit and push.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && git commit --trailer "Co-authored-by: Cursor <cursoragent@cursor.com>" -m "Initial commit: design, schema, data sources, xlsx findings, scripts"</summary>
+
+```bash
+cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && git commit --trailer "Co-authored-by: Cursor <cursoragent@cursor.com>" -m "Initial commit: design, schema, data sources, xlsx findings, scripts"
+```
+
+```
+[main (root-commit) 23f8f04] Initial commit: design, schema, data sources, xlsx findings, scripts
+ 16 files changed, 3212 insertions(+)
+ create mode 100644 .cursorindexingignore
+ create mode 100644 .env.example
+ create mode 100644 .gitignore
+ create mode 100644 .specstory/.gitignore
+ create mode 100644 .specstory/history/2026-02-18_17-30Z-git-folder-setup-for-user-ianpcox.md
+ create mode 100644 docs/COMBAT_TIMING_AND_SIMULATION.md
+ create mode 100644 docs/DATA_SOURCES.md
+ create mode 100644 docs/DESIGN_PLAN.md
+ create mode 100644 docs/SCHEMA.md
+ create mode 100644 docs/XLSX_FINDINGS_AND_SCHEMA_CALC_SUGGESTIONS.md
+ create mode 100644 requirements.txt
+ create mode 100644 schema/01_schema.sql
+ create mode 100644 schema/02_indexes.sql
+ create mode 100644 schema/03_xlsx_driven_schema.sql
+ create mode 100644 scripts/create_db.py
+ create mode 100644 scripts/inspect_xlsx.py
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Now push. The remote is empty so we push with -u origin main to set upstream.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && git push -u origin main</summary>
+
+```bash
+cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius" && git push -u origin main
+```
+
+```
+branch 'main' set up to track 'origin/main'.
+To https://github.com/ianpcox/ESO_Build_Genius.git
+ * [new branch]      main -&gt; main
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Done. Local and remote are synced. I'll give a short summary.
+</details></think>
+
+---
+
+
+Summary of what was done:
+
+1. **Remote added:** `origin` → https://github.com/ianpcox/ESO_Build_Genius.git  
+2. **Files staged:** All tracked project files (`.gitignore` left `data/`, `.env`, and Python/IDE cruft untracked).  
+3. **Initial commit:** “Initial commit: design, schema, data sources, xlsx findings, scripts” (16 files).  
+4. **Pushed:** `main` pushed to `origin` and set to track `origin/main`.
+
+Your local repo and GitHub are in sync. The `data/` folder (DB and xlsx files) stays untracked, so it won’t be on GitHub.
+
+**Ongoing workflow:**
+- `git add .` → `git commit -m "..."` → `git push` to update the remote.
+- `git pull` (or `git pull origin main`) to update from the remote when you use another machine or the GitHub UI.
+
+---
+
+_**User**_
+
+What's next?
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user is asking what to do next on the ESO Build Genius project. I should refer back to the design plan and the current state of the project to suggest the most logical next steps.
+
+From what we've done:
+1. Design plan and data sources documented
+2. DB schema created (game_builds, sets, skills, foods, potions, etc.) + xlsx-driven additions (simulation_targets, stat_modifier_reference, weapon_type_stats, trial_boss_set_notes)
+3. Combat timing doc (GCD, weaving, damage formula)
+4. Xlsx findings doc with schema/calc suggestions and ingest/calculation order
+5. Scripts: create_db.py, inspect_xlsx.py
+6. Repo synced to GitHub
+
+What's NOT done yet:
+- No game build or data in the DB (empty except seed reference data)
+- No ingest pipeline: addon export, UESP skill coef, or xlsx → DB
+- No stat block calculator or damage formula implementation
+- No optimizer
+
+The design doc's implementation phases were:
+1. **Phase 1 – Data:** Addon exporter (or Item Set Dumper + custom) for sets/items; ingest skill coef from UESP; store by build.
+2. **Phase 2 – Model:** Stat block calculator; damage formula using skill coefficients; constraints (slots, 1 mythic, 2×5+2).
+3. **Phase 3 – Optimizer:** Restricted set list per role; combinatoric search; top builds per (class, role).
+4. Later: Support DD, healer, tank, trials/bosses, 4-person/solo.
+
+So the logical "what's next" is either:
+- **Option A – Ingest first:** Get one game_build row in, then load one data source (e.g. Damage Skills xlsx → skills, or References for Stats → stat_modifier_reference). That gives something queryable and validates the schema.
+- **Option B – Calculation first:** Implement the damage formula and stat block calculator (from Standalone Calculator + design), so we can compute "effective damage" for a given build. Then ingest data to feed it.
+
+I'll suggest both paths and recommend starting with **ingest** so we have real data to plug into the calculator, with a clear order: (1) one game build + ingest from xlsx (Damage Skills and/or References), (2) stat block + damage formula, (3) simple optimizer or manual "best build" output.
+</details></think>
+
+---
+
+
+Here’s a concise “what’s next” based on where you are and the design plan.
+
+---
+
+## Where things stand
+
+- **Done:** Design, schema, combat timing doc, xlsx findings, DB creation script, repo synced to GitHub.  
+- **Not done:** No rows in versioned tables (no `game_builds`, no sets/skills/foods in DB), no ingest, no damage/stat math, no optimizer.
+
+---
+
+## Recommended order
+
+**1. Get one game build and some data into the DB (ingest)**  
+So the rest of the pipeline has something to read.
+
+- Insert one **`game_builds`** row (e.g. label `"Update 48"` or `"Update 39"`, `api_version` if you have it).
+- Ingest from your xlsx files (you already have them in `data/`):
+  - **Damage Skills** → `skills`: base_tooltip, adps, skill_damage_type, cost, duration_sec, etc., keyed by that `game_build_id`.
+  - **Standalone Calculator “References for Stats”** → **`stat_modifier_reference`** (set/racial/named bonuses, % buffs, resource/damage modifiers) for the same build.
+- Optionally: **Weapon Comparisons** → **`weapon_type_stats`**; **Kilt cheat sheet** → **`trial_boss_set_notes`** (after you have trial/boss and set IDs).
+
+**2. Stat block + single-hit damage (calculations)**  
+So you can go from “build” (race, sets, food, potion, mundus, weapon type) to numbers.
+
+- **Stat block calculator:** From race + sets + food + potion + mundus + weapon type (+ CP later), compute: max_resource, weapon_spell_damage, crit_chance, crit_damage, penetration, % damage done/taken, using **References for Stats** (and `stat_modifier_reference`).
+- **Single-hit damage:** Implement the Main Sheet formula: base from (MaxStat + Wpn/Spl × 10.46) × coefficient (or base_tooltip), then non-crit / crit / avg using target resistance and penetration (e.g. 18200 from **simulation_targets**).
+
+**3. ADPS and rotation (optional next)**  
+For DoT vs spammable and simple rotations.
+
+- **ADPS:** For each DoT skill, compute spammables lost per minute (60 / duration_sec), opportunity cost, and ADPS (see xlsx findings doc).
+- **Simple rotation simulator:** 1.0 s GCD, 1 LA + 1 ability per second; apply DoT ticks and spammable hits; sum damage over a fight length → DPS.
+
+**4. Optimizer (Phase 3)**  
+Once (1)–(2) work: restrict to trial-viable sets per role, enumerate or search (greedy/beam) over set + slot + race + mundus + food + potion, score with your damage formula (and optional ADPS/rotation), output top builds per class/role.
+
+---
+
+## Concrete “next” step
+
+**Next step:** Implement **ingest for one build**: script that (a) inserts one **`game_builds`** row, (b) reads **Damage Skills (Update 38_39_40).xlsx** and inserts/updates **`skills`** for that `game_build_id`, and (c) reads **Standalone Damage Modifiers Calculator – “References for Stats”** and inserts into **`stat_modifier_reference`** for that build. That gives you a populated DB and validates the schema so the stat block and damage formula can use real data next.
+
+If you want to do that next, say “yes” and we can outline the exact script (file layout, column mapping, and example `INSERT`s) or write the ingest script step by step.
+
+---
+
+_**User**_
+
+Can we please just create a database with single responsibilities for, for instance, race, class, equipment sets, etc.?  Does this make sense?  I feel like we're leading with builds - I think we need to lead with components.
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user wants to restructure the database so that it leads with **components** (race, class, equipment sets, etc.) with single responsibilities, rather than leading with **builds**. This is a good design principle: build = composition of components; each component table should have one clear responsibility.
+
+Currently the schema has:
+- game_builds (versioning)
+- equipment_slots, classes, roles, set_types (reference)
+- races, race_effects (race is reference; race_effects is per-build)
+- item_sets, set_bonuses, set_slots (per build)
+- skills (per build)
+- buffs, mundus_stones, foods, potions (per build)
+- recommended_builds, recommended_build_equipment (output - composition)
+
+The user's point: we're "leading with builds" in the sense that a lot of data is keyed by game_build_id and the mental model might be "build-centric". They want to "lead with components" - so:
+
+1. **Race** - one table: races. Maybe race_effects per build (race passives can change). So "race" component = id, name; optional race_effects(build_id, race_id, ...) for versioned passives.
+
+2. **Class** - one table: classes (id, name). No build_id - classes don't change per build in name. Single responsibility: "what classes exist".
+
+3. **Equipment sets** - item_sets, set_bonuses, set_slots. These ARE versioned by build (set bonuses change). So the component is "item set" and it's versioned. Single responsibility: "define an item set and its bonuses/slots". One table per concept: sets, set_bonuses, set_slots.
+
+4. **Skills** - skills table. Versioned. Single responsibility: "define a skill/ability and its coefficients".
+
+5. **Mundus, Food, Potions, Buffs** - each their own table. Versioned. Single responsibility each.
+
+So the user might mean:
+- (A) Literally separate databases (one DB for races, one for classes, one for sets...) - that's unusual and would complicate joins.
+- (B) One database but **tables with single responsibility**: each entity (race, class, set, skill, etc.) has its own clear table(s), and a "build" is just a composition that references these. Don't have a "build" table that drives the schema; have component tables that stand alone, and something like "build_components" or "recommended_build" that just references component IDs.
+
+I think (B) is what they mean. So:
+
+1. **Races** - `races` (id, name). If we need versioned passives: `race_passives` (game_build_id, race_id, effect_text, ...). Single responsibility: "race data".
+
+2. **Classes** - `classes` (id, name). Single responsibility: "class list". No build_id.
+
+3. **Equipment sets** - `item_sets` (game_build_id, set_id, name, set_type, max_pieces), `set_bonuses`, `set_slots`. Single responsibility: "item set definition". A build doesn't "own" sets; it references set_ids.
+
+4. **Skills** - `skills` table. Single responsibility: "skill/ability definition".
+
+5. **Mundus, Foods, Potions, Buffs** - each a standalone table. Single responsibility each.
+
+6. **Build** - becomes a thin composition layer: `builds` or `recommended_builds` just stores (build_id, game_build_id, class_id, race_id, mundus_id, food_id, potion_id, ...) and `build_equipment` (build_id, slot_id, set_id). The "build" doesn't duplicate component data; it just references it.
+
+So the restructuring might be:
+- Rename or clarify tables so the **component** tables are the primary concept.
+- Ensure no component table has mixed responsibilities (e.g. don't put "set bonuses" and "set slots" in one table; keep set_bonuses and set_slots separate).
+- Maybe add a top-level **components** or just organize the schema so that "reference data" and "versioned game data" are clearly separated, and "build" is explicitly "composition of component references".
+
+Let me re-read the current schema and propose a cleaner component-first structure. I'll create a new schema file or rewrite 01_schema.sql to:
+
+1. Group tables by component type with clear single responsibility.
+2. Use consistent naming: e.g. all component tables are clearly "this is the X component".
+3. Build = composition only: recommended_builds references (race_id, class_id, mundus_id, food_id, potion_id) and recommended_build_equipment references (slot_id, set_id). No component data lives in the build table.
+
+I'll draft a revised schema that:
+- Puts **races** (and optionally race_effects per build) under a clear "Race" section.
+- Puts **classes** under "Class" section.
+- Puts **item_sets**, **set_bonuses**, **set_slots** under "Equipment set" section.
+- Puts **skills** under "Skill" section.
+- Puts **mundus_stones**, **foods**, **potions**, **buffs** under their own sections.
+- Puts **simulation_targets**, **equipment_slots**, **roles**, **set_types** as "Reference / lookup" section.
+- Puts **game_builds** as "Versioning" and **recommended_builds** / **recommended_build_equipment** as "Build (composition only)".
+
+And ensure each table has one job. I could also split into multiple files: 01_reference.sql (slots, classes, roles, set_types, races), 02_versioning.sql (game_builds), 03_components_races.sql, 04_components_sets.sql, 05_components_skills.sql, 06_components_consumables.sql (mundus, food, potions, buffs), 07_builds_composition.sql. That would make "single responsibility" very clear at the file level too.
+
+Let me do a clean component-first schema. I'll keep one 01_schema.sql but reorganize it with clear section comments and ensure tables have single responsibility. If the user wants separate DBs per component, that's a bigger change and I'll ask; for now I'll assume one DB with clearly separated component tables.
+</details></think>
+
+---
+
+
+Leading with components (race, class, sets, skills, mundus, food, potions) and treating builds as composition of those components. Restructuring the schema into component-first, single-responsibility tables.
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\schema\01_schema.sql</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\schema\03_xlsx_driven_schema.sql</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I'll restructure so that:
+
+1. **One schema file** (or a few) where each section is a **component** with a single responsibility. The build tables come last and only reference component IDs.
+
+2. **Component-first layout:**
+   - **Versioning** (game_builds only) – needed because many components are versioned
+   - **Lookups / reference** – equipment_slots, set_types, roles (no versioning; fixed lists)
+   - **Race** – races (id, name); race_effects (game_build_id, race_id, ...) – single responsibility: "what races exist and what passives they have per patch"
+   - **Class** – classes (id, name) – single responsibility: "what classes exist"
+   - **Equipment set** – item_sets, set_bonuses, set_slots – single responsibility: "what sets exist, their bonuses, and which slots they can fill"
+   - **Skill** – skills – single responsibility: "what skills/abilities exist and their coefficients/tooltips"
+   - **Buff** – buffs – single responsibility: "what buffs/debuffs exist"
+   - **Mundus** – mundus_stones – single responsibility: "what mundus stones exist"
+   - **Food** – foods – single responsibility: "what food/drink exists"
+   - **Potion** – potions – single responsibility: "what potions exist"
+   - **Simulation target** – simulation_targets – single responsibility: "what target stats we simulate against"
+   - **Stat modifier reference** – stat_modifier_reference – single responsibility: "reference numbers for stat calculations"
+   - **Weapon type** – weapon_type_stats – single responsibility: "weapon type stat bonuses"
+   - **Trial/boss** – trials, trial_bosses, trial_boss_set_notes – single responsibility: "trials, bosses, and per-boss set notes"
+   - **Build (composition only)** – recommended_builds, recommended_build_equipment – only stores references to components; no component data
+
+I'll create separate SQL files per component so that "single responsibility" is also at the file level:
+- 01_versioning.sql – game_builds
+- 02_lookups.sql – equipment_slots, set_types, classes, roles + seed data
+- 03_component_race.sql – races, race_effects + seed
+- 04_component_equipment_set.sql – item_sets, set_bonuses, set_slots
+- 05_component_skill.sql – skills
+- 06_component_buff.sql – buffs
+- 07_component_mundus.sql – mundus_stones
+- 08_component_food.sql – foods
+- 09_component_potion.sql – potions
+- 10_component_simulation_target.sql – simulation_targets (from 03_xlsx)
+- 11_component_stat_modifier.sql – stat_modifier_reference
+- 12_component_weapon_type.sql – weapon_type_stats
+- 13_component_trial.sql – trials, trial_bosses, trial_boss_set_notes
+- 14_build_composition.sql – recommended_builds, recommended_build_equipment, ingest_runs
+
+And update 02_indexes to 15_indexes.sql or keep 02_indexes and run it after all component files. Actually that's a lot of files. Simpler: keep one 01_schema.sql but **reorganize it with clear section headers and a short comment at the top** that says "Component-first: each section is one component (single responsibility). Builds are composition only (section at end)." Then 02_indexes, 03_xlsx_driven. That way we don't break create_db.py (which runs all *.sql in order). Let me do that: one file, component-first order, build last.
+
+Order in 01_schema.sql:
+1. Versioning: game_builds
+2. Lookups: equipment_slots, set_types, classes, roles (+ seed)
+3. Component: Race – races, race_effects (+ seed)
+4. Component: Class – already in lookups (classes)
+5. Component: Equipment set – set_types (in lookups), item_sets, set_bonuses, set_slots
+6. Component: Skill – skills
+7. Component: Buff – buffs
+8. Component: Mundus – mundus_stones
+9. Component: Food – foods
+10. Component: Potion – potions
+11. (Optional) Ingest provenance – ingest_runs
+12. Build (composition only): recommended_builds, recommended_build_equipment
+13. Trials: trials, trial_bosses
+14. Seed data (consolidate at end)
+
+I'll rewrite 01_schema.sql with this structure and add a brief intro comment. Then 03_xlsx_driven_schema.sql stays as-is (simulation_targets, stat_modifier_reference, weapon_type_stats, trial_boss_set_notes). I'll also add a one-page SCHEMA_OVERVIEW.md that explains "components first, build = composition".
+</details></think>
+
+---
+
+
+Restructuring the schema so we lead with components (single responsibility each) and treat builds as composition-only. Creating a component-first schema and a short overview doc.
+
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [-] Rewrite schema: component-first, single responsibility
+- [ ] Add SCHEMA_OVERVIEW.md explaining components vs build
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I'll create a new 01_schema.sql that:
+1. Has a clear header: component-first, build = composition of components
+2. Sections in order: Versioning, Lookups, Race, Class (lookups), Equipment set, Skill, Buff, Mundus, Food, Potion, Ingest, Trial (optional), Build (composition only)
+3. Same tables and columns, just reordered and with explicit "Single responsibility: ..." comments
+
+Then a short docs/SCHEMA_OVERVIEW.md.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\schema\01_schema.sql</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Now add SCHEMA_OVERVIEW.md and update docs/SCHEMA.md to point to the component-first design. Also ensure 03_xlsx_driven_schema.sql still works (it references game_builds, item_sets, trials - all still exist).
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\SCHEMA_OVERVIEW.md</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\SCHEMA.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I'll update SCHEMA.md to point to the component-first design and the new SCHEMA_OVERVIEW.md, and keep the table reference for quick lookup.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\SCHEMA.md</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius"; Remove-Item -Path "data\eso_build_genius.db" -ErrorAction SilentlyContinue; python scripts/create_db.py</summary>
+
+```bash
+cd "c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius"; Remove-Item -Path "data\eso_build_genius.db" -ErrorAction SilentlyContinue; python scripts/create_db.py
+```
+
+```
+Running 01_schema.sql ...
+Running 02_indexes.sql ...
+Running 03_xlsx_driven_schema.sql ...
+Database created: C:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\data\eso_build_genius.db
+
+```
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [x] Rewrite schema: component-first, single responsibility
+- [x] Add SCHEMA_OVERVIEW.md explaining components vs build
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+02_indexes.sql might reference some of the old table/column names - let me check it still applies. It had idx_item_sets_build_type, idx_set_bonuses_build_set, idx_skills_build_class, etc. All those tables and columns still exist, so we're good. DB created successfully. I'll give the user a short summary.
+</details></think>
+
+---
+
+
+Summary of what’s in place:
+
+---
+
+## 1. **Component-first schema** (`schema/01_schema.sql`)
+
+The schema is reordered so **components** come first, each with a single responsibility. **Builds** are last and only store references.
+
+- **Versioning** – `game_builds` (patch id only).
+- **Lookups** – `equipment_slots`, `set_types`, `classes`, `roles` (fixed lists).
+- **Race** – `races`, `race_effects` (what races exist and their passives per build).
+- **Equipment set** – `item_sets`, `set_bonuses`, `set_slots` (sets, bonuses, which slots they can use).
+- **Skill** – `skills` (abilities and coefficients/tooltips).
+- **Buff** – `buffs`.
+- **Mundus** – `mundus_stones`.
+- **Food** – `foods`.
+- **Potion** – `potions`.
+- **Ingest** – `ingest_runs`.
+- **Trial** – `trials`, `trial_bosses`.
+- **Build (composition only)** – `recommended_builds`, `recommended_build_equipment` (only FKs to the components above + score; no component data).
+
+Table definitions are unchanged; only order and comments were updated so the file reads as “components first, build = composition.”
+
+---
+
+## 2. **Docs**
+
+- **`docs/SCHEMA_OVERVIEW.md`** – Describes the idea: one responsibility per component, build = composition of component IDs, and a short table-per-component list.
+- **`docs/SCHEMA.md`** – Updated to describe the component-first layout and point to `SCHEMA_OVERVIEW.md` for the design.
+
+---
+
+## 3. **DB**
+
+`python scripts/create_db.py` was run successfully; the new schema (including `02_indexes.sql` and `03_xlsx_driven_schema.sql`) applies cleanly.
+
+Ingest and app logic can now treat **race**, **class**, **equipment set**, **skill**, **mundus**, **food**, **potion** as separate components and only combine them in the build tables when building or optimizing.
+
+---
+
+_**User**_
+
+What game files do you need me to provide?  Z:\The Elder Scrolls Online and C:\Users\Ian\OneDrive\Documents\Elder Scrolls Online\live are the two main folders.
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user is asking what game files they need to provide from their ESO installation for the ESO Build Genius project. They've given two paths:
+- Z:\The Elder Scrolls Online (likely the game installation - executables, game data .dat/.mnf files)
+- C:\Users\Ian\OneDrive\Documents\Elder Scrolls Online\live (likely the live game's Documents folder - addons, SavedVariables, etc.)
+
+From our earlier design work:
+1. **Addon export** - We recommended running an addon that dumps sets, skills, etc. to JSON/Lua. That would write to the Documents folder (SavedVariables). So we don't "need" the user to provide files from Documents unless they've already run such an addon - then we'd read the SavedVariables or exported JSON.
+2. **EsoExtractData** - Extracts from the game's .mnf/.dat files in the installation folder. That's 100GB+ for full extract. We could use it to get item/skill data from the game client directly.
+3. **Addon source / API** - If we're building a custom addon to export data, we might look at existing addons in Documents\...\live\AddOns to see structure, or we'd write our own and the user would run it; the output would be in SavedVariables or a file we specify.
+4. **What we actually need** - For ingest we said: addon export (user runs addon, we read output) OR UESP/scraping. So the "game files" we need could mean:
+   - (A) Nothing upfront - we use UESP + xlsx and later the user runs an addon we provide, and points us at the addon's output file.
+   - (B) If we want to parse game data directly: the .dat/.mnf files from Z:\... (and we'd need EsoExtractData or similar to read them).
+   - (C) If we want to inspect addon API or existing addon output: the AddOns folder and/or SavedVariables from C:\Users\Ian\OneDrive\Documents\Elder Scrolls Online\live.
+
+I'll outline what each folder typically contains and what we'd need from each for the different data strategies, so the user can provide only what's necessary for the path we choose.
+</details></think>
+
+---
+
+
+Checking the design for which data we can get from the game and preparing a short doc that lists what we need from each folder.
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\DESIGN_PLAN.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="web_search">
+<details>
+            <summary>Tool use: **web_search** • Searched web `undefined` • **1** results</summary>
+        
+| Title | URL | Chunk |
+|-------|-----|-------|
+| Web search results for query: ESO game folder structure AddOns SavedVariables Documents live |  | Links:<br/>1. [[PC]HowTo: SavedVariables - Find the folder, backup, copy - ESOUI](https://www.esoui.com/forums/showthread.php?t=9235)<br/>2. [ESOUI - FAQ: Installing AddOns](https://www.esoui.com/forums/faq.php?faq=install)<br/>3. [Is there a way to save add ons from one pc to next?](https://forums.elderscrollsonline.com/en/discussion/678179/is-there-a-way-to-save-add-ons-from-one-pc-to-next)<br/>4. [I don't have a Live folder](https://forums.elderscrollsonline.com/en/discussion/452108/i-dont-have-a-live-folder)<br/>5. [SavedVariables, ZO_SavedVars, AccountWide, per character and name changes - ESOUI](https://www.esoui.com/forums/showthread.php?t=6442)<br/><br/># ESO Game Folder Structure: AddOns and SavedVariables<br/><br/>## Default File Paths<br/><br/>**PC:** C:\Users\[username]\Documents\Elder Scrolls Online\live\ [1][2]<br/><br/>**Mac:** ~/Documents/Elder Scrolls Online/live/ [1][2]<br/><br/>## Folder Structure Within "live"<br/><br/>The "live" folder contains these subfolders:[4]<br/>- **AddOns** - Contains addon folders<br/>- **SavedVariables** - Contains .lua files with addon settings and data<br/>- **Errors** - Error logs<br/>- **Logs** - Game logs<br/>- **Utilities** (optional) - For non-addon programs<br/><br/>## SavedVariables Details<br/><br/>SavedVariables are .lua files where addons store their configuration data and settings.[1] Each addon generates a file named after its addon folder (e.g., AdvancedFilters.lua for the AdvancedFilters addon).[1]<br/><br/>**Important:** These files are constantly updated while logged in and are written to disk during UI reloads, zone changes, logout, or game closure.[1] If the client crashes without proper shutdown, SavedVariables files may become corrupted.[1]<br/><br/>## Finding/Creating the Folder<br/><br/>The SavedVariables folder is created automatically after your first ESO login.[1] If it doesn't exist, you can manually create the folder structure at the path above.[4] You can also navigate using the Windows variable %userprofile%\documents in File Explorer.[1] |
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+So:
+- **Z:\The Elder Scrolls Online** = game installation (game client, .dat/.mnf data files, possibly AddOns shipped with game - but usually addons go in Documents).
+- **C:\Users\Ian\OneDrive\Documents\Elder Scrolls Online\live** = user's live folder: AddOns, SavedVariables, Logs, etc.
+
+For our project we have three ways to get data:
+1. **Addon export** - We'd provide or use an addon that dumps to SavedVariables or a file. User runs game, runs addon, we read from Documents\...\live\SavedVariables (or a path they copy to). So we need **read access to that folder** or the user copies the output file(s) to our project (e.g. data/).
+2. **EsoExtractData** - Reads from the **game installation** (Z:\...) .mnf/.dat files. So we'd need the path to the install; the tool extracts. We don't need the user to "provide" files manually - we'd need the path and the tool. Full extract is 100GB+ so we might only extract specific data if the tool allows.
+3. **UESP / xlsx** - No game files needed.
+
+I'll write a short doc that says:
+- What each folder is used for
+- What we need from each (if anything) for each strategy
+- So they know: for addon approach, we need the path to SavedVariables (or they copy output to data/). For EsoExtractData we need the install path. We don't need them to zip and send files unless we're doing a one-off parse of something specific.
+</details></think>
+
+---
+
+
+Creating a short doc that states what we need from each folder for each data strategy:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\GAME_FILES_NEEDED.md</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I'll give the user a concise summary and the two paths they gave, so they know exactly what we'd use.
+</details></think>
+
+---
+
+
+Here’s what matters for your two folders:
+
+---
+
+**You don’t need to copy or zip anything.** We only need **paths** (and for the addon route, either access to the output folder or a copy of the export file).
+
+---
+
+### **Z:\The Elder Scrolls Online** (game install)
+
+- **Used for:** Reading raw game data (.dat/.mnf) with something like EsoExtractData.
+- **What we need:** The path `Z:\The Elder Scrolls Online` so the ingest/tool can find the client data. We do **not** need you to copy the .dat/.mnf files.
+
+---
+
+### **C:\Users\Ian\OneDrive\Documents\Elder Scrolls Online\live** (live folder)
+
+- **Used for:** Addon output. Addons write to `live\SavedVariables\` (e.g. `ItemSetDumper.lua` or a custom export).
+- **What we need:** Either:
+  - **Option A:** The path to the live folder (or at least `...\live\SavedVariables`), e.g.  
+    `C:\Users\Ian\OneDrive\Documents\Elder Scrolls Online\live`  
+    so our ingest script can read the addon’s export file(s), or  
+  - **Option B:** After you run the export addon, you copy the resulting file(s) into the project (e.g. `data/`) and tell us the file name(s). Then we don’t need the live path.
+
+---
+
+I added **`docs/GAME_FILES_NEEDED.md`** with this in one place. When we add ingest, we can use an env var (e.g. `ESO_LIVE_PATH` and optionally `ESO_INSTALL_PATH`) so you only set the paths once.
+
+**Summary:** For now, the only “game files” we need from you are **those two paths** (and, if you prefer not to give the live path, the addon export file(s) copied into `data/`). No need to provide the actual game or addon folders as files to copy.
+
+---
+
+_**User**_
+
+Those folders won't change on the local.  Can you do what you need?  Do we need a script to copy them to a local repo folder?
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user is saying the two ESO paths are fixed on their machine:
+- Z:\The Elder Scrolls Online (install)
+- C:\Users\Ian\OneDrive\Documents\Elder Scrolls Online\live (live folder)
+
+They're asking:
+1. Can I do what we need (ingest from those paths)?
+2. Do we need a script to copy game files to a local repo folder?
+
+From the design:
+- We don't need to *copy* the whole game or live folder into the repo. That would be huge and would put game data under version control.
+- What we need is for our **ingest scripts** to **read from** those paths when they run (e.g. read SavedVariables from the live path, or point EsoExtractData at the install path).
+- So we should: (1) Add config so the ingest knows the two paths (e.g. .env or a small config file, with the paths in .env.example as placeholders and the real paths in .env which is gitignored). (2) When we build an ingest script, it reads from those paths directly - no copy step unless we specifically want a snapshot in data/ (e.g. copy just the addon export .lua to data/ for reproducibility).
+
+Actually re-reading the user: "Do we need a script to copy them to a local repo folder?" - they might be asking whether we need to copy *something* (e.g. addon output) into the repo so we have a local snapshot. That could be useful so that: (a) the repo is self-contained for someone who doesn't have ESO, (b) we have a known snapshot in data/ for ingest. So we could have an optional script that copies *only* the addon export file(s) from SavedVariables to data/ (e.g. data/addon_export/ or data/saved_variables/). That way the main ingest reads from data/ and we can either run the copy script first (to refresh from live) or point ingest at the live path directly.
+
+I'll:
+1. Add a config file or .env support with the two paths (ESO_INSTALL_PATH, ESO_LIVE_PATH) so ingest scripts can use them.
+2. Add an optional script that copies only the relevant addon output from the live folder to data/ (e.g. ItemSetDumper.lua, or a known export file) so we have a local snapshot. The script reads the paths from config/.env.
+3. Document that the ingest can either read from the fixed paths directly or from data/ after a copy.
+
+Let me implement:
+- .env.example with ESO_INSTALL_PATH and ESO_LIVE_PATH (with the user's paths as the default values since they said they won't change - actually no, don't put real paths in .env.example; put placeholders; the user can set .env).
+- A small config loader in Python (e.g. load from .env or from a config.json) so ingest scripts get the paths.
+- A script copy_addon_exports.py (or refresh_addon_data.py) that copies from ESO_LIVE_PATH/SavedVariables/*.lua (or specific addon files) to data/addon_export/ or data/saved_variables/. So we don't copy the whole folder - just the addon output files we care about.
+- Update GAME_FILES_NEEDED.md to say: paths are fixed; we use config; optional copy script can snapshot addon output to data/.
+
+I'll use python-dotenv for .env and create a small config module. Let me check if we have dotenv in requirements - we don't, I'll add it or use a simple path config (e.g. config/paths.json or just .env with dotenv). I'll add python-dotenv to requirements and create:
+1. .env.example with ESO_INSTALL_PATH and ESO_LIVE_PATH (placeholders)
+2. config.py or src/config.py that loads these (and defaults to the user's paths if they're set)
+3. scripts/refresh_addon_data.py - copies from live SavedVariables to data/addon_export/ (specific files we care about, e.g. ItemSetDumper.lua, or any *.lua from SavedVariables that matches a list)
+4. Update docs
+
+Actually the user said "those folders won't change on the local" - so they're happy to hardcode or set once. I'll put the two paths in a single config file in the repo (e.g. config/paths.json or config/local_paths.json) that is gitignored so the repo stays shareable, and .env for the paths. So:
+- .env.example: ESO_INSTALL_PATH=, ESO_LIVE_PATH=
+- We'll load from .env; if not set, we could fall back to the user's paths for local dev (but that would be in code - better to have them set .env once).
+- Script: copies addon export from ESO_LIVE_PATH to data/addon_export/
+
+Let me also add data/addon_export/ to .gitignore so we don't commit copied addon data unless the user wants to (they could remove from gitignore for a snapshot). Actually data/ is already gitignored. So data/addon_export/ will be ignored. Good.
+
+Implementing.
+</details></think>
+
+---
+
+
+Using the fixed paths from config (no manual copy). Adding config and an optional script to copy only addon export files into the repo so ingest can run from either the live path or a local snapshot.
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\.gitignore</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\.env.example</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I'll:
+1. Add ESO_INSTALL_PATH and ESO_LIVE_PATH to .env.example with the user's paths as the default (they said paths won't change - so I'll put their actual paths in .env.example so they can just copy to .env and it works; we'll add a note that others should set their own). Actually best practice: .env.example should have placeholders so the repo is shareable. I'll use placeholders and also create a config that reads from env with a clear comment.
+2. Create a small Python config module that loads ESO paths from environment (and optionally from .env via python-dotenv).
+3. Create scripts/refresh_addon_data.py that: reads paths from config; copies from LIVE/SavedVariables only the files we care about (e.g. ItemSetDumper.lua or a pattern) to data/addon_export/; creates data/addon_export if needed.
+4. Update GAME_FILES_NEEDED.md to say we use .env for paths and the copy script is optional.
+
+Let me use placeholders in .env.example. I'll add:
+ESO_INSTALL_PATH=Z:\The Elder Scrolls Online
+ESO_LIVE_PATH=C:\Users\Ian\OneDrive\Documents\Elder Scrolls Online\live
+
+So that anyone cloning can see the expected format. I'll use the user's paths as the example values since they said "won't change" - so the example is their actual layout. They copy to .env and it works.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [-] Add ESO path config and config loader
+- [ ] Add optional script to copy addon export to data/
+- [ ] Update GAME_FILES_NEEDED.md
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I'll create:
+1. .env.example with ESO_INSTALL_PATH and ESO_LIVE_PATH (with the user's paths as example values so copy-to-.env works)
+2. A config module that loads from os.environ (and optionally dotenv). Keep it simple - just read env vars so we don't require python-dotenv for basic use; we can load .env manually with a simple "if .env exists, read KEY=value" or add python-dotenv to requirements.
+3. scripts/refresh_addon_data.py
+4. Update GAME_FILES_NEEDED.md
+
+Using python-dotenv is standard. I'll add it to requirements and use it in config so that when ingest scripts run they just import config and get the paths.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\.env.example</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\requirements.txt</summary>
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+I'll add python-dotenv so we can load .env. Then create a config module and the refresh script.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\requirements.txt</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\config.py</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Path | None is Python 3.10+ syntax. The user has Python 3.11+ in requirements so we're good. Let me add the optional copy script and then update the doc. The script should: 1) load config, 2) if ESO_LIVE_PATH not set, print how to set it and exit, 3) copy from SavedVariables to data/addon_export/ for known addon files (ItemSetDumper, or we could copy all .lua from SavedVariables - that might be a lot; better to copy a configured list). I'll copy any .lua in SavedVariables that matches names we care about (ItemSetDumper, uespLog, etc.) or we could copy all. For now I'll copy a configurable list: ItemSetDumper.lua, and any file matching a pattern. Simple: copy all *.lua from SavedVariables to data/addon_export/ with a timestamp subfolder or just overwrite. So we have a snapshot. Or: copy to data/addon_export/ and overwrite, so ingest always reads from data/addon_export/. That way we don't need to read from the live path in ingest - we read from data/addon_export/ after refresh. User runs refresh after running the addon in-game.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\scripts\refresh_addon_data.py</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [x] Add ESO path config and config loader
+- [x] Add optional script to copy addon export to data/
+- [-] Update GAME_FILES_NEEDED.md
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Now update GAME_FILES_NEEDED.md to say: paths are fixed and set in .env; ingest reads from those paths or from data/addon_export/ after optional refresh script. No need to copy the whole folders.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\Ian\OneDrive\Documents\dev\ESO_Build_Genius\docs\GAME_FILES_NEEDED.md</summary>
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [x] Add ESO path config and config loader
+- [x] Add optional script to copy addon export to data/
+- [x] Update GAME_FILES_NEEDED.md
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Create .env from .env.example with the user's paths so it works out of the box - but .env is gitignored so we shouldn't create it with real paths in the repo. We could run a one-time "create .env from example" - but that would write the example paths. Actually the user said "can you do what you need" - so they want it to work. I'll leave .env for them to create (copy .env.example to .env). The .env.example already has their paths in it so they can just copy. Let me verify the script runs when paths are set - we can't run it without .env existing. I'll add a note in the doc that they need to copy .env.example to .env once. Done.
+</details></think>
+
+---
+
+
+Summary of what’s in place:
+
+---
+
+## 1. **Config (no copy required)**
+
+- **`.env.example`** – Defines `ESO_INSTALL_PATH` and `ESO_LIVE_PATH` with your two paths as examples.
+- **`config.py`** – Loads `.env` and exposes:
+  - `ESO_INSTALL_PATH`, `ESO_LIVE_PATH`
+  - `get_eso_live_path()`, `get_eso_install_path()` (return `Path` or `None`)
+  - `ESO_SAVED_VARIABLES_PATH`, `ESO_ADDONS_PATH` for convenience.
+- **`requirements.txt`** – Added `python-dotenv` for loading `.env`.
+
+Ingest (and any other script) can do:
+
+```python
+from config import get_eso_live_path
+live = get_eso_live_path()
+saved_vars = live / "SavedVariables" / "ItemSetDumper.lua"
+# read saved_vars directly
+```
+
+So we **read directly from your fixed folders**; no need to copy the whole game or live folder.
+
+---
+
+## 2. **Optional copy script**
+
+- **`scripts/refresh_addon_data.py`** – Copies only addon export files from `...\live\SavedVariables\` into `data/addon_export/`:
+  - `ItemSetDumper.lua`
+  - `uespLog.lua`
+  - `DataDumper.lua`
+- Use this only if you want a snapshot in the repo (e.g. ingest from `data/addon_export/`). It does **not** copy the full live folder.
+
+---
+
+## 3. **What you do once**
+
+1. Copy `.env.example` to `.env` (paths are already filled with your two folders).
+2. Either:
+   - **A)** Have ingest read from the paths in `.env` (no copy script), or  
+   - **B)** After running an export addon in-game, run `python scripts/refresh_addon_data.py` so ingest can read from `data/addon_export/`.
+
+You do **not** need a script that copies the entire ESO install or live folder; we only need the two paths in `.env`, and optionally the small addon-export snapshot from `refresh_addon_data.py`.
+
+---
+
+_**User**_
+
+Excellent - now what is next?
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user is asking what to do next on the ESO Build Genius project. I've given this guidance before - we had a "what's next" that recommended:
+
+1. Ingest: get one game build and some data into the DB (Damage Skills xlsx, References for Stats into stat_modifier_reference)
+2. Stat block + single-hit damage (calculations)
+3. ADPS and rotation (optional)
+4. Optimizer (Phase 3)
+
+We've since added:
+- Component-first schema
+- Config and ESO paths (.env, config.py)
+- Optional refresh_addon_data.py
+
+So the logical next step is still **ingest**: populate the component tables (at least one game_build, then skills from Damage Skills xlsx and/or stat_modifier_reference from the Standalone Calculator). Now we also have the paths in place so we could optionally ingest from addon export (ItemSetDumper.lua) if the user has run it.
+
+I'll give a concise "next" that ties together: (1) create .env if not done, (2) run ingest for one build from xlsx (Damage Skills + References for Stats), (3) then stat block + damage formula. I won't repeat the long list; I'll be brief and actionable.
+</details></think>
+
+---
+
+
+Here’s a focused “next” that fits where things stand:
+
+---
+
+## Immediate next step: **Ingest one game build**
+
+Get one patch into the DB and fill **component** tables from your existing xlsx (no addon required yet).
+
+1. **Insert one `game_builds` row**  
+   e.g. label `"Update 39"` or `"Update 48"`, optional `api_version`.
+
+2. **Ingest from xlsx into components**
+   - **Damage Skills (Update 38_39_40).xlsx** → **`skills`**  
+     For the build you added: skill name, skill line, base_tooltip, adps, skill_damage_type, cost, duration_sec, cast_time_sec, secondary effect (and any other columns you already have in the schema). Match by name/skill line; use the “Top” or per-class sheets as you prefer.
+   - **Standalone Damage Modifiers – “References for Stats” sheet** → **`stat_modifier_reference`**  
+     Same `game_build_id`: category, name, base_value, effective_value (or formula_notes) so the stat-block calculator can use them later.
+
+3. **Optional**  
+   - **Weapon Comparisons** → **`weapon_type_stats`** for that build.  
+   - **Harpooner's Wading Kilt** sheet → **`trial_boss_set_notes`** once you have trial/boss and set IDs (can come later).
+
+Deliverable: one `game_builds` row and populated **skills** + **stat_modifier_reference** (and optionally weapon_type_stats / trial_boss_set_notes) so the next phase has real data to work with.
+
+---
+
+## After that
+
+- **Stat block + single-hit damage**  
+  Implement the Main Sheet formula and build a stat block from race + sets + food + potion + mundus (using `stat_modifier_reference`). Then you can compute non-crit/crit/avg hit for a given build.
+
+- **Addon path (optional)**  
+  When you’re ready: run Item Set Dumper (or your export addon), then either point ingest at `ESO_LIVE_PATH`/SavedVariables or run `refresh_addon_data.py` and ingest from `data/addon_export/` to fill **item_sets** / **set_bonuses** / **set_slots**.
+
+---
+
+**Concrete “do this next”:**  
+Add a Python ingest script that: (1) takes a `game_build_id` (or creates one row with a label you pass), (2) reads **Damage Skills** and **References for Stats** from `data/`, (3) inserts/updates **skills** and **stat_modifier_reference** for that build. Once that runs and the DB is populated, the next step is the stat-block and damage formula using that data.
+
+---
+
+_**User**_
+
+Yes that makes sense let's create the ingest script please
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user wants me to create the ingest script that:
+1. Takes a game_build_id (or creates one row with a label they pass)
+2. Reads Damage Skills (Update 38_39_40).xlsx and References for Stats from Standalone Damage Modifiers Calculator (ESO).xlsx from data/
+3. Inserts/updates skills and stat_modifier_reference for that build
+
+I need to:
+1. Look at the structure of the Damage Skills xlsx again - which sheets, which columns map to our skills table. We have multiple sheets (Arcanist, Arcanist Top, Dragonknight, DK Top, etc.). The "Top" sheets have a cleaner structure with columns: Skill Line/Name, Base Tooltip, ADPS, Type, Range, Cost, Time, Secondary Effect. The per-class sheets have three blocks of columns (0-8, 9-17, 18-26) with similar column meanings. I'll need to parse all sheets and extract rows that have skill name + base tooltip + adps + type + range + cost + time + secondary effect. The columns in the sheet might be at different indices per block. From the inspect output:
+- Row 2 is often the header: "Skill Line/Name", "Base Tooltip", "ADPS", "Type", "Range", "Cost", "Time", "Crux", "Secondary Effect"
+- So col 0 = Skill Line/Name, 1 = Base Tooltip, 2 = ADPS, 3 = Type, 4 = Range, 5 = Cost, 6 = Time, 7 = Crux, 8 = Secondary Effect (and repeat for columns 9-17, 18-26)
+
+We don't have ability_id from the xlsx - we only have name. So we could generate a synthetic id (hash of name or row number) or leave ability_id as something we set from the sheet (e.g. index). The schema has (game_build_id, ability_id) as PK. So we need a stable ability_id. Options: (1) use hash of skill name + skill_line as ability_id, (2) use row index per sheet, (3) add a new table that maps (game_build_id, skill_name, skill_line) -> ability_id and use auto-increment. The simplest for now: use a hash (e.g. abs(hash(skill_name + skill_line)) % 2**31) to get an integer ability_id so we can insert. Or we could use the row number from the workbook. Let me use hash to get a stable id from name + skill_line so the same skill always gets the same id.
+
+Actually re-reading the schema: ability_id is "game's numeric set id" - so it's the game's id. We don't have that from the xlsx. So for xlsx ingest we have two options: (1) use a generated id (hash) and document that this is from xlsx not game, (2) add a separate staging table that doesn't require ability_id and then have a step that assigns ids. I'll use a generated id: hash(skill_name + skill_line) mod 2**31, and store in data_source that it's from damage_skills_xlsx. So ability_id can be our generated id when source is xlsx.
+
+2. References for Stats - the sheet "References for Stats" had structure from the inspect output. Let me recall:
+- Row 0: "REFERENCES FOR COMPARISONS"
+- Row 1: "Set Bonuses", "with modifiers", etc.
+- Rows 2+: Set Bonuses (Stamina/Magicka 1096, 1249.44), (Wpn/Spl Dmg 129, 190.92), Crit Chance 0.03, etc.; Racial Bonuses; Named Bonuses; Base Stats; % Buffs/Debuffs; Max Resource Modifiers; Wpn/Spl Dmg Modifiers.
+So it's a mix of categories. I need to parse and insert into stat_modifier_reference with (game_build_id, category, name, base_value, effective_value, formula_notes). Category could be "set_bonus", "racial", "named_bonus", "base_stat", "buff_pct", "resource_modifier", "damage_modifier". Name = the label (e.g. "Stamina/Magicka", "Major Berserk"). base_value and effective_value from the numbers.
+
+Let me look at the inspect output again for References for Stats structure:
+```
+--- Sheet: References for Stats (shape (36, 7)) ---
+0   REFERENCES FOR COMPARISONS       NaN             NaN NaN              NaN       NaN                    NaN
+1                  Set Bonuses       NaN  with modifiers NaN       Base Stats       NaN                    NaN
+2              Stamina/Magicka  1096.000         1249.44 NaN      Crit Chance      0.10                    NaN
+3                  Wpn/Spl Dmg   129.000          190.92 NaN      Crit Damage      0.50                    NaN
+4                  Crit Chance     0.030             NaN NaN     Max Resource  12000.00                    NaN
+...
+8               Racial Bonuses       NaN  with modifiers NaN      ...
+9              Stamina/Magicka  2000.000            2280 NaN
+...
+16               Named Bonuses       NaN  with modifiers NaN
+17            Powerful Assault   307.000          454.36 NaN
+...
+23      Max Resource Modifiers       NaN             NaN NaN
+24                     Warhorn     0.100               x NaN
+...
+29       Wpn/Spl Dmg Modifiers       NaN             NaN NaN
+30     Major Sorcery/Brutality     0.200               x NaN
+```
+
+So columns 0, 1, 2 are one group (name, base, effective or modifier), and 4, 5 might be another. I'll need to read the sheet and parse by section (Set Bonuses, Racial, Named, Base Stats, etc.) and extract (name, base_value, effective_value). The sheet has 36 rows and 7 columns. I'll write a parser that walks rows and assigns category from section headers.
+
+Let me create the ingest script. I'll use pandas to read the xlsx files. For skills we need to handle multiple sheets and the three-col</details></think>
 
 ---
 
