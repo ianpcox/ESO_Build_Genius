@@ -8,12 +8,12 @@
 - **Deliverable:** Min-maxing tool that recommends optimal **builds** (race, equipment, food, potions, mundus) per **role** (healer, tank, DD, support DD) per **class**, for Trials, with the ability to adapt per trial or boss later.
 
 Builds are **class-specific** and can use:
-- Class skills (and via subclassing, up to two skill lines from two other classes)
-- Weapon, guild, world (e.g. Vampire, Werewolf), and scribed skill lines
+- **Class skill lines:** Each class has exactly three class skill lines (e.g. Necromancer: Grave Lord, Bone Tyrant, Living Death). **Subclassing** allows a character to *replace* up to two of their base class lines with class skill lines from up to two other classes. Example: a Necromancer keeps "Grave Lord", replaces "Bone Tyrant" with Nightblade's "Assassination", and "Living Death" with Arcanist's "Herald of the Tome". So the character still has three class skill lines in total; at most two of them come from other classes.
+- Weapon, guild, world (e.g. Vampire, Werewolf), and **scribed** skill lines (unchanged by subclassing). **Scribing** lets players take a base skill and add up to three additional effects (e.g. Focus, Signature, Affix scripts), which greatly increases build diversity (see 2.4). **Optimal is complex:** subclassing and scribing multiply the build space; optimization may need to constrain or sample over these dimensions.
 
 The main challenges are:
 1. **Data:** Where to get accurate, up-to-date game data with minimal “recognition lag” after patches.
-2. **Optimization:** Combinatoric search over sets, slots, mundus, food, potions, and (later) skills/rotations, with correct damage/healing/survival formulas.
+2. **Optimization:** Combinatoric search over sets, slots, mundus, food, potions, skills/rotations, **subclass choices**, and **scribed skill variants**, with correct damage/healing/survival formulas. Scribing alone adds many combinations per bar slot (base + 0–3 effects), so "optimal" recommendations may need to focus on a subset of scribed variants or use heuristics.
 
 ---
 
@@ -29,6 +29,32 @@ The main challenges are:
 | Skills     | (Later) Bar layout and rotation for DPS/heal/tank; support DD focuses (e.g. Stagger uptime, Crystal Weapon armour debuff). |
 
 Roles: **Healer**, **Tank**, **DD** (damage dealer), **Support DD** (e.g. DK Stagger, Sorc Crystal Weapon for armour debuff).
+
+### 2.1 Skill lines and class lines
+
+- **Skill lines** are first-class entities per game build: *class*, *weapon*, *guild*, *world*, *scribed*. Each has a type and a name; class lines also reference a class (e.g. "Grave Lord" belongs to Necromancer).
+- **Class skill lines:** Every class has exactly three class skill lines. Skills (abilities) belong to a skill line; `skills.skill_line_id` references `skill_lines`. Builds choose which three class lines they use via **subclassing** (see above): base class + up to two replacements from other classes.
+- **Passives:** Each skill line has passives (stored in `skill_line_passives`). Passives can grant buffs/debuffs; see below.
+
+### 2.2 Buffs and debuffs (standalone, linked to sources)
+
+- A **standalone buff/debuff** table (`buffs`) holds effect name, type, magnitude, duration. **Buffs are linked to their sources** via `buff_grants` (abilities and skill-line passives) and **`buff_grants_set_bonus` (06)** (set bonuses: which set + num_pieces grants which buff). So we can answer "what grants Minor Berserk?" → e.g. Combat Prayer (ability), Kinras's Wrath 5pc (set bonus), etc.
+- Target granularity (see 2.3) applies where a buff or effect is conditional on target type.
+
+### 2.5 Buff/debuff coverage – avoid duplicates when optimizing
+
+- **Same buff from multiple sources is redundant** for optimization. Example: if a healer runs **Combat Prayer** and maintains high uptime on **Minor Berserk**, then adding **Kinras's Wrath** (5pc grants Minor Berserk) does not add a new buff—it doubles up. The optimizer should either **exclude** or **deprioritize** set bonuses (and other sources) that only provide buffs already covered by the build’s skills and passives at expected uptime.
+- **Implementation:** For a candidate build, compute "buff coverage" from (1) slotted abilities, (2) passives from chosen skill lines, and (3) equipped set bonuses (using `buff_grants` and `buff_grants_set_bonus`). When evaluating an extra set or slot choice, if it would add a buff_id that is already in the coverage set, treat it as redundant for that buff (unless e.g. backup uptime is desired). Prefer sets that add **new** buffs or other value (e.g. raw stats) over sets that only duplicate existing buffs.
+
+### 2.3 Target granularity
+
+- Many effects vary by **target type**: e.g. vs. Undead, vs. Daedra, vs. Humanoid, Beast, Construct, Player. The schema includes `target_types` (lookup) and `skill_target_bonus` (which skills get a bonus or different effect vs. which target types). This supports correct DPS/simulation when the trial or boss has a specific type (e.g. Undead).
+
+### 2.4 Scribing
+
+- **Scribing** allows players to take a **base skill** (from the Scribing skill line or eligible abilities) and add **up to 3 additional effects** on top of it (e.g. Focus script, Signature script, Affix script). Each effect comes from a catalog (damage type, DoT, Major/Minor buff/debuff, etc.). The result is a customized skill that still uses the base’s core behavior but with extra effects.
+- This creates **many more build possibilities**: the same bar slot can be filled with "base Skill A" or "base Skill A + effect 1", "base Skill A + effect 1 + effect 2", etc., up to three effects. What counts as "optimal" depends on role, trial, and preferences (e.g. max DPS vs. survivability vs. group buffs), and the combinatorics are large.
+- **Schema (05_scribing):** `scribe_effect_slots` (lookup: e.g. Focus, Signature, Affix), `scribe_effects` (catalog of add-on effects per game build, per slot), optional `skill_scribe_compatibility` (which effects can apply to which base skills), and `recommended_build_scribed_skills` (per build: bar slot, base ability_id, and 0–3 scribe_effect_ids). Optimization and recommendations should account for scribed variants (e.g. by constraining to popular or high-impact combinations, or by sampling).
 
 ---
 
