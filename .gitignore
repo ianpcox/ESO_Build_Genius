@@ -1,0 +1,21 @@
+# Database and ingested data
+data/
+
+# Environment and secrets (never commit real credentials)
+.env
+.env.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.eggs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

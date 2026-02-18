@@ -1,0 +1,20 @@
+# ESO Build Genius – Python 3.11+
+# Core (ingest, normalize, optimize)
+pandas>=2.0
+numpy>=1.24
+requests>=2.28
+
+# Optional: UESP / HTML parsing
+beautifulsoup4>=4.12
+lxml>=4.9
+
+# Optional: ingest from local xlsx (data/)
+openpyxl>=3.1
+
+# Optional: optimization (Phase 3)
+# PuLP>=2.7
+# ortools>=9.0
+
+# Optional: API (later)
+# fastapi>=0.100
+# uvicorn[standard]>=0.22
