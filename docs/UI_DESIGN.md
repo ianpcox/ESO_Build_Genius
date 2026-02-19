@@ -2,6 +2,12 @@
 
 This document describes the application UI: build form, equipment/skill layout, and the live **Advisor** that recommends sets, skills, and passives as the user makes choices.
 
+**Run the UI:** From the project root, run `python web/app.py`, then open http://127.0.0.1:5000/ in a browser. Requires the database at `data/eso_build_genius.db` with Update 48 data (run ingest scripts first).
+
+**Mobile (Expo Go):** An Expo React Native app in `mobile/` uses the same API. Run the web server with `ESO_BUILD_GENIUS_HOST=0.0.0.0` so your phone (same LAN) can connect; then `cd mobile && npm install && npx expo start` and open the app in Expo Go. See `mobile/README.md` for details.
+
+**ESO addon mockup:** A skeleton in-game addon and a visual mockup live in `addon/`. Copy `addon/ESOBuildGenius/` to your ESO AddOns folder and use `/buildgenius` in-game to show the window (empty for now). Open `addon/mockup/index.html` in a browser to preview the intended addon layout (Build, Equipment, Advisor, Skill bar). See `addon/README.md` for install and structure.
+
 ---
 
 ## 1. Build form (user inputs)
@@ -35,7 +41,7 @@ Necklace, Ring 1, Ring 2.
 Front Bar: Main Hand, Off Hand.  
 Back Bar: Main Hand, Off Hand.
 
-Total: **14 slots**. Each slot is bound to `recommended_build_equipment`: `(recommended_build_id, slot_id, set_id)`. The user (or Advisor) picks a **set** per slot; piece type (e.g. head vs feet) can be implied by slot or chosen separately if the UI supports it.
+Total: **14 slots**. Each slot is bound to `recommended_build_equipment`: `(recommended_build_id, slot_id, game_id)`. The user (or Advisor) picks a **set** per slot (game_id = UESP setSummary gameId); piece type (e.g. head vs feet) can be implied by slot or chosen separately if the UI supports it.
 
 **Schema:** `equipment_slots` includes 14 slots (01_schema: 1–11; 08_equipment_slots_jewelry: 12 neck, 13 ring1, 14 ring2). `recommended_build_equipment` and set slot rules use these IDs.
 
@@ -68,12 +74,12 @@ The **Advisor** is a panel (or sections) that updates as the user changes the fo
 
 - User selects **Templar**, **Argonian**, **Healer** (and optionally Support DD off).
 - Advisor reacts: suggests healer-oriented sets (e.g. SPC, PA, etc.), Mundus/Food/Potions suited to healer, and a **12-skill bar**: front bar (e.g. Combat Prayer, Illustrious Healing, … + Ultimate), back bar (e.g. Elemental Blockade, … + Ultimate), plus which passives to take.
-- As the user picks or changes a set in a slot, the Advisor can re-run buff coverage and warn or adjust (e.g. “Kinras 5pc is redundant with Combat Prayer for Minor Berserk”).
+- As the user picks or changes a set in a slot, the Advisor can re-run buff coverage and warn or adjust (e.g. “Huntsman's Warmask is redundant with Combat Prayer for Minor Berserk”).
 
 ### 3.3 Implementation notes
 
 - **Inputs to the Advisor:** `game_build_id`, `class_id`, `race_id`, `role_id`, support_DD flag, `mundus_id`, `food_id`, `potion_id`, current `recommended_build_equipment` (or draft), current bar layout if any.
-- **Outputs:** Suggested set per slot (or a short list per slot), suggested 12 skills (front 6 + back 6), suggested passives, and optional short text (e.g. “Minor Berserk covered by Combat Prayer; avoid Kinras 5pc for that reason”).
+- **Outputs:** Suggested set per slot (or a short list per slot), suggested 12 skills (front 6 + back 6), suggested passives, and optional short text (e.g. “Minor Berserk covered by Combat Prayer; avoid Huntsman's Warmask for that reason”).
 - Recommendations can be “apply” actions (user clicks to fill a slot or the bar) or copyable text; the form and slot visual remain the single source of truth for what the build is.
 
 ---
@@ -93,7 +99,7 @@ The **Advisor** is a panel (or sections) that updates as the user changes the fo
 |------------|----------------|
 | Class, Race, Role | `recommended_builds.class_id`, `race_id`, `role_id`; `roles` includes `support_dd`. |
 | Mundus, Food, Potion | `recommended_builds.mundus_id`, `food_id`, `potion_id`; `mundus_stones`, `foods`, `potions`. |
-| Set per slot | `recommended_build_equipment` (recommended_build_id, slot_id, set_id); `equipment_slots`. |
+| Set per slot | `recommended_build_equipment` (recommended_build_id, slot_id, game_id); `equipment_slots`. |
 | 12-skill bar | `recommended_build_scribed_skills` (bar_slot_ord 1–12, ability_id, scribe_effect_id_1/2/3). |
 | Which class lines | `recommended_build_class_lines` (slot_ord 1–3, skill_line_id); subclassing. |
 | Advisor logic | Buff coverage (`buff_grants`, `buff_grants_set_bonus`), set rules, role/class filters. |

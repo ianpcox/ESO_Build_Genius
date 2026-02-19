@@ -1,6 +1,6 @@
 """
 Compute buff coverage for a build (slotted abilities + equipped set bonuses + optional passives).
-Used to avoid recommending sets that only duplicate buffs already provided (e.g. Combat Prayer vs Kinras).
+Used to avoid recommending sets that only duplicate buffs already provided (e.g. Combat Prayer vs Huntsman's Warmask for Minor Berserk; Kinras's Wrath grants Major Berserk).
 
 Usage:
   python scripts/buff_coverage.py [--db PATH] [--build-id N] [--abilities 1,2,3] [--sets "1,5" "2,5"]
@@ -44,13 +44,13 @@ def get_buff_coverage(
         )
         buff_ids.update(row[0] for row in cur.fetchall())
     if set_pieces:
-        for set_id, num_pieces in set_pieces:
+        for game_id, num_pieces in set_pieces:
             cur = conn.execute(
                 """
                 SELECT buff_id FROM buff_grants_set_bonus
-                WHERE game_build_id = ? AND set_id = ? AND num_pieces = ?
+                WHERE game_build_id = ? AND game_id = ? AND num_pieces = ?
                 """,
-                (game_build_id, set_id, num_pieces),
+                (game_build_id, game_id, num_pieces),
             )
             buff_ids.update(row[0] for row in cur.fetchall())
     if skill_line_ids:
@@ -67,14 +67,14 @@ def get_buff_coverage(
     return buff_ids
 
 
-def set_bonus_buff_ids(conn, game_build_id: int, set_id: int, num_pieces: int) -> set[int]:
+def set_bonus_buff_ids(conn, game_build_id: int, game_id: int, num_pieces: int) -> set[int]:
     """Return buff_ids granted by this set bonus."""
     cur = conn.execute(
         """
         SELECT buff_id FROM buff_grants_set_bonus
-        WHERE game_build_id = ? AND set_id = ? AND num_pieces = ?
+        WHERE game_build_id = ? AND game_id = ? AND num_pieces = ?
         """,
-        (game_build_id, set_id, num_pieces),
+        (game_build_id, game_id, num_pieces),
     )
     return {row[0] for row in cur.fetchall()}
 
@@ -83,13 +83,13 @@ def is_set_redundant_for_buffs(
     conn,
     game_build_id: int,
     coverage_buff_ids: set[int],
-    set_id: int,
+    game_id: int,
     num_pieces: int,
 ) -> bool:
     """
     True if this set bonus only grants buffs that are already in coverage (no new buffs).
     """
-    bonus_buffs = set_bonus_buff_ids(conn, game_build_id, set_id, num_pieces)
+    bonus_buffs = set_bonus_buff_ids(conn, game_build_id, game_id, num_pieces)
     if not bonus_buffs:
         return False
     return bonus_buffs <= coverage_buff_ids
@@ -120,10 +120,10 @@ def main() -> None:
     coverage = get_buff_coverage(conn, args.build_id, ability_ids=ability_ids or None, set_pieces=set_pieces or None)
     print(f"Buff coverage (build_id={args.build_id}): {sorted(coverage)}")
 
-    # If Kinras (set_id=1, 5pc) is in the seed, show whether it would be redundant
+    # If Kinras (game_id=1, 5pc) is in the seed, show whether it would be redundant (Kinras = Major Berserk, buff_id=2)
     if 1 not in [s[0] for s in set_pieces]:
         redundant = is_set_redundant_for_buffs(conn, args.build_id, coverage, 1, 5)
-        print(f"Kinras 5pc would add Minor Berserk (buff_id=1). Redundant for buffs? {redundant} (coverage has 1: {1 in coverage})")
+        print(f"Kinras 5pc would add Major Berserk (buff_id=2). Redundant for buffs? {redundant} (coverage has 2: {2 in coverage})")
 
     conn.close()
 

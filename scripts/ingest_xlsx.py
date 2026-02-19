@@ -2,13 +2,14 @@
 Ingest skills and stat modifier reference from xlsx files into the ESO Build Genius DB.
 
 Usage:
-  python scripts/ingest_xlsx.py --build-label "Update 39"
+  python scripts/ingest_xlsx.py --build-label "Update 48"
   python scripts/ingest_xlsx.py --build-id 1
-  python scripts/ingest_xlsx.py --build-label "Update 39" --db data/eso_build_genius.db
+  python scripts/ingest_xlsx.py --build-label "Update 48" --db data/eso_build_genius.db
 
 Creates or reuses a game_build by label, then:
-  1. Damage Skills (Update 38_39_40).xlsx -> skills (from * Top sheets)
+  1. Damage Skills (Update 38_39_40).xlsx -> skills (from * Top sheets). For Patch 48 use an xlsx updated for Update 48 when available; see docs/CURRENT_PATCH.md.
   2. Standalone Damage Modifiers Calculator (ESO).xlsx "References for Stats" -> stat_modifier_reference
+  3. Standalone Damage Modifiers Calculator (ESO).xlsx "Weapon Comparisons" -> weapon_type_stats (optional)
 """
 from __future__ import annotations
 
@@ -41,6 +42,38 @@ TOP_SHEET_TO_CLASS = {
     "Sorc Top": "Sorcerer",
     "Temp Top": "Templar",
     "Warden Top": "Warden",
+}
+
+# Weapon Comparisons: xlsx weapon name (normalized) -> canonical weapon_type (must match schema 14)
+WEAPON_TYPE_ALIASES: dict[str, str] = {
+    "dagger": "dagger",
+    "mace": "mace",
+    "sword": "sword",
+    "axe": "axe",
+    "2h_sword": "2h_sword",
+    "2h_axe": "2h_axe",
+    "2h_mace": "2h_mace",
+    "2h_swords": "2h_sword",
+    "2h_axes": "2h_axe",
+    "2h_maces": "2h_mace",
+    "2h sword": "2h_sword",
+    "2h axe": "2h_axe",
+    "2h mace": "2h_mace",
+    "two_handed_sword": "2h_sword",
+    "two_handed_axe": "2h_axe",
+    "two_handed_mace": "2h_mace",
+    "bow": "bow",
+    "inferno": "inferno_staff",
+    "inferno_staff": "inferno_staff",
+    "frost": "frost_staff",
+    "frost_staff": "frost_staff",
+    "lightning": "lightning_staff",
+    "lightning_staff": "lightning_staff",
+    "resto": "resto_staff",
+    "restoration": "resto_staff",
+    "resto_staff": "resto_staff",
+    "restoration_staff": "resto_staff",
+    "shield": "shield",
 }
 
 # References for Stats: section header (col 0 or 4) -> category for DB
@@ -244,6 +277,84 @@ def ingest_stat_modifiers_from_calculator(
     return inserted
 
 
+def _normalize_header(cell) -> str:
+    s = _str(cell) or ""
+    return s.lower().strip().replace(" ", "_").replace("%", "pct")
+
+
+def ingest_weapon_comparisons_from_calculator(
+    conn: sqlite3.Connection,
+    game_build_id: int,
+    xlsx_path: str,
+) -> int:
+    """
+    Read "Weapon Comparisons" (or "Weapon Comparison") sheet; upsert weapon_type_stats.
+    Expects a header row: weapon type name, then optional columns for bonus_wd_sd,
+    bonus_crit_chance, bonus_pct_done, bonus_penetration, bonus_crit_rating, notes.
+    Returns number of rows upserted.
+    """
+    if not os.path.isfile(xlsx_path):
+        raise FileNotFoundError(f"Calculator xlsx not found: {xlsx_path}")
+    xl = pd.ExcelFile(xlsx_path)
+    sheet = None
+    for name in ("Weapon Comparisons", "Weapon Comparison", "WeaponComparison"):
+        if name in xl.sheet_names:
+            sheet = name
+            break
+    if not sheet:
+        return 0
+    df = pd.read_excel(xlsx_path, sheet_name=sheet, header=0)
+    if df.empty or len(df.columns) < 1:
+        return 0
+    # Map header -> column index (case-insensitive, normalized)
+    headers = [_normalize_header(df.columns[i]) for i in range(len(df.columns))]
+    def col(name_substr: str) -> int | None:
+        for i, h in enumerate(headers):
+            if name_substr in h or h in name_substr:
+                return i
+        return None
+    weapon_col = col("weapon") or 0
+    wd_col = col("wd") or col("weapon_damage") or col("spell_damage") or col("damage")
+    crit_chance_col = col("crit_chance") or col("crit_chance_pct")
+    pct_done_col = col("pct_done") or col("crit_damage") or col("critical_damage")
+    pen_col = col("penetration") or col("pen")
+    crit_rating_col = col("crit_rating") or col("critical_rating")
+    notes_col = col("notes")
+    inserted = 0
+    for _, row in df.iterrows():
+        raw_type = _str(row.iloc[weapon_col]) if weapon_col is not None else None
+        if not raw_type:
+            continue
+        key = raw_type.lower().strip().replace(" ", "_").replace("-", "_")
+        weapon_type = WEAPON_TYPE_ALIASES.get(key) or key
+        bonus_wd_sd = _num(row.iloc[wd_col]) if wd_col is not None else None
+        bonus_crit_chance = _num(row.iloc[crit_chance_col]) if crit_chance_col is not None else None
+        bonus_pct_done = _num(row.iloc[pct_done_col]) if pct_done_col is not None else None
+        bonus_penetration = _num(row.iloc[pen_col]) if pen_col is not None else None
+        bonus_crit_rating = _num(row.iloc[crit_rating_col]) if crit_rating_col is not None else None
+        notes = _str(row.iloc[notes_col]) if notes_col is not None else None
+        conn.execute(
+            """
+            INSERT OR REPLACE INTO weapon_type_stats
+            (game_build_id, weapon_type, bonus_wd_sd, bonus_crit_chance, bonus_pct_done, bonus_penetration, bonus_crit_rating, notes)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                game_build_id,
+                weapon_type,
+                bonus_wd_sd,
+                bonus_crit_chance,
+                bonus_pct_done,
+                bonus_penetration,
+                bonus_crit_rating,
+                notes,
+            ),
+        )
+        inserted += 1
+    conn.commit()
+    return inserted
+
+
 def record_ingest_run(
     conn: sqlite3.Connection,
     game_build_id: int,
@@ -262,10 +373,11 @@ def main() -> None:
         description="Ingest skills and stat modifiers from xlsx into ESO Build Genius DB",
     )
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("--build-label", type=str, help="Game build label (e.g. 'Update 39'); create if missing")
+    group.add_argument("--build-label", type=str, help="Game build label (e.g. 'Update 48'); create if missing")
     group.add_argument("--build-id", type=int, help="Use existing game_build id")
     parser.add_argument("--db", type=str, default=DEFAULT_DB, help="SQLite DB path")
-    parser.add_argument("--update-label", type=str, default=None, help="Value for skills.update_label (e.g. 'Update 39')")
+    parser.add_argument("--update-label", type=str, default=None, help="Value for skills.update_label (e.g. 'Update 48')")
+    parser.add_argument("--skip-weapon-comparisons", action="store_true", help="Do not ingest Weapon Comparisons sheet")
     args = parser.parse_args()
 
     if not os.path.isfile(args.db):
@@ -303,6 +415,17 @@ def main() -> None:
     except FileNotFoundError as e:
         print(e, file=sys.stderr)
         sys.exit(1)
+
+    if not args.skip_weapon_comparisons:
+        try:
+            n_weapon = ingest_weapon_comparisons_from_calculator(conn, game_build_id, CALCULATOR_XLSX)
+            if n_weapon > 0:
+                print(f"Weapon comparisons: inserted/updated {n_weapon} rows from Weapon Comparisons")
+                record_ingest_run(conn, game_build_id, "weapon_comparisons", CALCULATOR_XLSX)
+        except FileNotFoundError:
+            pass
+        except Exception as e:
+            print(f"Weapon Comparisons ingest skipped: {e}", file=sys.stderr)
 
     conn.close()
     print("Done.")

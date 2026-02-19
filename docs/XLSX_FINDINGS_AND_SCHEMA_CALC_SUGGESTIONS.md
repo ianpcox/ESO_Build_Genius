@@ -38,7 +38,7 @@ Based on a detailed read of the three workbooks in `data/`, plus [UESP Build Edi
 - **Sheet1:** Trial name (vMoL, vHoF, vCR, etc.), **Boss name**, Non-HM/HM columns (often empty), long **notes** on when Harpooner's Wading Kilt is good/bad/situational per boss (stack maintenance, add control, etc.).
 
 ### Schema idea
-- **trial_boss_set_notes** (or **mythic_situational_notes**): `trial_id`, `boss_id` (or name), `set_id` (mythic/set), `note_type` ('good'|'bad'|'situational'), `note_text`. Populate from this sheet so the optimizer or UI can warn “Kilt is bad here” per boss.
+- **trial_boss_set_notes** (or **mythic_situational_notes**): `trial_id`, `boss_id` (or name), `game_id` (mythic/set), `note_type` ('good'|'bad'|'situational'), `note_text`. Populate from this sheet so the optimizer or UI can warn “Kilt is bad here” per boss.
 
 ---
 
@@ -109,7 +109,7 @@ Based on a detailed read of the three workbooks in `data/`, plus [UESP Build Edi
 - From Weapon Comparisons; applied when build has that weapon type.
 
 **trial_boss_set_notes**  
-- `trial_id`, `boss_id` (or `boss_name`), `set_id`, `note_type` ('good'|'bad'|'situational'), `note_text`.  
+- `trial_id`, `boss_id` (or `boss_name`), `game_id`, `note_type` ('good'|'bad'|'situational'), `note_text`.  
 - From Kilt cheat sheet; can extend to other mythics/sets.
 
 **champion_point_trees** (later)  

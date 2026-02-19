@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ESO Build Genius</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-inner">
+        <h1 class="header-title">ESO Build Genius</h1>
+        <p class="header-tagline">Build form, equipment, and Advisor (Patch 48)</p>
+      </div>
+    </header>
+
+    <aside class="build-form">
+      <h2>Build</h2>
+      <label for="class">Class</label>
+      <select id="class"><option value="">Loading...</option></select>
+      <label for="race">Race</label>
+      <select id="race"><option value="">Loading...</option></select>
+      <label for="role">Role</label>
+      <select id="role"><option value="">Loading...</option></select>
+      <label for="mundus">Mundus</label>
+      <select id="mundus"><option value="">Loading...</option></select>
+      <label for="food">Food / Drink</label>
+      <select id="food"><option value="">Loading...</option></select>
+      <label for="potion">Potion</label>
+      <select id="potion"><option value="">Loading...</option></select>
+      <div class="build-persist">
+        <button type="button" id="save-build" class="btn btn-primary">Save build</button>
+        <p id="save-status" class="save-status" style="display:none;"></p>
+        <label for="load-build-id">Load build ID</label>
+        <div class="load-row">
+          <input type="number" id="load-build-id" min="1" placeholder="recommended_build_id">
+          <button type="button" id="load-build" class="btn btn-secondary">Load</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="equipment-section">
+      <h2>Equipment (14 slots)</h2>
+      <p class="advisor-slot-hint">Select a slot to see Advisor recommendations below.</p>
+      <div class="slot-grid" id="slot-grid"></div>
+    </section>
+
+    <section class="advisor">
+      <h2>Advisor</h2>
+      <p id="advisor-slot-hint" class="advisor-slot-hint">Select an equipment slot to see set recommendations (with buff redundancy).</p>
+      <p id="advisor-placeholder" class="advisor-placeholder">Recommendations appear here when you focus or select a slot.</p>
+      <ul class="advisor-list" id="advisor-list" style="display:none;"></ul>
+      <p id="advisor-error" class="error" style="display:none;"></p>
+    </section>
+
+    <section class="enchant-poison-section">
+      <h2>Weapon: Enchant vs Poison</h2>
+      <p class="advisor-slot-hint">Compare impact of a weapon glyph (enchant) vs a weapon poison. Only one can be applied per weapon.</p>
+      <div class="enchant-poison-controls">
+        <div class="ep-row">
+          <label for="ep-glyph">Glyph (enchant)</label>
+          <select id="ep-glyph"><option value="">— Select glyph —</option></select>
+        </div>
+        <div class="ep-row">
+          <label for="ep-poison">Poison</label>
+          <select id="ep-poison"><option value="">— Select poison —</option></select>
+        </div>
+        <div class="ep-row ep-advanced">
+          <label for="ep-resistance">Target resistance</label>
+          <input type="number" id="ep-resistance" value="18200" min="0" step="100" title="Target armor (e.g. 18200 trial dummy)">
+        </div>
+        <div class="ep-row ep-advanced">
+          <label for="ep-base-dps">Base DPS (optional)</label>
+          <input type="number" id="ep-base-dps" value="0" min="0" step="1000" title="Your rotation DPS – used to value Vulnerability poison">
+        </div>
+        <div class="ep-row ep-advanced">
+          <label for="ep-hits">Hits/sec</label>
+          <input type="number" id="ep-hits" value="1" min="0.1" step="0.1" title="Weapon hits per second (proc rate)">
+        </div>
+      </div>
+      <div class="enchant-poison-result" id="ep-result" style="display:none;">
+        <div class="ep-recommendation" id="ep-recommendation"></div>
+        <p class="ep-note" id="ep-note"></p>
+        <div class="ep-impacts">
+          <div class="ep-impact-card" id="ep-glyph-card">
+            <strong>Glyph impact</strong>
+            <p class="ep-impact-desc" id="ep-glyph-desc"></p>
+            <p class="ep-impact-dps" id="ep-glyph-dps"></p>
+          </div>
+          <div class="ep-impact-card" id="ep-poison-card">
+            <strong>Poison impact</strong>
+            <p class="ep-impact-desc" id="ep-poison-desc"></p>
+            <p class="ep-impact-dps" id="ep-poison-dps"></p>
+          </div>
+        </div>
+      </div>
+      <p id="ep-error" class="error" style="display:none;"></p>
+    </section>
+
+    <section class="skill-bar-section">
+      <h2>Skill bar (12 slots) – Scribing</h2>
+      <p style="margin:0; color: var(--text-muted); font-size: 0.85rem;">Select class above, then pick base ability and optional Focus / Signature / Affix for each bar slot. Slots 6 and 12 are ultimates.</p>
+      <div class="skill-bars" id="skill-bars"></div>
+    </section>
+  </div>
+
+  <script>
+    const API = '/api';
+    let buildId = null;
+    let recommendedBuildId = null;
+    let slots = [];
+    let setsBySlot = {};
+    let equipment = {};
+    let selectedSlotId = null;
+    let recommendDebounce = null;
+    let scribeEffectsBySlot = { 1: [], 2: [], 3: [] };
+    let scribeEffectsByAbility = {};
+    let skillsForBar = [];
+    let barSkills = {};
+    let weaponGlyphs = [];
+    let weaponPotions = [];
+    let epDebounce = null;
+
+    async function get(path) {
+      const r = await fetch(API + path);
+      if (!r.ok) throw new Error(await r.text());
+      return r.json();
+    }
+
+    function slotName(id) {
+      const names = {
+        1: 'Head', 2: 'Shoulders', 3: 'Chest', 4: 'Legs', 5: 'Feet',
+        6: 'Hands', 7: 'Waist', 8: 'Front main', 9: 'Front off',
+        10: 'Back main', 11: 'Back off', 12: 'Neck', 13: 'Ring 1', 14: 'Ring 2'
+      };
+      return names[id] || slots.find(s => s.id === id)?.name || 'Slot ' + id;
+    }
+
+    function groupForSlot(slotId) {
+      if (slotId <= 7) return 'Body';
+      if (slotId <= 11) return 'Weapons';
+      return 'Jewelry';
+    }
+
+    async function loadBuild() {
+      const data = await get('/build');
+      buildId = data.build_id;
+      if (!buildId) throw new Error('No build (Update 48) in database.');
+    }
+
+    async function loadOptions() {
+      const [classes, races, roles, mundus, foods, potions, slotsData] = await Promise.all([
+        get('/classes'),
+        get('/races'),
+        get('/roles'),
+        get('/mundus?build_id=' + buildId),
+        get('/foods?build_id=' + buildId),
+        get('/potions?build_id=' + buildId),
+        get('/slots')
+      ]);
+      slots = slotsData;
+
+      function fillSelect(id, list, valueKey, labelKey) {
+        const el = document.getElementById(id);
+        el.innerHTML = '<option value="">— Select —</option>' +
+          list.map(x => `<option value="${x[valueKey]}">${x[labelKey]}</option>`).join('');
+      }
+      fillSelect('class', classes, 'id', 'name');
+      fillSelect('race', races, 'id', 'name');
+      fillSelect('role', roles, 'id', 'name');
+      fillSelect('mundus', mundus, 'mundus_id', 'name');
+      fillSelect('food', foods, 'food_id', 'name');
+      fillSelect('potion', potions, 'potion_id', 'name');
+      document.getElementById('class').addEventListener('change', () => { loadSkillsForBar().then(renderSkillBar); });
+    }
+
+    async function loadWeaponEnchantPoisonOptions() {
+      if (!buildId) return;
+      const [glyphs, poisons] = await Promise.all([
+        get('/weapon_glyphs?build_id=' + buildId),
+        get('/weapon_poisons?build_id=' + buildId)
+      ]);
+      weaponGlyphs = glyphs;
+      weaponPotions = poisons.filter(p => p.poison_id !== 4);
+      const glyphSel = document.getElementById('ep-glyph');
+      const poisonSel = document.getElementById('ep-poison');
+      glyphSel.innerHTML = '<option value="">— Select glyph —</option>' +
+        weaponGlyphs.map(g => '<option value="' + g.glyph_id + '">' + g.name + '</option>').join('');
+      poisonSel.innerHTML = '<option value="">— Select poison —</option>' +
+        weaponPotions.map(p => '<option value="' + p.poison_id + '">' + p.name + '</option>').join('');
+      glyphSel.addEventListener('change', fetchEnchantPoisonTradeoff);
+      poisonSel.addEventListener('change', fetchEnchantPoisonTradeoff);
+      document.getElementById('ep-resistance').addEventListener('change', fetchEnchantPoisonTradeoff);
+      document.getElementById('ep-base-dps').addEventListener('change', fetchEnchantPoisonTradeoff);
+      document.getElementById('ep-hits').addEventListener('change', fetchEnchantPoisonTradeoff);
+    }
+
+    function fetchEnchantPoisonTradeoff() {
+      if (epDebounce) clearTimeout(epDebounce);
+      epDebounce = setTimeout(async () => {
+        const glyphId = document.getElementById('ep-glyph').value;
+        const poisonId = document.getElementById('ep-poison').value;
+        const resultEl = document.getElementById('ep-result');
+        const errEl = document.getElementById('ep-error');
+        errEl.style.display = 'none';
+        resultEl.style.display = 'none';
+        if (!glyphId || !poisonId) return;
+        try {
+          const q = new URLSearchParams({
+            build_id: buildId,
+            glyph_id: glyphId,
+            poison_id: poisonId,
+            target_resistance: document.getElementById('ep-resistance').value || '18200',
+            base_dps: document.getElementById('ep-base-dps').value || '0',
+            hits_per_sec: document.getElementById('ep-hits').value || '1'
+          });
+          const r = await fetch(API + '/enchant_poison_tradeoff?' + q.toString());
+          if (!r.ok) throw new Error(await r.text());
+          const data = await r.json();
+          document.getElementById('ep-recommendation').textContent = 'Recommendation: ' + data.recommendation;
+          document.getElementById('ep-recommendation').className = 'ep-recommendation ep-rec-' + data.recommendation;
+          document.getElementById('ep-note').textContent = data.note;
+          document.getElementById('ep-glyph-desc').textContent = data.glyph_impact.description;
+          document.getElementById('ep-glyph-dps').textContent = 'DPS contrib. ~' + Math.round(data.glyph_impact.dps_contribution) +
+            (data.glyph_impact.heal_per_sec ? ' | Heal/sec ~' + Math.round(data.glyph_impact.heal_per_sec) : '');
+          document.getElementById('ep-poison-desc').textContent = data.poison_impact.description;
+          document.getElementById('ep-poison-dps').textContent = 'DPS contrib. ~' + Math.round(data.poison_impact.dps_contribution) +
+            (data.poison_impact.damage_taken_pct ? ' | Target +' + (data.poison_impact.damage_taken_pct * 100) + '% damage taken' : '');
+          resultEl.style.display = 'block';
+        } catch (e) {
+          errEl.textContent = e.message || 'Failed to compare.';
+          errEl.style.display = 'block';
+        }
+      }, 200);
+    }
+
+    async function loadScribeEffects() {
+      const list = await get('/scribe_effects?build_id=' + buildId);
+      scribeEffectsBySlot = { 1: [], 2: [], 3: [] };
+      list.forEach(e => { scribeEffectsBySlot[e.slot_id].push(e); });
+    }
+
+    async function ensureScribeEffectsForAbilities(abilityIds) {
+      const missing = abilityIds.filter(id => !scribeEffectsByAbility[id]);
+      await Promise.all(missing.map(async (abilityId) => {
+        const list = await get('/scribe_effects?build_id=' + buildId + '&ability_id=' + abilityId);
+        const bySlot = { 1: [], 2: [], 3: [] };
+        list.forEach(e => { bySlot[e.slot_id].push(e); });
+        scribeEffectsByAbility[abilityId] = bySlot;
+      }));
+    }
+
+    async function loadSkillsForBar() {
+      const classId = document.getElementById('class')?.value || '';
+      const q = 'build_id=' + buildId + (classId ? '&class_id=' + classId : '');
+      skillsForBar = await get('/skills_for_bar?' + q);
+    }
+
+    async function renderSkillBar() {
+      const abilityIds = [...new Set([1,2,3,4,5,6,7,8,9,10,11,12].map(ord => barSkills[ord]?.ability_id).filter(Boolean))];
+      await ensureScribeEffectsForAbilities(abilityIds);
+      const container = document.getElementById('skill-bars');
+      const slotLabels = ['1', '2', '3', '4', '5', 'Ult', '6', '7', '8', '9', '10', 'Ult'];
+      let html = '<div class="bar-group-title">Front bar</div>';
+      for (let ord = 1; ord <= 12; ord++) {
+        if (ord === 7) html += '<div class="bar-group-title">Back bar</div>';
+        const cur = barSkills[ord] || {};
+        const effectsForRow = (cur.ability_id && scribeEffectsByAbility[cur.ability_id]) ? scribeEffectsByAbility[cur.ability_id] : scribeEffectsBySlot;
+        html += '<div class="bar-slot-row" data-ord="' + ord + '">';
+        html += '<label class="bar-slot-label">' + slotLabels[ord - 1] + '</label>';
+        html += '<select class="bar-ability" data-ord="' + ord + '" title="Base ability">';
+        html += '<option value="">— Ability —</option>';
+        skillsForBar.forEach(s => { html += '<option value="' + s.ability_id + '"' + (cur.ability_id === s.ability_id ? ' selected' : '') + '>' + (s.skill_line_name ? s.skill_line_name + ': ' : '') + s.name + '</option>'; });
+        html += '</select>';
+        [1, 2, 3].forEach(slotId => {
+          const effects = effectsForRow[slotId] || [];
+          const key = 'scribe_effect_id_' + slotId;
+          const val = cur[key] || '';
+          html += '<select class="bar-scribe" data-ord="' + ord + '" data-slot-id="' + slotId + '" title="' + (slotId === 1 ? 'Focus' : slotId === 2 ? 'Signature' : 'Affix') + '">';
+          html += '<option value="">—</option>';
+          effects.forEach(e => { html += '<option value="' + e.scribe_effect_id + '"' + (val === e.scribe_effect_id ? ' selected' : '') + '>' + e.name + '</option>'; });
+          html += '</select>';
+        });
+        html += '</div>';
+      }
+      container.innerHTML = html;
+      container.querySelectorAll('.bar-ability').forEach(sel => {
+        sel.addEventListener('change', async () => {
+          const ord = parseInt(sel.dataset.ord, 10);
+          if (!barSkills[ord]) barSkills[ord] = {};
+          barSkills[ord].ability_id = sel.value ? parseInt(sel.value, 10) : null;
+          await renderSkillBar();
+        });
+      });
+      container.querySelectorAll('.bar-scribe').forEach(sel => {
+        sel.addEventListener('change', () => {
+          const ord = parseInt(sel.dataset.ord, 10);
+          const slotId = parseInt(sel.dataset.slotId, 10);
+          if (!barSkills[ord]) barSkills[ord] = {};
+          barSkills[ord]['scribe_effect_id_' + slotId] = sel.value ? parseInt(sel.value, 10) : null;
+        });
+      });
+    }
+
+    async function loadSetsForSlot(slotId) {
+      if (setsBySlot[slotId]) return setsBySlot[slotId];
+      const list = await get('/sets?build_id=' + buildId + '&slot_id=' + slotId);
+      setsBySlot[slotId] = list;
+      return list;
+    }
+
+    function renderSlotGrid() {
+      const grid = document.getElementById('slot-grid');
+      const groups = [{ name: 'Body', ids: [1,2,3,4,5,6,7] }, { name: 'Jewelry', ids: [12,13,14] }, { name: 'Front bar', ids: [8,9] }, { name: 'Back bar', ids: [10,11] }];
+      let html = '';
+      for (const g of groups) {
+        html += '<div class="slot-group-title">' + g.name + '</div>';
+        for (const slotId of g.ids) {
+          const setId = equipment[slotId] || '';
+          html += '<div class="slot" data-slot-id="' + slotId + '">';
+          html += '<label>' + slotName(slotId) + '</label>';
+          html += '<select class="slot-select" data-slot-id="' + slotId + '"><option value="">—</option></select>';
+          html += '</div>';
+        }
+      }
+      grid.innerHTML = html;
+
+      grid.querySelectorAll('.slot-select').forEach(sel => {
+        const slotId = parseInt(sel.dataset.slotId, 10);
+        loadSetsForSlot(slotId).then(sets => {
+          sel.innerHTML = '<option value="">—</option>' + sets.map(s =>
+            `<option value="${s.game_id}" ${equipment[slotId] === s.game_id ? 'selected' : ''}>${s.set_name}</option>`
+          ).join('');
+        });
+        sel.addEventListener('change', () => {
+          const v = sel.value ? parseInt(sel.value, 10) : null;
+          if (v) equipment[slotId] = v; else delete equipment[slotId];
+          selectedSlotId = slotId;
+          fetchRecommendations();
+        });
+        sel.addEventListener('focus', () => {
+          selectedSlotId = slotId;
+          fetchRecommendations();
+        });
+      });
+    }
+
+    function getEquipmentForApi() {
+      return Object.entries(equipment).map(([slotId, gameId]) => ({ slot_id: parseInt(slotId, 10), game_id: gameId }));
+    }
+
+    function getBarSkillsForApi() {
+      const out = [];
+      for (let ord = 1; ord <= 12; ord++) {
+        const cur = barSkills[ord];
+        if (!cur || cur.ability_id == null) continue;
+        out.push({
+          bar_slot_ord: ord,
+          ability_id: cur.ability_id,
+          scribe_effect_id_1: cur.scribe_effect_id_1 || null,
+          scribe_effect_id_2: cur.scribe_effect_id_2 || null,
+          scribe_effect_id_3: cur.scribe_effect_id_3 || null
+        });
+      }
+      return out;
+    }
+
+    async function saveBuild() {
+      const classId = document.getElementById('class').value;
+      const raceId = document.getElementById('race').value;
+      const roleId = document.getElementById('role').value;
+      const mundusId = document.getElementById('mundus').value;
+      const foodId = document.getElementById('food').value;
+      const potionId = document.getElementById('potion').value;
+      const barSkillsPayload = getBarSkillsForApi();
+      const payload = {
+        build_id: buildId,
+        equipment: getEquipmentForApi(),
+        bar_skills: barSkillsPayload
+      };
+      if (recommendedBuildId != null) {
+        payload.recommended_build_id = recommendedBuildId;
+        if (classId && raceId && roleId && mundusId && foodId && potionId) {
+          payload.class_id = parseInt(classId, 10);
+          payload.race_id = parseInt(raceId, 10);
+          payload.role_id = parseInt(roleId, 10);
+          payload.mundus_id = parseInt(mundusId, 10);
+          payload.food_id = parseInt(foodId, 10);
+          payload.potion_id = parseInt(potionId, 10);
+        }
+      } else {
+        if (!classId || !raceId || !roleId || !mundusId || !foodId || !potionId) {
+          document.getElementById('save-status').textContent = 'Set class, race, role, mundus, food, and potion to create a new build.';
+          document.getElementById('save-status').style.display = 'block';
+          document.getElementById('save-status').className = 'save-status error';
+          return;
+        }
+        payload.class_id = parseInt(classId, 10);
+        payload.race_id = parseInt(raceId, 10);
+        payload.role_id = parseInt(roleId, 10);
+        payload.mundus_id = parseInt(mundusId, 10);
+        payload.food_id = parseInt(foodId, 10);
+        payload.potion_id = parseInt(potionId, 10);
+      }
+      try {
+        const r = await fetch(API + '/build', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!r.ok) throw new Error(await r.text());
+        const data = await r.json();
+        recommendedBuildId = data.recommended_build_id;
+        const statusEl = document.getElementById('save-status');
+        statusEl.textContent = 'Saved as build #' + recommendedBuildId;
+        statusEl.className = 'save-status';
+        statusEl.style.display = 'block';
+      } catch (e) {
+        document.getElementById('save-status').textContent = e.message || 'Save failed.';
+        document.getElementById('save-status').className = 'save-status error';
+        document.getElementById('save-status').style.display = 'block';
+      }
+    }
+
+    async function loadBuildById(id) {
+      const numId = parseInt(id, 10);
+      if (!numId) return;
+      try {
+        const data = await get('/build?recommended_build_id=' + numId);
+        if (data.class_id != null) document.getElementById('class').value = data.class_id;
+        if (data.race_id != null) document.getElementById('race').value = data.race_id;
+        if (data.role_id != null) document.getElementById('role').value = data.role_id;
+        if (data.mundus_id != null) document.getElementById('mundus').value = data.mundus_id;
+        if (data.food_id != null) document.getElementById('food').value = data.food_id;
+        if (data.potion_id != null) document.getElementById('potion').value = data.potion_id;
+        equipment = {};
+        (data.equipment || []).forEach(function (item) { equipment[item.slot_id] = item.game_id; });
+        barSkills = {};
+        (data.bar_skills || []).forEach(function (row) {
+          barSkills[row.bar_slot_ord] = {
+            ability_id: row.ability_id,
+            scribe_effect_id_1: row.scribe_effect_id_1,
+            scribe_effect_id_2: row.scribe_effect_id_2,
+            scribe_effect_id_3: row.scribe_effect_id_3
+          };
+        });
+        recommendedBuildId = data.recommended_build_id;
+        loadSkillsForBar().then(function () {
+          renderSlotGrid();
+          renderSkillBar();
+        });
+        document.getElementById('save-status').textContent = 'Loaded build #' + recommendedBuildId;
+        document.getElementById('save-status').className = 'save-status';
+        document.getElementById('save-status').style.display = 'block';
+      } catch (e) {
+        document.getElementById('save-status').textContent = e.message || 'Load failed.';
+        document.getElementById('save-status').className = 'save-status error';
+        document.getElementById('save-status').style.display = 'block';
+      }
+    }
+
+    function fetchRecommendations() {
+      if (recommendDebounce) clearTimeout(recommendDebounce);
+      recommendDebounce = setTimeout(async () => {
+        const listEl = document.getElementById('advisor-list');
+        const placeholderEl = document.getElementById('advisor-placeholder');
+        const hintEl = document.getElementById('advisor-slot-hint');
+        const errEl = document.getElementById('advisor-error');
+        listEl.style.display = 'none';
+        errEl.style.display = 'none';
+        if (!selectedSlotId) {
+          placeholderEl.style.display = 'block';
+          hintEl.textContent = 'Select an equipment slot to see set recommendations (with buff redundancy).';
+          return;
+        }
+        placeholderEl.style.display = 'none';
+        hintEl.textContent = 'Recommendations for ' + slotName(selectedSlotId) + ':';
+        try {
+          const equipmentParam = encodeURIComponent(JSON.stringify(getEquipmentForApi()));
+          const recs = await get('/recommend?build_id=' + buildId + '&slot_id=' + selectedSlotId + '&equipment=' + equipmentParam);
+          listEl.innerHTML = recs.slice(0, 25).map(r => {
+            const redundant = r.is_fully_redundant ? ' redundant' : '';
+            return '<li class="' + redundant + '">' + r.set_name + ' <span class="type">(' + r.type + ', ' + r.set_max_equip_count + 'pc)</span>' + (r.is_fully_redundant ? ' [redundant for self-buffs]' : '') + '</li>';
+          }).join('');
+          listEl.style.display = 'block';
+        } catch (e) {
+          errEl.textContent = e.message || 'Failed to load recommendations.';
+          errEl.style.display = 'block';
+        }
+      }, 150);
+    }
+
+    async function init() {
+      try {
+        await loadBuild();
+        await loadOptions();
+        await loadScribeEffects();
+        await loadSkillsForBar();
+        await loadWeaponEnchantPoisonOptions();
+        renderSlotGrid();
+        renderSkillBar();
+        document.getElementById('save-build').addEventListener('click', saveBuild);
+        document.getElementById('load-build').addEventListener('click', function () {
+          loadBuildById(document.getElementById('load-build-id').value);
+        });
+      } catch (e) {
+        document.body.innerHTML = '<div class="error" style="padding:2rem;">' + (e.message || 'Failed to load. Is the database at data/eso_build_genius.db and does it have Update 48 data?') + '</div>';
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

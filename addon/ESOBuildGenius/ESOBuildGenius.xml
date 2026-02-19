@@ -1,0 +1,29 @@
+<GuiXml>
+  <!-- ESO Build Genius – mockup window. Matches in-game ESO addon style. -->
+  <TopLevelControl name="ESOBuildGeniusWindow" movable="true" mouseEnabled="true" hidden="true" virtual="true">
+    <Dimensions x="400" y="520" />
+    <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0" />
+    <Controls>
+      <Backdrop name="$(parent)BG" inherits="ZO_ThinBackdrop" />
+      <Label name="$(parent)Title" font="ZoFontWinH4" color="CFB53B" wrapMode="TRUNCATE">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="12" offsetY="8" />
+        <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-36" offsetY="8" />
+        <Dimensions y="24" />
+        <Text>ESO Build Genius</Text>
+      </Label>
+      <Button name="$(parent)Close" state="NORMAL">
+        <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-8" offsetY="6" />
+        <Dimensions x="24" y="24" />
+        <Controls>
+          <Texture name="$(parent)BG" filePath="EsoUI/Art/Buttons/closebutton_up.dds" />
+        </Controls>
+      </Button>
+      <!-- Content area: Build form, equipment grid, advisor, skill bar would be created here or in Lua -->
+      <Control name="$(parent)Content" clipChildren="true">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="12" offsetY="40" />
+        <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-12" offsetY="-12" />
+        <Dimensions x="376" y="468" />
+      </Control>
+    </Controls>
+  </TopLevelControl>
+</GuiXml>

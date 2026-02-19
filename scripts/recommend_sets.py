@@ -7,8 +7,8 @@ Usage:
   python scripts/recommend_sets.py --db data/eso_build_genius.db --build-id 1 --slot 5 --abilities 100,101 --sets "1,5" "2,5"
   python scripts/recommend_sets.py --slot 1 --equipment "1,846" "2,806" --show-buffs
 
---sets: current equipment as "set_id,num_pieces" (used for coverage; does not include slot assignment).
---equipment: current equipment as "slot_id,set_id" pairs so we know which set is in which slot (for coverage).
+--sets: current equipment as "game_id,num_pieces" (used for coverage; does not include slot assignment).
+--equipment: current equipment as "slot_id,game_id" pairs (game_id = UESP setSummary gameId).
 """
 from __future__ import annotations
 
@@ -50,20 +50,20 @@ def main() -> None:
         description="Recommend sets for a slot using self-buff coverage (self-buffs only)."
     )
     ap.add_argument("--db", default=DEFAULT_DB, help="SQLite DB path")
-    ap.add_argument("--build-id", type=int, default=1, help="game_build_id (use the build that has item_sets/set_slots, e.g. 2 if you ingested UESP into Default)")
+    ap.add_argument("--build-id", type=int, default=1, help="game_build_id (use the build that has set_summary/set_item_slots, e.g. 2 if you ingested UESP into Default)")
     ap.add_argument("--slot", type=int, required=True, help="equipment_slots.id to recommend for (e.g. 1=head)")
     ap.add_argument("--abilities", type=str, default="", help="Comma-separated ability_ids (slotted)")
     ap.add_argument(
         "--equipment",
         type=str,
         nargs="*",
-        help='Current equipment: "slot_id,set_id" per slot (e.g. "1,846" "2,806")',
+        help='Current equipment: "slot_id,game_id" per slot (e.g. "1,846" "2,806")',
     )
     ap.add_argument(
         "--sets",
         type=str,
         nargs="*",
-        help='Legacy: "set_id,num_pieces" for coverage (e.g. "846,5"); use --equipment for slot-aware.',
+        help='Legacy: "game_id,num_pieces" for coverage (e.g. "846,5"); use --equipment for slot-aware.',
     )
     ap.add_argument("--skill-lines", type=str, default="", help="Comma-separated skill_line_ids for passives")
     ap.add_argument("--show-buffs", action="store_true", help="Print current self-buff coverage (names)")
@@ -81,10 +81,10 @@ def main() -> None:
         set_pieces = _parse_set_pieces(args.sets)
         equipment = []
         slot = 1
-        for set_id, num_pieces in set_pieces:
+        for game_id, num_pieces in set_pieces:
             for _ in range(num_pieces):
                 if slot <= 14:
-                    equipment.append((slot, set_id))
+                    equipment.append((slot, game_id))
                     slot += 1
             if slot > 14:
                 break
@@ -100,7 +100,7 @@ def main() -> None:
             skill_line_ids=skill_line_ids or None,
         )
         from collections import Counter
-        set_pieces = list(Counter(s for _, s in equipment).items()) if equipment else None
+        set_pieces = list(Counter(gid for _, gid in equipment).items()) if equipment else None
         coverage = get_self_buff_coverage(
             conn,
             args.build_id,
@@ -122,11 +122,10 @@ def main() -> None:
         print("-" * 60)
         for r in to_show:
             red = " [REDUNDANT for self-buffs]" if r["is_fully_redundant"] else ""
-            add = f" adds {r['adding_bonuses']}" if r["adding_bonuses"] else ""
-            print(f"  {r['name']} (set_id={r['set_id']}, {r['set_type']}, max {r['max_pieces']}pc){red}")
+            print(f"  {r['set_name']} (game_id={r['game_id']}, {r['type']}, max {r['set_max_equip_count']}pc){red}")
             if r["redundant_bonuses"]:
                 print(f"    Redundant bonuses: {r['redundant_bonuses']}pc")
-            if add:
+            if r["adding_bonuses"]:
                 print(f"    Adding bonuses: {r['adding_bonuses']}pc")
         if args.limit and len(recs) > args.limit:
             print(f"  ... and {len(recs) - args.limit} more")

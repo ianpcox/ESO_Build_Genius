@@ -5,6 +5,8 @@ data/
 .env
 .env.local
 *.env
+config/local.env
+secrets/
 
 # Python
 __pycache__/
@@ -19,3 +21,7 @@ venv/
 .vscode/
 *.swp
 *.swo
+
+# Test / coverage
+.coverage
+htmlcov/

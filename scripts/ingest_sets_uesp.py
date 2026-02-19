@@ -6,11 +6,13 @@ Returns setSummary records: gameId, setName, setMaxEquipCount, setBonusCount, se
 itemSlots, type, category, sources.
 
 Usage:
-  python scripts/ingest_sets_uesp.py --build-label "Default"
+  python scripts/ingest_sets_uesp.py --build-label "Update 48" [--replace]
   python scripts/ingest_sets_uesp.py --build-id 1 --db data/eso_build_genius.db
   python scripts/ingest_sets_uesp.py --build-label "Update 48" --dry-run
 
-Creates or reuses a game_build, then inserts into item_sets, set_bonuses, and set_slots.
+Creates or reuses a game_build, then inserts into set_summary, set_bonuses, and set_item_slots (UESP-aligned names).
+
+Data sourcing: see docs/DATA_SOURCES.md (Recommendations: prefer addon export for sets when available; UESP for validation).
 """
 from __future__ import annotations
 
@@ -136,8 +138,6 @@ def parse_item_slots(item_slots: str) -> list[int]:
 def infer_set_type(rec: dict) -> str:
     """Map UESP type/category/sources and setMaxEquipCount to our set_types.id."""
     max_pieces = int(rec.get("setMaxEquipCount") or 0)
-    if max_pieces == 1:
-        return "monster"
     raw = " ".join(
         [
             str(rec.get("type") or ""),
@@ -145,6 +145,10 @@ def infer_set_type(rec: dict) -> str:
             str(rec.get("sources") or ""),
         ]
     ).lower()
+    if max_pieces == 1:
+        return "mythic" if "mythic" in raw else "monster"
+    if max_pieces == 2 and "monster" in raw:
+        return "monster"
     if "craft" in raw or "crafted" in raw:
         return "crafted"
     if "dungeon" in raw:
@@ -163,10 +167,11 @@ def infer_set_type(rec: dict) -> str:
 
 
 def parse_bonus_pieces(effect_text: str) -> int | None:
-    """Extract num_pieces from '(N items) ...' at start of effect text. Returns None if not found."""
+    """Extract num_pieces from '(N items)' or '(N perfected items)' at start of effect text. Returns None if not found."""
     if not effect_text or not effect_text.strip():
         return None
-    m = re.match(r"^\s*\((\d+)\s+items?\)", effect_text.strip(), re.I)
+    # (2 items), (5 items), (5 perfected items)
+    m = re.match(r"^\s*\((\d+)\s+(?:perfected\s+)?items?\)", effect_text.strip(), re.I)
     return int(m.group(1)) if m else None
 
 
@@ -199,15 +204,15 @@ def ingest(
     replace: bool = False,
 ) -> tuple[int, int, int]:
     """
-    Insert item_sets, set_bonuses, set_slots for the given game_build_id.
+    Insert set_summary, set_bonuses, set_item_slots for the given game_build_id.
     Returns (sets_inserted, bonuses_inserted, slots_inserted).
-    If replace=True, delete existing item_sets for this game_build_id first.
+    If replace=True, delete existing set_summary for this game_build_id first.
     """
     if replace:
         conn.execute("DELETE FROM buff_grants_set_bonus WHERE game_build_id = ?", (game_build_id,))
-        conn.execute("DELETE FROM set_slots WHERE game_build_id = ?", (game_build_id,))
+        conn.execute("DELETE FROM set_item_slots WHERE game_build_id = ?", (game_build_id,))
         conn.execute("DELETE FROM set_bonuses WHERE game_build_id = ?", (game_build_id,))
-        conn.execute("DELETE FROM item_sets WHERE game_build_id = ?", (game_build_id,))
+        conn.execute("DELETE FROM set_summary WHERE game_build_id = ?", (game_build_id,))
     sets_ins = bonuses_ins = slots_ins = 0
     for rec in sets_list:
         try:
@@ -224,7 +229,7 @@ def ingest(
         if set_type not in VALID_SET_TYPES:
             set_type = "overland"
         conn.execute(
-            "INSERT OR REPLACE INTO item_sets (game_build_id, set_id, name, set_type, max_pieces) VALUES (?, ?, ?, ?, ?)",
+            "INSERT OR REPLACE INTO set_summary (game_build_id, game_id, set_name, type, set_max_equip_count) VALUES (?, ?, ?, ?, ?)",
             (game_build_id, set_id, name, set_type, max_pieces),
         )
         sets_ins += 1
@@ -238,7 +243,7 @@ def ingest(
             if num_pieces is None:
                 continue
             conn.execute(
-                "INSERT OR REPLACE INTO set_bonuses (game_build_id, set_id, num_pieces, effect_text, effect_type, magnitude) VALUES (?, ?, ?, ?, NULL, NULL)",
+                "INSERT OR REPLACE INTO set_bonuses (game_build_id, game_id, num_pieces, set_bonus_desc, effect_type, magnitude) VALUES (?, ?, ?, ?, NULL, NULL)",
                 (game_build_id, set_id, num_pieces, text),
             )
             bonuses_ins += 1
@@ -246,7 +251,7 @@ def ingest(
         slot_ids = parse_item_slots(rec.get("itemSlots") or "")
         for slot_id in slot_ids:
             conn.execute(
-                "INSERT OR IGNORE INTO set_slots (game_build_id, set_id, slot_id) VALUES (?, ?, ?)",
+                "INSERT OR IGNORE INTO set_item_slots (game_build_id, game_id, slot_id) VALUES (?, ?, ?)",
                 (game_build_id, set_id, slot_id),
             )
             slots_ins += 1
@@ -259,7 +264,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Ingest item sets from UESP ESO Log setSummary API")
     ap.add_argument("--db", default=DEFAULT_DB, help="SQLite DB path")
     ap.add_argument("--build-id", type=int, help="Use this game_build id (if not set, use --build-label)")
-    ap.add_argument("--build-label", default="Default", help="Game build label (create if missing)")
+    ap.add_argument("--build-label", default="Update 48", help="Game build label (create if missing). Use 'Update 48' for Patch 48 current data.")
     ap.add_argument("--replace", action="store_true", help="Replace existing sets for this build")
     ap.add_argument("--dry-run", action="store_true", help="Fetch and print count only, do not write DB")
     args = ap.parse_args()
@@ -292,7 +297,7 @@ def main() -> None:
         else:
             game_build_id = get_or_create_game_build(conn, args.build_label)
         a, b, c = ingest(conn, game_build_id, sets_list, replace=args.replace)
-        print(f"Inserted: item_sets={a}, set_bonuses={b}, set_slots={c}")
+        print(f"Inserted: set_summary={a}, set_bonuses={b}, set_item_slots={c}")
     finally:
         conn.close()
 

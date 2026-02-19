@@ -41,41 +41,41 @@ def get_self_buff_coverage(
 
 
 def _equipment_to_set_pieces(equipment: list[tuple[int, int]]) -> list[tuple[int, int]]:
-    """Convert list of (slot_id, set_id) to list of (set_id, num_pieces) for coverage."""
+    """Convert list of (slot_id, game_id) to list of (game_id, num_pieces) for coverage."""
     from collections import Counter
     counts: dict[int, int] = Counter()
-    for _slot_id, set_id in equipment:
-        counts[set_id] += 1
-    return [(set_id, count) for set_id, count in counts.items()]
+    for _slot_id, game_id in equipment:
+        counts[game_id] += 1
+    return [(gid, count) for gid, count in counts.items()]
 
 
 def get_candidate_sets_for_slot(conn, game_build_id: int, slot_id: int) -> list[tuple[int, str, str, int]]:
     """
-    Return sets that can go in this slot (from set_slots).
-    Returns list of (set_id, name, set_type, max_pieces).
+    Return sets that can go in this slot (from set_item_slots).
+    Returns list of (game_id, set_name, type, set_max_equip_count).
     """
     cur = conn.execute(
         """
-        SELECT s.set_id, s.name, s.set_type, s.max_pieces
-        FROM item_sets s
-        INNER JOIN set_slots sl ON sl.game_build_id = s.game_build_id AND sl.set_id = s.set_id
+        SELECT s.game_id, s.set_name, s.type, s.set_max_equip_count
+        FROM set_summary s
+        INNER JOIN set_item_slots sl ON sl.game_build_id = s.game_build_id AND sl.game_id = s.game_id
         WHERE s.game_build_id = ? AND sl.slot_id = ?
-        ORDER BY s.name
+        ORDER BY s.set_name
         """,
         (game_build_id, slot_id),
     )
     return [tuple(row) for row in cur.fetchall()]
 
 
-def _bonus_tiers_with_buffs(conn, game_build_id: int, set_id: int) -> list[int]:
+def _bonus_tiers_with_buffs(conn, game_build_id: int, game_id: int) -> list[int]:
     """Return num_pieces values for this set that have at least one buff in buff_grants_set_bonus."""
     cur = conn.execute(
         """
         SELECT DISTINCT num_pieces FROM buff_grants_set_bonus
-        WHERE game_build_id = ? AND set_id = ?
+        WHERE game_build_id = ? AND game_id = ?
         ORDER BY num_pieces
         """,
-        (game_build_id, set_id),
+        (game_build_id, game_id),
     )
     return [row[0] for row in cur.fetchall()]
 
@@ -95,12 +95,12 @@ def get_set_recommendations_for_slot(
     the slot we're recommending for). Used to compute current coverage.
 
     Returns list of dicts:
-      set_id, name, set_type, max_pieces,
+      game_id, set_name, type, set_max_equip_count,
       self_buff_coverage_count (int),
       redundant_bonuses (list of num_pieces that only duplicate coverage),
       adding_bonuses (list of num_pieces that add at least one new buff),
       is_fully_redundant (True if every bonus that grants buffs is redundant).
-    Sorted by: non-fully-redundant first, then by name.
+    Sorted by: non-fully-redundant first, then by set_name.
     """
     set_pieces = _equipment_to_set_pieces(equipment or [])
     coverage = get_self_buff_coverage(
@@ -111,28 +111,89 @@ def get_set_recommendations_for_slot(
     )
     candidates = get_candidate_sets_for_slot(conn, game_build_id, slot_id)
     out: list[dict] = []
-    for set_id, name, set_type, max_pieces in candidates:
-        bonus_tiers = _bonus_tiers_with_buffs(conn, game_build_id, set_id)
+    for game_id, set_name, set_type, set_max_equip_count in candidates:
+        bonus_tiers = _bonus_tiers_with_buffs(conn, game_build_id, game_id)
         redundant_bonuses: list[int] = []
         adding_bonuses: list[int] = []
         for num_pieces in bonus_tiers:
-            if is_set_redundant_for_buffs(conn, game_build_id, coverage, set_id, num_pieces):
+            if is_set_redundant_for_buffs(conn, game_build_id, coverage, game_id, num_pieces):
                 redundant_bonuses.append(num_pieces)
             else:
                 adding_bonuses.append(num_pieces)
         is_fully_redundant = len(bonus_tiers) > 0 and len(redundant_bonuses) == len(bonus_tiers)
         out.append({
-            "set_id": set_id,
-            "name": name,
-            "set_type": set_type,
-            "max_pieces": max_pieces,
+            "game_id": game_id,
+            "set_name": set_name,
+            "type": set_type,
+            "set_max_equip_count": set_max_equip_count,
             "self_buff_coverage_count": len(coverage),
             "redundant_bonuses": redundant_bonuses,
             "adding_bonuses": adding_bonuses,
             "is_fully_redundant": is_fully_redundant,
         })
-    out.sort(key=lambda x: (x["is_fully_redundant"], x["name"]))
+    out.sort(key=lambda x: (x["is_fully_redundant"], x["set_name"]))
     return out
+
+
+def is_combo_skipped_for_redundancy(
+    conn,
+    game_build_id: int,
+    set_a_id: int,
+    set_b_id: int,
+    monster_id: int,
+    ability_ids: list[int] | None = None,
+    skill_line_ids: list[int] | None = None,
+) -> bool:
+    """
+    True if we should skip this 5+5+2 combo because set A or set B is fully redundant
+    (only duplicates buffs already provided by the other set, monster, and abilities).
+    """
+    coverage_without_a = get_buff_coverage(
+        conn, game_build_id,
+        set_pieces=[(set_b_id, 5), (monster_id, 2)],
+        ability_ids=ability_ids,
+        skill_line_ids=skill_line_ids,
+    )
+    coverage_without_b = get_buff_coverage(
+        conn, game_build_id,
+        set_pieces=[(set_a_id, 5), (monster_id, 2)],
+        ability_ids=ability_ids,
+        skill_line_ids=skill_line_ids,
+    )
+    a_redundant = is_set_redundant_for_buffs(conn, game_build_id, coverage_without_a, set_a_id, 5)
+    b_redundant = is_set_redundant_for_buffs(conn, game_build_id, coverage_without_b, set_b_id, 5)
+    return a_redundant or b_redundant
+
+
+def is_combo_mythic_skipped_for_redundancy(
+    conn,
+    game_build_id: int,
+    set_a_id: int,
+    set_b_id: int,
+    monster_id: int,
+    mythic_id: int,
+    ability_ids: list[int] | None = None,
+    skill_line_ids: list[int] | None = None,
+) -> bool:
+    """
+    True if we should skip this 5+4+2+1 combo because set A (5pc) or set B (4pc)
+    only duplicates buffs from the rest (other set, monster, mythic, abilities).
+    """
+    coverage_without_a = get_buff_coverage(
+        conn, game_build_id,
+        set_pieces=[(set_b_id, 4), (monster_id, 2), (mythic_id, 1)],
+        ability_ids=ability_ids,
+        skill_line_ids=skill_line_ids,
+    )
+    coverage_without_b = get_buff_coverage(
+        conn, game_build_id,
+        set_pieces=[(set_a_id, 5), (monster_id, 2), (mythic_id, 1)],
+        ability_ids=ability_ids,
+        skill_line_ids=skill_line_ids,
+    )
+    a_redundant = is_set_redundant_for_buffs(conn, game_build_id, coverage_without_a, set_a_id, 5)
+    b_redundant = is_set_redundant_for_buffs(conn, game_build_id, coverage_without_b, set_b_id, 4)
+    return a_redundant or b_redundant
 
 
 def get_buff_names(conn, game_build_id: int, buff_ids: list[int]) -> dict[int, str]:

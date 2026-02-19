@@ -1,0 +1,583 @@
+/* ESO Build Genius – Look and feel inspired by The Elder Scrolls Online (elderscrollsonline.com) */
+:root {
+  --bg-dark: #0c0e12;
+  --bg-dark-subtle: #111318;
+  --bg-panel: #161922;
+  --bg-slot: #1c1f28;
+  --border: #2a2d38;
+  --border-accent: rgba(198, 156, 68, 0.35);
+  --text: #e8e6e3;
+  --text-muted: #8b8f99;
+  --accent: #c69c44;
+  --accent-bright: #d4af37;
+  --accent-dim: #9a7b2a;
+  --redundant: #a04545;
+  --ok: #4a7c59;
+  --font-sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-head: "Cinzel", "Cambria", "Times New Roman", serif;
+  --shadow-panel: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-header: 0 1px 0 rgba(198, 156, 68, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-dark);
+  background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(22, 25, 34, 0.9), transparent 50%);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-head);
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+h1 { font-size: 1.5rem; font-weight: 500; }
+h2 { font-size: 1.1rem; text-transform: none; }
+h3 { font-size: 1rem; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover { color: var(--accent-bright); text-decoration: underline; }
+
+.app {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 280px 1fr 320px;
+  grid-template-rows: auto auto 1fr auto;
+}
+
+@media (max-width: 1000px) {
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto;
+  }
+}
+
+/* Header – ESO-style banner */
+.header {
+  grid-column: 1 / -1;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border-accent);
+  box-shadow: var(--shadow-header);
+  margin-bottom: 0.25rem;
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header-title {
+  font-family: var(--font-head);
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.header-tagline {
+  margin: 0.35rem 0 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Build form */
+.build-form {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--border-accent);
+  border-radius: 6px;
+  padding: 1.25rem;
+  grid-column: 1;
+  grid-row: 1 / -1;
+  box-shadow: var(--shadow-panel);
+}
+
+@media (max-width: 1000px) {
+  .build-form { grid-row: 1; }
+}
+
+.build-form h2 {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.build-form label {
+  display: block;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.build-form select {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  background: var(--bg-slot);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.build-form select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.build-form select option {
+  background: var(--bg-panel);
+  color: var(--text);
+}
+
+.build-persist {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.build-persist .btn {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  background: var(--accent);
+  color: var(--bg-dark);
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.build-persist .btn:hover {
+  background: var(--accent-bright);
+}
+
+.build-persist .btn-secondary {
+  background: var(--bg-slot);
+  color: var(--text);
+  border: 1px solid var(--border);
+  margin-left: 0.5rem;
+}
+
+.build-persist .btn-secondary:hover {
+  border-color: var(--accent);
+}
+
+.save-status {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--ok);
+}
+
+.save-status.error {
+  color: var(--redundant);
+}
+
+.load-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.load-row input {
+  width: 6rem;
+  padding: 0.4rem 0.5rem;
+  background: var(--bg-slot);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+/* Equipment grid */
+.equipment-section {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--border-accent);
+  border-radius: 6px;
+  padding: 1.25rem;
+  grid-column: 2;
+  grid-row: 1;
+  box-shadow: var(--shadow-panel);
+}
+
+.equipment-section h2,
+.enchant-poison-section h2,
+.skill-bar-section h2 {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.slot-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+
+.slot {
+  background: var(--bg-slot);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.5rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.slot:focus-within {
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 1px var(--border-accent);
+}
+
+.slot label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+}
+
+.slot select {
+  width: 100%;
+  padding: 0.35rem 0.4rem;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.slot select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.slot-group-title {
+  grid-column: 1 / -1;
+  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.slot-group-title:first-child { margin-top: 0; }
+
+/* Advisor */
+.advisor {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--border-accent);
+  border-radius: 6px;
+  padding: 1.25rem;
+  grid-column: 3;
+  grid-row: 1 / -1;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-panel);
+}
+
+@media (max-width: 1000px) {
+  .advisor { grid-row: 3; max-height: none; }
+}
+
+.advisor h2 {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.advisor-placeholder {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.advisor-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+
+.advisor-list li {
+  padding: 0.5rem 0.6rem;
+  margin-bottom: 0.3rem;
+  background: var(--bg-slot);
+  border-radius: 4px;
+  border-left: 3px solid var(--border);
+  font-size: 0.9rem;
+  transition: border-left-color 0.15s ease;
+}
+
+.advisor-list li.redundant {
+  border-left-color: var(--redundant);
+  color: var(--text-muted);
+}
+
+.advisor-list li .type {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-left: 0.25rem;
+}
+
+.advisor-slot-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Enchant vs Poison */
+.enchant-poison-section {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--border-accent);
+  border-radius: 6px;
+  padding: 1.25rem;
+  grid-column: 2;
+  grid-row: 2;
+  box-shadow: var(--shadow-panel);
+}
+
+
+.enchant-poison-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.75rem 1rem;
+  align-items: end;
+  margin-top: 0.5rem;
+}
+
+.enchant-poison-controls .ep-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.enchant-poison-controls .ep-row label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.enchant-poison-controls select,
+.enchant-poison-controls input {
+  padding: 0.35rem 0.5rem;
+  background: var(--bg-slot);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.9rem;
+  min-width: 0;
+}
+
+.enchant-poison-controls input[type="number"] {
+  width: 6rem;
+}
+
+.enchant-poison-controls select:focus,
+.enchant-poison-controls input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.enchant-poison-result {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.ep-recommendation {
+  font-weight: 600;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.ep-recommendation.ep-rec-glyph {
+  background: var(--accent);
+  color: var(--bg-dark);
+}
+
+.ep-recommendation.ep-rec-poison {
+  background: var(--ok);
+  color: var(--bg-dark);
+}
+
+.ep-recommendation.ep-rec-situational {
+  background: var(--border);
+  color: var(--text);
+}
+
+.ep-note {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem 0;
+}
+
+.ep-impacts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.ep-impact-card {
+  background: var(--bg-slot);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.6rem;
+  font-size: 0.85rem;
+}
+
+.ep-impact-card strong {
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+.ep-impact-desc {
+  margin: 0.25rem 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.ep-impact-dps {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+@media (max-width: 700px) {
+  .enchant-poison-controls {
+    grid-template-columns: 1fr;
+  }
+  .ep-impacts {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Skill bar */
+.skill-bar-section {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--border-accent);
+  border-radius: 6px;
+  padding: 1.25rem;
+  grid-column: 2;
+  grid-row: 3;
+  box-shadow: var(--shadow-panel);
+}
+
+.skill-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.bar-group-title {
+  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.bar-group-title:first-child {
+  margin-top: 0;
+}
+
+.bar-slot-row {
+  display: grid;
+  grid-template-columns: 2rem 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.bar-slot-row .bar-slot-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.bar-slot-row .bar-ability {
+  min-width: 0;
+  padding: 0.35rem 0.4rem;
+  background: var(--bg-slot);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.bar-slot-row .bar-scribe {
+  min-width: 0;
+  padding: 0.3rem 0.35rem;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.bar-slot-row .bar-ability:focus,
+.bar-slot-row .bar-scribe:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+@media (max-width: 700px) {
+  .bar-slot-row {
+    grid-template-columns: 2rem 1fr;
+  }
+  .bar-slot-row .bar-scribe {
+    grid-column: 2;
+  }
+}
+
+/* Status / loading */
+.loading {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.error {
+  color: var(--redundant);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Header rules are above under "Header – ESO-style banner" */

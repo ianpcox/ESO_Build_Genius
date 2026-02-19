@@ -14,35 +14,35 @@ The database is organized so that **components** (race, class, equipment set, sk
 | **Versioning** | `game_builds` | Which game patch/snapshot this data is for. |
 | **Lookups** | `equipment_slots`, `set_types`, `classes`, `roles` | Fixed reference lists (slots, set type, class, role). |
 | **Race** | `races`, `race_effects` | Races and their passives (per build). |
-| **Equipment set** | `item_sets`, `set_bonuses`, `set_slots` | Sets, piece bonuses, and which slots a set can occupy. |
+| **Equipment set** | `set_summary`, `set_bonuses`, `set_item_slots` | Sets (UESP-aligned: gameId/setName/setMaxEquipCount), piece bonuses (set_bonus_desc), and which slots a set can occupy (itemSlots). |
 | **Skill** | `skills` | Skills/abilities and coefficients, tooltips, cost, duration. Linked to `skill_lines` via skill_line_id. |
 | **Skill line** | `skill_line_types`, `skill_lines`, `skill_line_passives` (04) | Skill lines (class, weapon, guild, world, scribed); class lines owned by a class; passives per line. |
 | **Buff** | `buffs` | Buffs/debuffs (name, effect type, magnitude). Standalone; sources linked via `buff_grants`. |
-| **Buff grants** | `buff_grants` (04), `buff_grants_set_bonus` (06) | Links buffs to abilities, skill-line passives, and set bonuses. Used to avoid duplicate buff sources when optimizing (e.g. Combat Prayer vs Kinras both grant Minor Berserk). |
+| **Buff grants** | `buff_grants` (04), `buff_grants_set_bonus` (06) | Links buffs to abilities, skill-line passives, and set bonuses. Used to avoid duplicate buff sources when optimizing (e.g. Combat Prayer and Huntsman's Warmask both grant Minor Berserk; Kinras's Wrath grants Major Berserk). |
 | **Target type** | `target_types`, `skill_target_bonus` (04) | Target granularity (Undead, Daedra, etc.) and which skills get a bonus vs. which types. |
 | **Scribing** | `scribe_effect_slots`, `scribe_effects`, `skill_scribe_compatibility`, `recommended_build_scribed_skills` (05) | Base skill + up to 3 additional effects (Focus, Signature, Affix); catalog and per-build bar layout with scribed variants. |
 | **Mundus** | `mundus_stones` | Mundus stones and their effects. |
 | **Food** | `foods` | Food/drink and stat effects. |
 | **Potion** | `potions` | Potions and effects/cooldowns. |
-| **Simulation target** | `simulation_targets` (in 03) | Target resistance/pen for damage calc. |
+| **Simulation target** | `simulation_targets` (in 03) | Target resistance/pen, **encounter_type** (single_target \| aoe), **hp** (optional). Boss vs trash scenarios; use when scoring per trial/boss. |
 | **Stat modifier** | `stat_modifier_reference` (in 03) | Reference values for stat calculations. |
 | **Weapon type** | `weapon_type_stats` (in 03) | Weapon-type stat bonuses. |
-| **Trial** | `trials`, `trial_bosses`, `trial_boss_set_notes` (in 03) | Trials, bosses, per-boss set notes. |
+| **Trial** | `trials`, `trial_bosses`, `trial_boss_set_notes` (03), `trial_trash_packs`, `trial_trash_pack_enemies` (18) | Trials, bosses, per-boss set notes; trash packs and pack composition (enemy types per pack) for AOE optimisation. |
 
 ## Build (composition only)
 
 | Table | Responsibility |
 |-------|----------------|
 | `recommended_builds` | One row = one recommended build: references to `game_build_id`, `class_id`, `role_id`, `race_id`, `mundus_id`, `food_id`, `potion_id`, plus score and optional weapon_type, simulation_target_id. |
-| `recommended_build_equipment` | For that build, which set is in which slot (slot_id, set_id). |
+| `recommended_build_equipment` | For that build, which set is in which slot (slot_id, game_id). |
 | `recommended_build_class_lines` (04) | **Subclassing:** which 3 class skill lines this build uses (slot_ord 1..3, skill_line_id). Base class is in recommended_builds.class_id; up to 2 of the 3 lines may be from other classes. |
 | `recommended_build_scribed_skills` (05) | **Scribing:** per bar slot, base ability_id + 0..3 scribe_effect_ids. Records which scribed variant of each skill is on the build; multiplies build diversity and complicates "optimal". |
 
-To get full details for a build you join out to the component tables (races, item_sets, mundus_stones, foods, potions, etc.); the build tables only hold IDs and scores.
+To get full details for a build you join out to the component tables (races, set_summary, mundus_stones, foods, potions, etc.); the build tables only hold IDs and scores.
 
 ## Versioning
 
-Where the game changes per patch, component data is keyed by `game_build_id` (e.g. `item_sets`, `skills`, `foods`). Stable reference data (e.g. `races`, `classes`, `equipment_slots`) has no `game_build_id`. So we lead with components and version only the ones that change.
+Where the game changes per patch, component data is keyed by `game_build_id` (e.g. `set_summary`, `skills`, `foods`). Stable reference data (e.g. `races`, `classes`, `equipment_slots`) has no `game_build_id`. So we lead with components and version only the ones that change.
 
 ## Creating the DB
 

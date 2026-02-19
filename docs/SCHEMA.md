@@ -9,7 +9,7 @@ The schema is **component-first**: each component (race, class, equipment set, s
 | Versioning | `game_builds` | - |
 | Lookups | `equipment_slots`, `set_types`, `classes`, `roles` | No |
 | Race | `races`, `race_effects` | race_effects per build |
-| Equipment set | `item_sets`, `set_bonuses`, `set_slots` | Yes |
+| Equipment set | `set_summary`, `set_bonuses`, `set_item_slots` (UESP-aligned) | Yes |
 | Skill | `skills` | Yes |
 | Skill line | `skill_line_types`, `skill_lines`, `skill_line_passives` (04) | Yes |
 | Buff | `buffs` | Yes |
@@ -25,16 +25,16 @@ The schema is **component-first**: each component (race, class, equipment set, s
 
 ## Key columns (for joins)
 
-- **item_sets:** (game_build_id, set_id), name, set_type, max_pieces  
-- **set_bonuses:** (game_build_id, set_id, num_pieces), effect_text, effect_type, magnitude  
-- **set_slots:** (game_build_id, set_id, slot_id)  
+- **set_summary:** (game_build_id, game_id), set_name, type, set_max_equip_count (UESP setSummary)  
+- **set_bonuses:** (game_build_id, game_id, num_pieces), set_bonus_desc, effect_type, magnitude  
+- **set_item_slots:** (game_build_id, game_id, slot_id) (UESP itemSlots normalized)  
 - **skills:** (game_build_id, ability_id), name, skill_line, class_name, base_tooltip, adps, cost, duration_sec, cast_time_sec, coefficient_json, ...  
 - **recommended_builds:** game_build_id, class_id, role_id, race_id, mundus_id, food_id, potion_id, score_dps, weapon_type, simulation_target_id  
-- **recommended_build_equipment:** recommended_build_id, slot_id, set_id, game_build_id  
+- **recommended_build_equipment:** recommended_build_id, slot_id, game_id, game_build_id  
 - **skill_lines (04):** (game_build_id, skill_line_id), name, skill_line_type, class_id (for class lines)  
 - **skill_line_passives (04):** (game_build_id, skill_line_id, passive_ord), name, effect_text  
 - **buff_grants (04):** (game_build_id, buff_id), grant_type ('ability'|'passive'), ability_id or (skill_line_id, passive_ord)  
-- **buff_grants_set_bonus (06):** (game_build_id, buff_id, set_id, num_pieces) – which set bonus grants which buff (for duplicate-buff avoidance)  
+- **buff_grants_set_bonus (06):** (game_build_id, buff_id, game_id, num_pieces) – which set bonus grants which buff (for duplicate-buff avoidance)  
 - **target_types (04):** id, name (Any, Undead, Daedra, Humanoid, Beast, Construct, Player)  
 - **skill_target_bonus (04):** (game_build_id, ability_id, target_type_id), effect_text, magnitude  
 - **recommended_build_class_lines (04):** recommended_build_id, slot_ord (1..3), skill_line_id, game_build_id  

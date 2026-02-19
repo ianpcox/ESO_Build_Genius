@@ -56,35 +56,35 @@ CREATE TABLE IF NOT EXISTS race_effects (
 );
 
 -- =============================================================================
--- COMPONENT: EQUIPMENT SET
+-- COMPONENT: EQUIPMENT SET (UESP-aligned: setSummary, setBonusDesc, itemSlots)
 -- Single responsibility: what item sets exist, their bonuses, and which slots they can occupy.
 -- =============================================================================
-CREATE TABLE IF NOT EXISTS item_sets (
-    game_build_id   INTEGER NOT NULL REFERENCES game_builds(id),
-    set_id          INTEGER NOT NULL,
-    name            TEXT NOT NULL,
-    set_type        TEXT NOT NULL REFERENCES set_types(id),
-    max_pieces      INTEGER NOT NULL,
-    PRIMARY KEY (game_build_id, set_id)
+CREATE TABLE IF NOT EXISTS set_summary (
+    game_build_id       INTEGER NOT NULL REFERENCES game_builds(id),
+    game_id             INTEGER NOT NULL,
+    set_name            TEXT NOT NULL,
+    type                TEXT NOT NULL REFERENCES set_types(id),
+    set_max_equip_count INTEGER NOT NULL,
+    PRIMARY KEY (game_build_id, game_id)
 );
 
 CREATE TABLE IF NOT EXISTS set_bonuses (
     game_build_id   INTEGER NOT NULL REFERENCES game_builds(id),
-    set_id          INTEGER NOT NULL,
+    game_id         INTEGER NOT NULL,
     num_pieces      INTEGER NOT NULL,
-    effect_text     TEXT NOT NULL,
+    set_bonus_desc  TEXT NOT NULL,
     effect_type     TEXT,
     magnitude       REAL,
-    PRIMARY KEY (game_build_id, set_id, num_pieces),
-    FOREIGN KEY (game_build_id, set_id) REFERENCES item_sets(game_build_id, set_id)
+    PRIMARY KEY (game_build_id, game_id, num_pieces),
+    FOREIGN KEY (game_build_id, game_id) REFERENCES set_summary(game_build_id, game_id)
 );
 
-CREATE TABLE IF NOT EXISTS set_slots (
+CREATE TABLE IF NOT EXISTS set_item_slots (
     game_build_id   INTEGER NOT NULL REFERENCES game_builds(id),
-    set_id          INTEGER NOT NULL,
+    game_id         INTEGER NOT NULL,
     slot_id         INTEGER NOT NULL REFERENCES equipment_slots(id),
-    PRIMARY KEY (game_build_id, set_id, slot_id),
-    FOREIGN KEY (game_build_id, set_id) REFERENCES item_sets(game_build_id, set_id)
+    PRIMARY KEY (game_build_id, game_id, slot_id),
+    FOREIGN KEY (game_build_id, game_id) REFERENCES set_summary(game_build_id, game_id)
 );
 
 -- =============================================================================
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS skills (
     class_name      TEXT,
     mechanic        TEXT,
     description     TEXT,
-    coefficient_json TEXT,
+    coefficient_json TEXT,  -- UESP skillCoef / viewSkillCoef: JSON array of { type, a, b, c, R, avg } per slot (1..6)
     base_tooltip    REAL,
     adps            REAL,
     skill_damage_type TEXT,
@@ -173,6 +173,17 @@ CREATE TABLE IF NOT EXISTS potions (
 );
 
 -- =============================================================================
+-- COMPONENT: TRAIT (weapon, armor, jewelry)
+-- Single responsibility: canonical trait names for build equipment.
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS traits (
+    id          INTEGER PRIMARY KEY,
+    name        TEXT NOT NULL,
+    slot_type   TEXT NOT NULL,  -- 'weapon', 'armor', 'jewelry'
+    UNIQUE (name, slot_type)
+);
+
+-- =============================================================================
 -- INGEST PROVENANCE (optional)
 -- Single responsibility: record which run populated which build's data.
 -- =============================================================================
@@ -196,7 +207,8 @@ CREATE TABLE IF NOT EXISTS trials (
 CREATE TABLE IF NOT EXISTS trial_bosses (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
     trial_id        INTEGER NOT NULL REFERENCES trials(id),
-    name            TEXT NOT NULL
+    name            TEXT NOT NULL,
+    UNIQUE (trial_id, name)
 );
 
 -- =============================================================================
@@ -226,10 +238,13 @@ CREATE TABLE IF NOT EXISTS recommended_builds (
 CREATE TABLE IF NOT EXISTS recommended_build_equipment (
     recommended_build_id INTEGER NOT NULL REFERENCES recommended_builds(id) ON DELETE CASCADE,
     slot_id             INTEGER NOT NULL REFERENCES equipment_slots(id),
-    set_id              INTEGER NOT NULL,
+    game_id             INTEGER NOT NULL,
     game_build_id       INTEGER NOT NULL,
+    trait_id            INTEGER REFERENCES traits(id),
+    glyph_id            INTEGER,
+    weapon_poison_id    INTEGER,
     PRIMARY KEY (recommended_build_id, slot_id),
-    FOREIGN KEY (game_build_id, set_id) REFERENCES item_sets(game_build_id, set_id)
+    FOREIGN KEY (game_build_id, game_id) REFERENCES set_summary(game_build_id, game_id)
 );
 
 -- =============================================================================

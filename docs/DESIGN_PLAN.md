@@ -158,8 +158,8 @@ All of the above should be **versioned by GameBuild** so the optimizer always ru
 ### 6.1 Objective
 
 - **DD / Support DD:** Maximise effective DPS (or group utility metric for support DD), subject to sustain and survivability constraints.
-- **Healer:** Maximise effective HPS (and optionally buff uptime), subject to sustain.
-- **Tank:** Maximise survivability (effective health, mitigation) and optionally group buffs, subject to holding aggro and sustain.
+- **Healer:** Maximise effective HPS and prioritise buff and debuff uptimes (group buffs/debuffs from skills and sets), subject to sustain.
+- **Tank:** Maximise survivability (effective health, mitigation), taunt uptime, and prioritise buff and debuff uptimes (group buffs/debuffs), subject to sustain.
 
 For DD, damage is driven by:
 - **Skill coefficients** (from esoitem.uesp) × (MaxStat, MaxPower) with correct ratio (e.g. 10.5).

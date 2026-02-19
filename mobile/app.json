@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "ESO Build Genius",
+    "slug": "eso-build-genius",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "eso-build-genius",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0c0e12"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.eso.buildgenius"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0c0e12"
+      },
+      "package": "com.eso.buildgenius"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}

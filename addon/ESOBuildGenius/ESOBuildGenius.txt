@@ -1,0 +1,10 @@
+## Title: ESOBuildGenius
+## Author: ESO Build Genius Project
+## AddOnVersion: 1
+## APIVersion: 101047 101048
+## Description: Build Genius mockup – class/race/role, equipment slots, set recommendations (Advisor), and skill bar with scribing. This is a skeleton addon; full logic and data would require in-game API calls or sync with an external Build Genius backend.
+## SavedVariables: ESOBuildGeniusSaved
+## OptionalDependsOn: LibAddonMenu-2.0
+
+ESOBuildGenius.lua
+ESOBuildGenius.xml

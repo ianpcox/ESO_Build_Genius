@@ -1,0 +1,6 @@
+-- Scribe effects (Focus, Signature, Affix scripts) are not seeded here.
+-- Populate the full catalog by running:
+--   1. python scripts/fetch_scribe_effects_uesp.py   -> data/scribe_effects.json
+--   2. python scripts/ingest_scribe_effects.py       -> scribe_effects table (67 scripts per game_build)
+-- Source: UESP [Online:Scribing](https://en.uesp.net/wiki/Online:Scribing).
+-- Authoritative script IDs when available: Zenimax API (esoapi.uesp.net ingame/crafting/scribingdata.lua).

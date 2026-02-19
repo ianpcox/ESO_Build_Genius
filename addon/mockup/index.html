@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ESO Build Genius – Addon mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ESO in-game addon window style (mockup) */
+    :root {
+      --eso-bg: #0c0e12;
+      --eso-panel: #161922;
+      --eso-border: #2a2d38;
+      --eso-gold: #CFB53B;
+      --eso-gold-dim: #9a7b2a;
+      --eso-text: #e8e6e3;
+      --eso-muted: #8b8f99;
+      --eso-backdrop: rgba(22, 25, 34, 0.95);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #1a1c24 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23111" width="100" height="100"/></svg>');
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--eso-text);
+    }
+    .addon-window {
+      width: 420px;
+      max-height: 90vh;
+      background: var(--eso-backdrop);
+      border: 1px solid var(--eso-border);
+      border-top: 2px solid var(--eso-gold-dim);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(207,181,59,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .addon-title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px 8px 12px;
+      background: linear-gradient(180deg, rgba(22,25,34,0.98) 0%, rgba(12,14,18,0.99) 100%);
+      border-bottom: 1px solid var(--eso-border);
+      flex-shrink: 0;
+    }
+    .addon-title {
+      font-family: Cinzel, "Times New Roman", serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--eso-gold);
+      letter-spacing: 0.04em;
+      margin: 0;
+    }
+    .addon-close {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b8f99' stroke-width='2'%3E%3Cpath d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E") center/16px no-repeat;
+      cursor: pointer;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .addon-close:hover { background-color: rgba(160,69,69,0.3); stroke: #e8e6e3; }
+    .addon-content {
+      padding: 10px 12px 12px;
+      overflow-y: auto;
+      flex: 1;
+      min-height: 0;
+    }
+    .addon-section {
+      margin-bottom: 12px;
+    }
+    .addon-section:last-child { margin-bottom: 0; }
+    .addon-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--eso-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--eso-border);
+    }
+    .addon-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .addon-row label {
+      width: 72px;
+      flex-shrink: 0;
+      color: var(--eso-muted);
+      font-size: 12px;
+    }
+    .addon-row select {
+      flex: 1;
+      min-width: 0;
+      background: var(--eso-panel);
+      border: 1px solid var(--eso-border);
+      color: var(--eso-text);
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 2px;
+    }
+    .addon-slot-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+    .addon-slot {
+      background: var(--eso-panel);
+      border: 1px solid var(--eso-border);
+      border-radius: 2px;
+      padding: 4px 6px;
+      font-size: 11px;
+      color: var(--eso-muted);
+    }
+    .addon-slot select { width: 100%; font-size: 11px; background: transparent; border: none; color: var(--eso-text); padding: 0; }
+    .addon-advisor {
+      background: var(--eso-panel);
+      border: 1px solid var(--eso-border);
+      border-radius: 2px;
+      padding: 8px;
+      font-size: 11px;
+      color: var(--eso-muted);
+      max-height: 80px;
+      overflow-y: auto;
+    }
+    .addon-advisor li { margin-bottom: 2px; }
+    .addon-advisor .redundant { color: #a04545; }
+    .addon-skill-bar {
+      display: grid;
+      grid-template-columns: 20px 1fr 50px 50px 50px;
+      gap: 4px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .addon-skill-bar .slot-num { color: var(--eso-gold); font-size: 11px; text-align: center; }
+    .addon-skill-bar select { background: var(--eso-panel); border: 1px solid var(--eso-border); color: var(--eso-text); padding: 2px 4px; font-size: 10px; border-radius: 2px; }
+    .addon-footer {
+      padding: 6px 12px;
+      background: rgba(12,14,18,0.8);
+      border-top: 1px solid var(--eso-border);
+      font-size: 10px;
+      color: var(--eso-muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="addon-window" role="dialog" aria-label="ESO Build Genius">
+    <div class="addon-title-bar">
+      <h1 class="addon-title">ESO Build Genius</h1>
+      <button type="button" class="addon-close" aria-label="Close" title="Close"></button>
+    </div>
+    <div class="addon-content">
+      <div class="addon-section">
+        <div class="addon-section-title">Build</div>
+        <div class="addon-row"><label>Class</label><select><option>Dragonknight</option><option>Sorcerer</option><option>Nightblade</option><option>Templar</option><option>Warden</option><option>Necromancer</option><option>Arcanist</option></select></div>
+        <div class="addon-row"><label>Race</label><select><option>Altmer</option><option>Argonian</option><option>Breton</option><option>Dunmer</option><option>Imperial</option><option>Khajiit</option><option>Nord</option><option>Orc</option><option>Redguard</option></select></div>
+        <div class="addon-row"><label>Role</label><select><option>Damage Dealer</option><option>Healer</option><option>Tank</option></select></div>
+        <div class="addon-row"><label>Mundus</label><select><option>The Thief</option><option>The Shadow</option><option>—</option></select></div>
+        <div class="addon-row"><label>Food</label><select><option>—</option></select></div>
+        <div class="addon-row"><label>Potion</label><select><option>—</option></select></div>
+      </div>
+      <div class="addon-section">
+        <div class="addon-section-title">Equipment (14 slots)</div>
+        <div class="addon-slot-grid">
+          <div class="addon-slot">Head<br><select><option>—</option></select></div>
+          <div class="addon-slot">Shoulders<br><select><option>—</option></select></div>
+          <div class="addon-slot">Chest<br><select><option>—</option></select></div>
+          <div class="addon-slot">Legs<br><select><option>—</option></select></div>
+          <div class="addon-slot">Feet<br><select><option>—</option></select></div>
+          <div class="addon-slot">Hands<br><select><option>—</option></select></div>
+          <div class="addon-slot">Waist<br><select><option>—</option></select></div>
+          <div class="addon-slot">Neck<br><select><option>—</option></select></div>
+          <div class="addon-slot">Ring 1<br><select><option>—</option></select></div>
+          <div class="addon-slot">Ring 2<br><select><option>—</option></select></div>
+          <div class="addon-slot">Front main<br><select><option>—</option></select></div>
+          <div class="addon-slot">Front off<br><select><option>—</option></select></div>
+          <div class="addon-slot">Back main<br><select><option>—</option></select></div>
+          <div class="addon-slot">Back off<br><select><option>—</option></select></div>
+        </div>
+      </div>
+      <div class="addon-section">
+        <div class="addon-section-title">Advisor (select slot above)</div>
+        <ul class="addon-advisor">
+          <li>Mother's Sorrow (Crafted, 5pc)</li>
+          <li>Order's Wrath (Crafted, 5pc)</li>
+          <li class="redundant">Huntsman's Warmask (Monster, 1pc) [redundant for self-buffs]</li>
+        </ul>
+      </div>
+      <div class="addon-section">
+        <div class="addon-section-title">Skill bar (12) – Scribing</div>
+        <div class="addon-skill-bar">
+          <span class="slot-num">1</span><select><option>— Ability —</option></select><select><option>—</option></select><select><option>—</option></select><select><option>—</option></select>
+        </div>
+        <div class="addon-skill-bar">
+          <span class="slot-num">2</span><select><option>— Ability —</option></select><select><option>—</option></select><select><option>—</option></select><select><option>—</option></select>
+        </div>
+        <div class="addon-skill-bar"><span class="slot-num">…</span><span style="color: var(--eso-muted); font-size: 10px;">Focus | Signature | Affix</span></div>
+      </div>
+    </div>
+    <div class="addon-footer">Mockup – in-game addon skeleton in addon/ESOBuildGenius/ | /buildgenius</div>
+  </div>
+</body>
+</html>
